@@ -1,5 +1,6 @@
 ﻿using DailyScrum.Models.Database;
 using Microsoft.AspNetCore.Identity;
+using System.Collections.Generic;
 
 namespace DailyScrum.Areas.Identity.Data
 {
@@ -10,5 +11,7 @@ namespace DailyScrum.Areas.Identity.Data
         public string LastName { get; set; }
 
         public Team TeamMember { get; set; }
+
+        public IEnumerable<ScrumTask> Tasks { get; set; }
     }
 }

@@ -7,7 +7,7 @@ namespace DailyScrum.Models.Database
 {
     public class ScrumTaskBoard
     {
-        public int BoardId { get; set; }
+        public int ScrumTaskBoardId { get; set; }
         public string Name { get; set; }
     }
 }

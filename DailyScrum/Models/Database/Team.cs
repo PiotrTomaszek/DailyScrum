@@ -12,5 +12,7 @@ namespace DailyScrum.Models.Database
         public string Name { get; set; }
 
         public IEnumerable<ApplicationUser> Members { get; set; }
+        public IEnumerable<DailyMeeting> Meetings { get; set; }
+
     }
 }

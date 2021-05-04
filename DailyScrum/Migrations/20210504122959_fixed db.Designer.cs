@@ -4,14 +4,16 @@ using DailyScrum.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DailyScrum.Migrations
 {
     [DbContext(typeof(DailyScrumContext))]
-    partial class DailyScrumContextModelSnapshot : ModelSnapshot
+    [Migration("20210504122959_fixed db")]
+    partial class fixeddb
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -112,7 +114,7 @@ namespace DailyScrum.Migrations
 
                     b.HasIndex("TeamId");
 
-                    b.ToTable("DailyMeetings");
+                    b.ToTable("DailyMeeting");
                 });
 
             modelBuilder.Entity("DailyScrum.Models.Database.Message", b =>
@@ -143,7 +145,7 @@ namespace DailyScrum.Migrations
 
                     b.HasIndex("FromUserId");
 
-                    b.ToTable("Messages");
+                    b.ToTable("Message");
                 });
 
             modelBuilder.Entity("DailyScrum.Models.Database.Problem", b =>
@@ -163,7 +165,7 @@ namespace DailyScrum.Migrations
 
                     b.HasIndex("DailyMeetingId");
 
-                    b.ToTable("Problems");
+                    b.ToTable("Problem");
                 });
 
             modelBuilder.Entity("DailyScrum.Models.Database.ScrumTask", b =>
@@ -196,7 +198,7 @@ namespace DailyScrum.Migrations
 
                     b.HasIndex("ExecutorId");
 
-                    b.ToTable("ScrumTasks");
+                    b.ToTable("ScrumTask");
                 });
 
             modelBuilder.Entity("DailyScrum.Models.Database.ScrumTaskBoard", b =>
@@ -211,7 +213,7 @@ namespace DailyScrum.Migrations
 
                     b.HasKey("ScrumTaskBoardId");
 
-                    b.ToTable("ScrumTaskBoards");
+                    b.ToTable("ScrumTaskBoard");
                 });
 
             modelBuilder.Entity("DailyScrum.Models.Database.Team", b =>

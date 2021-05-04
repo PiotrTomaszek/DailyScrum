@@ -1,5 +1,6 @@
 ﻿using DailyScrum.Areas.Identity.Data;
 using DailyScrum.Data;
+using DailyScrum.Models.Database;
 using Microsoft.AspNetCore.SignalR;
 using System;
 using System.Collections.Generic;
@@ -11,7 +12,7 @@ namespace DailyScrum.Hubs
     public class DailyHub : Hub
     {
         private readonly static List<ApplicationUser> _connectedUsers = new List<ApplicationUser>();
-        //private readonly static List<Meeting> _meeting;
+        private readonly static List<DailyMeeting> _meetings = new List<DailyMeeting>();
 
         private readonly DailyScrumContext _dbContext;
 
@@ -32,7 +33,20 @@ namespace DailyScrum.Hubs
             {
                 _connectedUsers.Add(user);
             }
-            //var team = _dbContext.Teams.Find(user.TeamMember.TeamId);
+
+            var team = _dbContext.Teams.Find(user.TeamMember.TeamId);
+
+            if (_meetings.Where(x => x.Team == team).FirstOrDefault() == null)
+            {
+                var meeting = new DailyMeeting
+                {
+                    Team = team,
+                    Date = DateTime.Now
+                };
+
+                _meetings.Add(meeting);
+            }
+
 
             return base.OnConnectedAsync();
         }
