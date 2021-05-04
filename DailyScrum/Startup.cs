@@ -1,5 +1,6 @@
 using DailyScrum.Areas.Identity.Data;
 using DailyScrum.Data;
+using DailyScrum.Hubs;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -27,15 +28,18 @@ namespace DailyScrum
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<DailyScrumContext>(options =>
-                    options.UseSqlServer(Configuration.GetConnectionString("DailyScrumContextConnection")));
+            {
+                options.UseSqlServer(Configuration.GetConnectionString("DailyScrumContextConnection"));
+            });
 
             services.AddDefaultIdentity<ApplicationUser>(options =>
             {
                 options.SignIn.RequireConfirmedAccount = false;
-
             }).AddEntityFrameworkStores<DailyScrumContext>();
 
             services.AddControllersWithViews();
+
+            services.AddSignalR();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -66,6 +70,8 @@ namespace DailyScrum
                     pattern: "{controller=Home}/{action=Index}/{id?}");
 
                 endpoints.MapRazorPages();
+
+                endpoints.MapHub<DailyHub>("/daily");
             });
         }
     }
