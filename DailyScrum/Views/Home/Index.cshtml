@@ -2,20 +2,48 @@
     ViewData["Title"] = "Home Page";
 }
 
-<h1>Test SignalR</h1>
+<div class="container-fluid" style="background-color:bisque">
+    <div class="row">
 
-<div class="row">
-    <div class="col-6">
-        <ul id="messagesList"></ul>
+        <div class="col-md-8">
+            <ul id="messagesList"></ul>
+        </div>
+
+        <div class="col-md-4" style="background-color:chocolate">
+            <div class="card-header">
+                <h6>Połączeni użytkownicy:</h6>
+            </div>
+            @*<ul id="usersList" class="car"></ul>*@
+            <div id="usersList" class="list-unstyled">
+                <div class="container">
+                    <div class="col-md-12">
+
+                        @*<div class="card b-1 hover-shadow mb-20" style="max-height:126px" id="guid">
+                            <div class="media card-body">
+                                <div class="media-left pr-12">
+                                    <img src="~/avatars/testphoto.jpg" alt="" class="img-thumbnail" style="max-height:64px;width:auto" />
+                                </div>
+                                <div class="media-body">
+                                    <div class="mb-2">
+                                        <span class="fs-20 pr-16">FIRSTNAME LASTNAME</span>
+                                    </div>
+                                    <small class="fs-16 fw-300 ls-1">STATUS</small>
+                                </div>
+                            </div>
+                        </div>*@
+
+                        <br>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 
+
+
 <div class="container">
     <div class="row">&nbsp;</div>
-    <div class="row">
-        <div class="col-2">User</div>
-        <div class="col-4"><input type="text" id="userInput" /></div>
-    </div>
     <div class="row">
         <div class="col-2">Message</div>
         <div class="col-4"><input type="text" id="messageInput" /></div>
@@ -32,7 +60,6 @@
         <hr />
     </div>
 </div>
-
 
 
 @section Scripts{

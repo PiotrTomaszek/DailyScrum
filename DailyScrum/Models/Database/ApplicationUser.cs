@@ -9,6 +9,7 @@ namespace DailyScrum.Areas.Identity.Data
     {
         public string FirstName { get; set; }
         public string LastName { get; set; }
+        public string PhotoPath { get; set; }
 
         public Team TeamMember { get; set; }
 
