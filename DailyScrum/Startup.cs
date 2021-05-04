@@ -1,6 +1,9 @@
+using DailyScrum.Areas.Identity.Data;
+using DailyScrum.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -23,6 +26,15 @@ namespace DailyScrum
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddDbContext<DailyScrumContext>(options =>
+                    options.UseSqlServer(Configuration.GetConnectionString("DailyScrumContextConnection")));
+
+            services.AddDefaultIdentity<ApplicationUser>(options =>
+            {
+                options.SignIn.RequireConfirmedAccount = false;
+
+            }).AddEntityFrameworkStores<DailyScrumContext>();
+
             services.AddControllersWithViews();
         }
 
@@ -44,6 +56,7 @@ namespace DailyScrum
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
@@ -51,6 +64,8 @@ namespace DailyScrum
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
+
+                endpoints.MapRazorPages();
             });
         }
     }
