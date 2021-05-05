@@ -28,41 +28,45 @@ document.getElementById("sendButton").addEventListener("click", function (event)
     event.preventDefault();
 });
 
-connection.on("UserDisconnected", function (id) {
-    debugger;
+connection.on("NotifyJoinedUser", function (user) {
+    var encodedMessage = user + " dolaczyl do spotkania.";
+    var li = document.createElement("li");
+    li.textContent = encodedMessage;
+    li.classList.add("text-center");
+    document.getElementById("messagesList").appendChild(li);
+});
 
+
+
+connection.on("UserDisconnected", function (id) {
     var elem = document.getElementById(`${id}`).parentNode
     elem.parentNode.removeChild(elem);
 });
 
-connection.on("GetAllUsers", function (string) {
-    console.log("Pobieranie uzytkownikow");
 
-});
 
 connection.on("UserConnected", function (name, email, id, photoPath) {
-    debugger;
     var li = document.createElement("li");
-    li.innerHTML = element.replace("USER-ID", id)
-        .replace("FULLNAME", name)
-        .replace("MAIL", email)
-        .replace("PHOTO", photoPath);
-    document.getElementById("usersList").appendChild(li);
-});
 
-var element = `<div class="card b-1 hover-shadow mb-20" style="max-height:126px" id="USER-ID">
+    var newElement = `<div class="card b-1 hover-shadow mb-20" style="max-height:100px" id="${id}">
                             <div class="media card-body">
                                 <div class="media-left pr-12">
-                                    <img src="~/avatars/PHOTO" alt="" class="img-thumbnail" style="max-height:64px;width:auto" />
+                                    <img src="/avatars/${photoPath}" alt="" class="img-thumbnail" style="max-height:50px;width:auto" />
                                 </div>
                                 <div class="media-body">
                                     <div class="mb-2">
-                                        <span class="fs-20 pr-16">FULLNAME</span>
+                                        <span class="fs-20 pr-16">${name}</span>
                                     </div>
-                                    <small class="fs-16 fw-300 ls-1">MAIL</small>
+                                    <small class="fs-16 fw-300 ls-1">${email}</small>
                                 </div>
                             </div>
                         </div>`
+    li.innerHTML = newElement;
+
+    document.getElementById("usersList").appendChild(li);
+});
+
+
 
 
 

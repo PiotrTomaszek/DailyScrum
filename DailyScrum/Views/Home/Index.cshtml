@@ -3,13 +3,21 @@
 }
 
 <div class="container-fluid" style="background-color:bisque">
+
     <div class="row">
 
-        <div class="col-md-8">
-            <ul id="messagesList"></ul>
+        <div class="col-md-9">
+            <div style="overflow-y:auto" id="chatHolder">
+                <ul class="list-unstyled" id="messagesList"></ul>
+            </div>
+
+            <div class="input-group mb-3">
+                <input type="text" id="messageInput" class="form-control" placeholder="Napisz wiadomość" aria-label="Recipient's username" aria-describedby="button-addon2">
+                <button class="btn btn-outline-primary" type="button" id="sendButton">Wyślij</button>
+            </div>
         </div>
 
-        <div class="col-md-4" style="background-color:chocolate">
+        <div class="col-md-3" style="background-color:antiquewhite">
             <div class="card-header">
                 <h6>Połączeni użytkownicy:</h6>
             </div>
@@ -19,50 +27,36 @@
                     <div class="col-md-12">
 
                         @*<div class="card b-1 hover-shadow mb-20" style="max-height:126px" id="guid">
-                            <div class="media card-body">
-                                <div class="media-left pr-12">
-                                    <img src="~/avatars/testphoto.jpg" alt="" class="img-thumbnail" style="max-height:64px;width:auto" />
-                                </div>
-                                <div class="media-body">
-                                    <div class="mb-2">
-                                        <span class="fs-20 pr-16">FIRSTNAME LASTNAME</span>
+                                <div class="media card-body">
+                                    <div class="media-left pr-12">
+                                        <img src="~/avatars/testphoto.jpg" alt="" class="img-thumbnail" style="max-height:64px;width:auto" />
                                     </div>
-                                    <small class="fs-16 fw-300 ls-1">STATUS</small>
+                                    <div class="media-body">
+                                        <div class="mb-2">
+                                            <span class="fs-20 pr-16">FIRSTNAME LASTNAME</span>
+                                        </div>
+                                        <small class="fs-16 fw-300 ls-1">STATUS</small>
+                                    </div>
                                 </div>
-                            </div>
-                        </div>*@
+                            </div>*@
 
                         <br>
                     </div>
                 </div>
             </div>
+
         </div>
     </div>
-</div>
 
-
-
-<div class="container">
-    <div class="row">&nbsp;</div>
-    <div class="row">
-        <div class="col-2">Message</div>
-        <div class="col-4"><input type="text" id="messageInput" /></div>
-    </div>
-    <div class="row">&nbsp;</div>
-    <div class="row">
-        <div class="col-6">
-            <input type="button" id="sendButton" value="Send Message" />
-        </div>
-    </div>
-</div>
-<div class="row">
-    <div class="col-12">
-        <hr />
-    </div>
 </div>
 
 
 @section Scripts{
     <script src="~/js/signalr/dist/browser/signalr.min.js"></script>
     <script src="~/js/daily.js"></script>
+
+    <script src="~/js/windowSizeCalculator.js"></script>
+
+
+
 }

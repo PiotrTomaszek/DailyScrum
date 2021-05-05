@@ -1,6 +1,6 @@
 ﻿using DailyScrum.Areas.Identity.Data;
 using DailyScrum.Data;
-using DailyScrum.Models.Database;
+using DailyScrum.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
@@ -14,14 +14,13 @@ namespace DailyScrum.Hubs
     [Authorize]
     public class DailyHub : Hub
     {
+        private string SignalRIdentityName => Context.User.Identity.Name;
+
         private static HashSet<string> _connectedUsers = new HashSet<string>();
         private static Dictionary<string, List<ApplicationUser>> _connectedTeams = new Dictionary<string, List<ApplicationUser>>();
-        //private readonly static HashSet<ApplicationUser> _connectedUsers = new HashSet<ApplicationUser>();
-        //private readonly static Dictionary<string, List<ApplicationUser>> _connecte
+        //private static Dictionary<string, List<MessageViewModel>> _teamMessages = new Dictionary<string, List<MessageViewModel>>();
 
         private readonly DailyScrumContext _dbContext;
-
-        private string SignalRIdentityName => Context.User.Identity.Name;
 
         public DailyHub(DailyScrumContext dbContext)
         {
@@ -48,6 +47,8 @@ namespace DailyScrum.Hubs
                 {
                     members.Add(user);
                     await Groups.AddToGroupAsync(Context.ConnectionId, user.TeamMember.Name);
+
+
                     //await Groups.AddToGroupAsync(Context.ConnectionId, user.TeamMember.Name);
                 }
             }
@@ -64,43 +65,24 @@ namespace DailyScrum.Hubs
                 await Clients.Caller.SendAsync("UserConnected", $"{item.FirstName} {item.LastName}", item.Email, item.Id, item.PhotoPath);
             }
 
+            //test
+            //for (int i = 0; i < 120; i++)
+            //{
+            //    await Clients.All.SendAsync("TestMethod", SignalRIdentityName, i.ToString());
+            //}
+
+
             await Clients.OthersInGroup(user.TeamMember.Name).SendAsync("UserConnected", $"{user.FirstName} {user.LastName}", user.Email, user.Id, user.PhotoPath);
 
             //await Clients.Group(user.TeamMember.Name).SendAsync("UserConnected", $"{user.FirstName} {user.LastName}", user.Email, user.Id, user.PhotoPath);
+
+            await Clients.Group(user.TeamMember.Name).SendAsync("NotifyJoinedUser", $"{user.LastName} {user.FirstName}");
 
             //await Clients.All.SendAsync("TestMethod", SignalRIdentityName, user.TeamMember.Name);
             //await Clients.Group(user.TeamMember.Name).SendAsync("TestMethod", SignalRIdentityName, "TUSTE");
             //await Clients.OthersInGroup(user.TeamMember.Name).SendAsync("TestMethod", SignalRIdentityName, "SUPERTUSTE");
 
             return base.OnConnectedAsync();
-
-            //var user = _dbContext.Users.Include(a => a.TeamMember)
-            //    .Where(x => x.UserName == SignalRIdentityName)
-            //    .FirstOrDefault();
-
-            //if (user != null && !(_connectedUsers.Contains(user)))
-            //{
-            //    _connectedUsers.Add(user);
-            //}
-
-            //if (user.TeamMember != null)
-            //{
-            //    var team = _dbContext.Teams.Find(user.TeamMember.TeamId);
-            //    await AddToGroup(team.Name);
-            //}
-
-            //foreach (var item in _connectedUsers)
-            //{
-            //    if (item.UserName == SignalRIdentityName)
-            //    {
-            //        continue;
-            //    }
-            //    await Clients.Caller.SendAsync("UserConnected", $"{item.FirstName} {item.LastName}", item.Email, item.Id, item.PhotoPath);
-            //}
-
-            //await Clients.Group(user.TeamMember.Name).SendAsync("UserConnected", $"{user.FirstName} {user.LastName}", user.Email, user.Id, user.PhotoPath);
-
-
         }
 
         public async override Task<Task> OnDisconnectedAsync(Exception exception)
@@ -118,6 +100,8 @@ namespace DailyScrum.Hubs
                 members.Remove(user);
             }
 
+            await Groups.RemoveFromGroupAsync(Context.ConnectionId, user.TeamMember.Name);
+
             await Clients.Group(user.TeamMember.Name).SendAsync("UserDisconnected", user.Id);
 
             //var user = _dbContext.Users.Include(a => a.TeamMember)
@@ -134,9 +118,9 @@ namespace DailyScrum.Hubs
             return base.OnDisconnectedAsync(exception);
         }
 
-        public async Task SendMessage(string user, string message)
+        public async Task SendMessage(string message)
         {
-            await Clients.All.SendAsync("TestMethod", this.Context.User.Identity.Name, message);
+            await Clients.Group("DEV1").SendAsync("TestMethod", this.Context.User.Identity.Name, message);
         }
 
         public async Task AddToGroup(string groupName)
@@ -146,9 +130,5 @@ namespace DailyScrum.Hubs
             await Clients.Group(groupName).SendAsync("TestMethod", this.Context.User.Identity.Name, groupName);
         }
 
-        //public IEnumerable<ApplicationUser> GetUsers()
-        //{
-        //    return _connectedUsers.ToList();
-        //}
     }
 }
