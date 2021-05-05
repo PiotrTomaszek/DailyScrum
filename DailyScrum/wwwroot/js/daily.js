@@ -35,7 +35,13 @@ connection.on("UserDisconnected", function (id) {
     elem.parentNode.removeChild(elem);
 });
 
+connection.on("GetAllUsers", function (string) {
+    console.log("Pobieranie uzytkownikow");
+
+});
+
 connection.on("UserConnected", function (name, email, id, photoPath) {
+    debugger;
     var li = document.createElement("li");
     li.innerHTML = element.replace("USER-ID", id)
         .replace("FULLNAME", name)
@@ -57,6 +63,8 @@ var element = `<div class="card b-1 hover-shadow mb-20" style="max-height:126px"
                                 </div>
                             </div>
                         </div>`
+
+
 
 //function DailyScrumViewModel() {
 

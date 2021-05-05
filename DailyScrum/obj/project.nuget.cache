@@ -1,11 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "+ZPDrO20b326XEUF4TSaxhwGhu8Kyt90KsmPq2Q2DFfEImFWo2vh5JO8IkuHACVezeRS9qHSmvPxquocDOzhiA==",
+  "dgSpecHash": "2zsc2Mp1CL05Egvv1c36yfpXoWjh194W+DCQM0+f3phiVJxYCgcZQNgBlaeZaafT49X2iVWFnowSjFQr+UuHnQ==",
   "success": true,
   "projectFilePath": "C:\\Programs\\Visual Repos\\ASP_Projekt\\DailyScrum\\DailyScrum.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\sMiecio\\.nuget\\packages\\humanizer.core\\2.8.26\\humanizer.core.2.8.26.nupkg.sha512",
-    "C:\\Users\\sMiecio\\.nuget\\packages\\knockoutjs\\3.5.1\\knockoutjs.3.5.1.nupkg.sha512",
     "C:\\Users\\sMiecio\\.nuget\\packages\\microsoft.aspnetcore.cryptography.internal\\5.0.5\\microsoft.aspnetcore.cryptography.internal.5.0.5.nupkg.sha512",
     "C:\\Users\\sMiecio\\.nuget\\packages\\microsoft.aspnetcore.cryptography.keyderivation\\5.0.5\\microsoft.aspnetcore.cryptography.keyderivation.5.0.5.nupkg.sha512",
     "C:\\Users\\sMiecio\\.nuget\\packages\\microsoft.aspnetcore.html.abstractions\\2.2.0\\microsoft.aspnetcore.html.abstractions.2.2.0.nupkg.sha512",
