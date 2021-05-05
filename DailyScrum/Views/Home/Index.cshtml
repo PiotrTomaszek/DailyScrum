@@ -2,12 +2,12 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="container-fluid" style="background-color:bisque">
+<div class="container-fluid" >
 
     <div class="row">
 
-        <div class="col-md-9">
-            <div style="overflow-y:auto" id="chatHolder">
+        <div class="col-md-9" >
+            <div style="overflow-y:auto;background-color:ghostwhite" id="chatHolder">
                 <ul class="list-unstyled" id="messagesList"></ul>
             </div>
 
@@ -17,34 +17,15 @@
             </div>
         </div>
 
-        <div class="col-md-3" style="background-color:antiquewhite">
+        <div class="col-md-3" @*style="background-color:antiquewhite"*@>
             <div class="card-header">
                 <h6>Połączeni użytkownicy:</h6>
             </div>
             @*<ul id="usersList" class="car"></ul>*@
+            @*<div class="container">
+                <div class="col-md-12">*@
             <div id="usersList" class="list-unstyled">
-                <div class="container">
-                    <div class="col-md-12">
-
-                        @*<div class="card b-1 hover-shadow mb-20" style="max-height:126px" id="guid">
-                                <div class="media card-body">
-                                    <div class="media-left pr-12">
-                                        <img src="~/avatars/testphoto.jpg" alt="" class="img-thumbnail" style="max-height:64px;width:auto" />
-                                    </div>
-                                    <div class="media-body">
-                                        <div class="mb-2">
-                                            <span class="fs-20 pr-16">FIRSTNAME LASTNAME</span>
-                                        </div>
-                                        <small class="fs-16 fw-300 ls-1">STATUS</small>
-                                    </div>
-                                </div>
-                            </div>*@
-
-                        <br>
-                    </div>
-                </div>
             </div>
-
         </div>
     </div>
 
@@ -56,7 +37,5 @@
     <script src="~/js/daily.js"></script>
 
     <script src="~/js/windowSizeCalculator.js"></script>
-
-
 
 }

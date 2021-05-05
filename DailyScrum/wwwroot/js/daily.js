@@ -5,14 +5,6 @@ var connection = new signalR.HubConnectionBuilder().withUrl("/daily").build();
 //Disable send button until connection is established
 document.getElementById("sendButton").disabled = true;
 
-connection.on("TestMethod", function (user, message) {
-    var msg = message.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
-    var encodedMsg = user + " says " + msg;
-    var li = document.createElement("li");
-    li.textContent = encodedMsg;
-    document.getElementById("messagesList").appendChild(li);
-});
-
 connection.start().then(function () {
     document.getElementById("sendButton").disabled = false;
 }).catch(function (err) {
@@ -22,17 +14,36 @@ connection.start().then(function () {
 document.getElementById("sendButton").addEventListener("click", function (event) {
     var message = document.getElementById("messageInput").value;
 
-    connection.invoke("SendMessage", message).catch(function (err) {
-        return console.error(err.toString());
-    });
+    if (!(message === "")) {
+        connection.invoke("SendMessage", message).catch(function (err) {
+            return console.error(err.toString());
+        });
+    }
+
+    document.getElementById("messageInput").value = '';
+
     event.preventDefault();
 });
+
+
+
+connection.on("TestMethod", function (user, message) {
+    var msg = message.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+    var encodedMsg = user + " says " + msg;
+    var li = document.createElement("li");
+    li.textContent = encodedMsg;
+    document.getElementById("messagesList").appendChild(li);
+});
+
+
+
 
 connection.on("NotifyJoinedUser", function (user) {
     var encodedMessage = user + " dolaczyl do spotkania.";
     var li = document.createElement("li");
     li.textContent = encodedMessage;
     li.classList.add("text-center");
+    li.style.fontWeight = "bold";
     document.getElementById("messagesList").appendChild(li);
 });
 
@@ -53,7 +64,7 @@ connection.on("UserConnected", function (name, email, id, photoPath) {
                                 <div class="media-left pr-12">
                                     <img src="/avatars/${photoPath}" alt="" class="img-thumbnail" style="max-height:50px;width:auto" />
                                 </div>
-                                <div class="media-body">
+                                <div class="media-body text-center">
                                     <div class="mb-2">
                                         <span class="fs-20 pr-16">${name}</span>
                                     </div>
