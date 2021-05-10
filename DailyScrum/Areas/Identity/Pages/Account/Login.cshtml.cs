@@ -22,7 +22,7 @@ namespace DailyScrum.Areas.Identity.Pages.Account
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly ILogger<LoginModel> _logger;
 
-        public LoginModel(SignInManager<ApplicationUser> signInManager, 
+        public LoginModel(SignInManager<ApplicationUser> signInManager,
             ILogger<LoginModel> logger,
             UserManager<ApplicationUser> userManager)
         {
@@ -43,15 +43,15 @@ namespace DailyScrum.Areas.Identity.Pages.Account
 
         public class InputModel
         {
-            [Required]
-            [EmailAddress]
+            [Required(ErrorMessage = "Pole Email jest wymagane.")]
+            [EmailAddress(ErrorMessage = "Nie poprawny email.")]
             public string Email { get; set; }
 
-            [Required]
+            [Required(ErrorMessage = "Pole Hasło jest wymagane.")]
             [DataType(DataType.Password)]
             public string Password { get; set; }
 
-            [Display(Name = "Remember me?")]
+            [Display(Name = "Zapamiętaj mnie?")]
             public bool RememberMe { get; set; }
         }
 
@@ -77,7 +77,7 @@ namespace DailyScrum.Areas.Identity.Pages.Account
             returnUrl ??= Url.Content("~/");
 
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
-        
+
             if (ModelState.IsValid)
             {
                 // This doesn't count login failures towards account lockout
@@ -99,7 +99,7 @@ namespace DailyScrum.Areas.Identity.Pages.Account
                 }
                 else
                 {
-                    ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                    ModelState.AddModelError(string.Empty, "Nie poprawne dane logowania.");
                     return Page();
                 }
             }
