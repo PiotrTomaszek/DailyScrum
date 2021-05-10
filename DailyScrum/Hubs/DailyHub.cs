@@ -57,11 +57,6 @@ namespace DailyScrum.Hubs
 
             foreach (var item in teamMembers)
             {
-                if (item.UserName != SignalRIdentityName)
-                {
-
-                }
-
                 await Clients.Caller.SendAsync("UserConnected", $"{item.FirstName} {item.LastName}", item.Email, item.Id, item.PhotoPath);
             }
 
