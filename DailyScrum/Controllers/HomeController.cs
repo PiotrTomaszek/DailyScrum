@@ -1,4 +1,5 @@
 ﻿using DailyScrum.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -9,6 +10,7 @@ using System.Threading.Tasks;
 
 namespace DailyScrum.Controllers
 {
+    
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
@@ -18,6 +20,7 @@ namespace DailyScrum.Controllers
             _logger = logger;
         }
 
+        [Authorize]
         public IActionResult Index()
         {
             return View();
@@ -27,6 +30,13 @@ namespace DailyScrum.Controllers
         {
             return View();
         }
+
+        
+        public IActionResult UserLogout()
+        {
+            return RedirectToPage("/Account/Logout", new { area = "Identity" });
+        }
+
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
