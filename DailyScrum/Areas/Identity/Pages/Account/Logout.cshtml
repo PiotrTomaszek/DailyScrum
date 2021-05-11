@@ -1,10 +1,11 @@
-﻿@page 
+﻿@page
+
 @model LogoutModel
 @{
     ViewData["Title"] = "Log out";
 }
 
-<META HTTP-EQUIV="Refresh" CONTENT="5;URL=@(Url.Page("/Login"))">
+<META HTTP-EQUIV="Refresh" CONTENT="3;URL=@(Url.Page("/Login"))">
 
 <header>
     <h1>Wylogowano</h1>
@@ -17,6 +18,7 @@
         }
         else
         {
+            <hr>
             <p>Pomyślnie wylogowano ze strony.</p>
         }
     }

@@ -81,8 +81,11 @@ body {
     background-repeat: no-repeat;
 }
 
-.myCard {
+.myBackgroundColor {
     background-color: rgba(0,0,0,0.75) !important;
+}
+
+.myCard {
     margin-top: auto;
     margin-bottom: auto;
 }

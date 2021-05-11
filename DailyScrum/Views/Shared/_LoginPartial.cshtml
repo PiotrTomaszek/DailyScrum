@@ -4,25 +4,48 @@
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
 
-<ul class="navbar-nav">
-    @if (SignInManager.IsSignedIn(User))
-    {
-        <li class="nav-item">
-            <a id="manage" class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @UserManager.GetUserName(User)!</a>
-        </li>
-        <li class="nav-item">
-            <form id="logoutForm" class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("UserLogout","Home")">
-                <button id="logout" type="submit" class="nav-link btn btn-link text-dark">Logout</button>
-            </form>
-        </li>
+
+
+    <ul class="navbar-nav">
+        @if (SignInManager.IsSignedIn(User))
+        {
+            <li class="nav-item dropdown">
+                <a href="#" data-toggle="dropdown" class="nav-item nav-link dropdown-toggle user-action">
+                    <img src="@*https://www.tutorialrepublic.com/examples/images/avatar/3.jpg*@" class="avatar" alt="Avatar">
+                    Antonio Moreno <b class="caret"></b>
+                </a>
+                <div class="dropdown-menu">
+                    <a href="#" class="dropdown-item text-center"><i class="fa fa-user align-baseline"></i>  Profil</a>
+
+                    <div class="divider dropdown-divider"></div>
+                    <div class="dropdown-item text-center">
+                        <form id="logoutForm" class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("UserLogout","Home")">
+                            <button id="logout" type="submit" class="btn btn-sm btn-outline-danger @*btn-link*@ text-dark"><i class="fas fa-lock"></i> Wyloguj</button>
+                        </form>
+                    </div>
+                </div>
+            </li>
+
+            @*<li class="nav-item">
+                    <a id="manage" class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @UserManager.GetUserName(User)!</a>
+                </li>
+                <li class="nav-item">
+                    <form id="logoutForm" class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("UserLogout","Home")">
+                        <button id="logout" type="submit" class="nav-link btn btn-link text-dark">Logout</button>
+                    </form>
+                </li>*@
+        }
+        else
+        {
+            <li class="nav-item">
+                <a class="nav-link text-dark" id="register" asp-area="Identity" asp-page="/Account/Register">Register</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-dark" id="login" asp-area="Identity" asp-page="/Account/Login">Login</a>
+            </li>
+        }
+    </ul>
+
+    @section Scripts{
+
     }
-    else
-    {
-        <li class="nav-item">
-            <a class="nav-link text-dark" id="register" asp-area="Identity" asp-page="/Account/Register">Register</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link text-dark" id="login" asp-area="Identity" asp-page="/Account/Login">Login</a>
-        </li>
-    }
-</ul>
