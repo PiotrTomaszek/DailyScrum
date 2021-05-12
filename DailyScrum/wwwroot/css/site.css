@@ -81,7 +81,7 @@ body {
     background-repeat: no-repeat;
 }
 
-.myBackgroundColor {
+.daily-background-color {
     background-color: rgba(0,0,0,0.75) !important;
 }
 
@@ -97,4 +97,11 @@ body {
     display: flex;
     min-height: 100vh;
     min-height: 100%;
+}
+
+.user-image-navbar {
+    max-width: 64px;
+    max-height: 64px;
+    height:50px;
+    width:50px;
 }
