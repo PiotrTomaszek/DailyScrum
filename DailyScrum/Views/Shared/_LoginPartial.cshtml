@@ -15,21 +15,22 @@
             <a href="#" data-toggle="dropdown" class="nav-item nav-link dropdown-toggle user-action">
                 @if (userPhoto != null)
                 {
-                    <img src="~/avatars/@userPhoto" class="user-image-navbar" alt="Avatar">
+                    <img src="~/avatars/@userPhoto" class="rounded-circle user-image-navbar" alt="Avatar">
                 }
                 else
                 {
                     <i class="fa fa-user align-baseline"></i>
                 }
-                Antonio Moreno <b class="caret"></b>
+                @UserManager.GetUserName(User) <b class="caret"></b>
             </a>
             <div class="dropdown-menu">
-                <a href="@Url.Page("/Manage")" class="dropdown-item text-center"><i class="fa fa-user align-baseline"></i>  Profil</a>
+                <a asp-area="Identity" asp-page="/Account/Manage" asp-route-returnUrl="@Url.Action("UserAccountManage","Home")" class="dropdown-item text-center"><i class="fa fa-user align-baseline"></i>  Profil</a>
 
                 <div class="divider dropdown-divider"></div>
+
                 <div class="dropdown-item">
-                    <form id="logoutForm" class="form-inline text-center" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("UserLogout","Home")">
-                        <button id="logout" type="submit" class="btn btn-outline-danger @*btn-link*@ text-dark"><i class="fas fa-lock"></i> Wyloguj</button>
+                    <form id="logoutForm" class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("UserLogout","Home")">
+                        <button id="logout" type="submit" class="btn btn-outline-danger btn-block text-dark "><i class="fas fa-lock"></i> Wyloguj</button>
                     </form>
                 </div>
             </div>

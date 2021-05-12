@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace DailyScrum.Controllers
 {
-    
+
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
@@ -31,10 +31,15 @@ namespace DailyScrum.Controllers
             return View();
         }
 
-        
+
         public IActionResult UserLogout()
         {
             return RedirectToPage("/Account/Logout", new { area = "Identity" });
+        }
+
+        public IActionResult UserAccountManage()
+        {
+            return RedirectToPage("/Account/Manage", new { area = "Identity" });
         }
 
 

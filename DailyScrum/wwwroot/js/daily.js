@@ -37,7 +37,6 @@ connection.on("TestMethod", function (user, message) {
 
 
 
-
 connection.on("NotifyJoinedUser", function (user) {
     var encodedMessage = user + " dolaczyl do spotkania.";
     var li = document.createElement("li");
@@ -46,7 +45,6 @@ connection.on("NotifyJoinedUser", function (user) {
     li.style.fontWeight = "bold";
     document.getElementById("messagesList").appendChild(li);
 });
-
 
 
 connection.on("UserDisconnected", function (id) {
@@ -59,23 +57,71 @@ connection.on("UserDisconnected", function (id) {
 connection.on("UserConnected", function (name, email, id, photoPath) {
     var li = document.createElement("li");
 
-    var newElement = `<div class="card b-1 hover-shadow mb-20" style="max-height:100px" id="${id}">
-                            <div class="media card-body">
-                                <div class="media-left pr-12">
-                                    <img src="/avatars/${photoPath}" alt="" class="img-thumbnail" style="max-height:50px;width:auto" />
-                                </div>
-                                <div class="media-body text-center">
-                                    <div class="mb-2">
-                                        <span class="fs-20 pr-16">${name}</span>
-                                    </div>
-                                    <small class="fs-16 fw-300 ls-1">${email}</small>
-                                </div>
+    var newElement = `<div class="d-flex">
+                            <div class="img_cont">
+                                <img src="/avatars/${photoPath}" class="rounded-circle user_img">
+                                <span class="online_icon offline"></span>
                             </div>
-                        </div>`
+                            <div class="user_info">
+                                <span>${name}</span>
+                                <p></p>
+                            </div>
+                         </div>`
     li.innerHTML = newElement;
-
+    li.id = id;
     document.getElementById("usersList").appendChild(li);
 });
+
+
+
+connection.on("UpdateUserList", function (currentNumber, allMembers) {
+    debugger;
+    var element = document.getElementById('online-team-members');
+    element.innerHTML = `${currentNumber}/${allMembers}`;
+});
+
+connection.on("GenerateAllUsers", function (currentNumber, allMembers) {
+    debugger;
+    var element = document.getElementById('online-team-members');
+    element.innerHTML = `${currentNumber}/${allMembers}`;
+});
+
+
+
+
+
+connection.on("DisplayTeamName", function (teamname) {
+    var element = document.getElementById('team-name');
+    element.innerHTML = `${teamname}`
+});
+
+
+//connection.on("AddUserToList", function (name,email,id) {
+
+
+//});
+
+
+//connection.on("UserConnected", function (name, email, id, photoPath) {
+//    var li = document.createElement("li");
+
+//    var newElement = `<div class="card b-1 hover-shadow mb-20" style="max-height:100px" id="${id}">
+//                            <div class="media card-body">
+//                                <div class="media-left pr-12">
+//                                    <img src="/avatars/${photoPath}" alt="" class="img-thumbnail" style="max-height:50px;width:auto" />
+//                                </div>
+//                                <div class="media-body text-center">
+//                                    <div class="mb-2">
+//                                        <span class="fs-20 pr-16">${name}</span>
+//                                    </div>
+//                                    <small class="fs-16 fw-300 ls-1">${email}</small>
+//                                </div>
+//                            </div>
+//                        </div>`
+//    li.innerHTML = newElement;
+
+//    document.getElementById("usersList").appendChild(li);
+//});
 
 
 

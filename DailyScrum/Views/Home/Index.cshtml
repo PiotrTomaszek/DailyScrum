@@ -6,7 +6,7 @@
 
     <div class="row">
 
-        <div class="col-md-9">
+        <div class="col-md-8 col-lg-9">
             <div style="overflow-y:auto;background-color:ghostwhite" id="chatHolder">
                 <ul class="list-unstyled" id="messagesList"></ul>
             </div>
@@ -17,24 +17,43 @@
             </div>
         </div>
 
-        <div class="col-md-3" @*style="background-color:antiquewhite"*@>
-            <div class="card-header">
-                <h6>Połączeni użytkownicy:</h6>
+        <div class="col-md-4 col-lg-3">
+            <div class="card mb-sm-3 mb-md-0 contacts_card">
+                <div class="card-header text-left">
+                    <h5 id="team-name"></h5>
+                    <h6>Aktywni uczestnicy: <span id="online-team-members"></span></h6>
+                </div>
+                <div class="card-body contacts_body">
+                    <ul id="usersList" class="contacts list-unstyled">
+                        <li>
+                            <!--<div class="d-flex">
+                                <div class="img_cont">
+                                    <img src="https://static.turbosquid.com/Preview/001292/481/WV/_D.jpg" class="rounded-circle user_img">
+                                    <span class="online_icon offline"></span>
+                                </div>
+                                <div class="user_info">
+                                    <span>Rashid Samim</span>
+                                    <p>-->@*Rashid left 50 mins ago*@<!--</p>
+                                </div>
+                            </div>-->
+                        </li>
+                    </ul>
+                </div>
             </div>
-            @*<ul id="usersList" class="car"></ul>*@
+
+            @*<ul id="usersList" class="list-unstyled">
+                <li>dadad</li>
+            </ul>*@
             @*<div class="container">
                 <div class="col-md-12">*@
-            <div id="usersList" class="list-unstyled">
-            </div>
+            @*<div id="usersList" class="list-unstyled">*@
         </div>
     </div>
-
 </div>
 
 
 @section Scripts{
     <script src="~/js/signalr/dist/browser/signalr.min.js"></script>
     <script src="~/js/daily.js"></script>
-
-    <script src="~/js/windowSizeCalculator.js"></script>
+    @*<script src="~/js/windowSizeCalculator.js"></script>*@
 }

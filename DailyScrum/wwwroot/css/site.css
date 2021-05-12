@@ -102,6 +102,54 @@ body {
 .user-image-navbar {
     max-width: 64px;
     max-height: 64px;
-    height:50px;
-    width:50px;
+    height: 50px;
+    width: 50px;
+}
+
+
+.online_icon {
+    position: absolute;
+    height: 15px;
+    width: 15px;
+    background-color: #4cd137;
+    border-radius: 50%;
+    bottom: 0.2em;
+    right: 0.4em;
+    border: 1.5px solid white;
+}
+
+.offline {
+    background-color: #c23616 !important;
+}
+
+.user_info {
+    margin-top: auto;
+    margin-bottom: auto;
+    margin-left: 15px;
+}
+
+    .user_info span {
+        font-size: 16px;
+        color: black;
+    }
+
+    .user_info p {
+        font-size: 10px;
+        color: rgba(0,0,0,0.75);
+    }
+
+.user_img {
+    height: 50px;
+    width: 50px;
+    border: 1.5px solid #f5f6fa;
+}
+
+.img_cont {
+    position: relative;
+    height: 55px;
+    width: 55px;
+}
+.contacts {
+    list-style: none;
+    padding: 0;
 }
