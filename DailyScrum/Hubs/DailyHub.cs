@@ -47,13 +47,13 @@ namespace DailyScrum.Hubs
 
         public async Task GenerateConnectedUsers(string teamName)
         {
-            var test = _connectedTeams.TryGetValue(teamName, out TeamViewModel model);
+            _connectedTeams.TryGetValue(teamName, out TeamViewModel model);
             await Clients.Caller.SendAsync("GenerateAllUsers", model.ConnectedUsersCount, model.TeamMemberCount);
         }
 
         public async Task UpdateUserList(string teamName)
         {
-            var test = _connectedTeams.TryGetValue(teamName, out TeamViewModel model);
+            _connectedTeams.TryGetValue(teamName, out TeamViewModel model);
             await Clients.OthersInGroup(teamName).SendAsync("UpdateUserList", model.ConnectedUsersCount, model.TeamMemberCount);
         }
 
@@ -101,8 +101,9 @@ namespace DailyScrum.Hubs
             await HandleTeamMemberNumber(1);
             await GenerateConnectedUsers(DbUser.TeamMember.Name);
 
+            await GenerateUserList();
 
-
+            #region patola
             //if (_connectedTeams.ContainsKey(user.TeamMember.Name) == false)
             //{
             //    var teamMates = await _dbContext.Users
@@ -173,9 +174,19 @@ namespace DailyScrum.Hubs
             //await Clients.Group(user.TeamMember.Name).SendAsync("TestMethod", SignalRIdentityName, "TUSTE");
             //await Clients.OthersInGroup(user.TeamMember.Name).SendAsync("TestMethod", SignalRIdentityName, "SUPERTUSTE");
 
+            #endregion
             return base.OnConnectedAsync();
         }
 
+        private async Task GenerateUserList()
+        {
+            _connectedTeams.TryGetValue(DbUser.TeamMember.Name, out var model);
+
+            foreach (var item in model.UsersList)
+            {
+                await Clients.Caller.SendAsync("UserConnected", $"{item.FirstName} {item.LastName}", item.Email, item.Id, item.PhotoPath);
+            }
+        }
 
         public async override Task<Task> OnDisconnectedAsync(Exception exception)
         {
@@ -188,6 +199,7 @@ namespace DailyScrum.Hubs
 
 
 
+            #region patola2
             //_connectedTeams.TryGetValue(user.TeamMember.Name, out List<ApplicationUser> members);
 
             //_connectedTeamsInfo.TryGetValue(user.TeamMember.Name, out TeamViewModel model);
@@ -220,6 +232,7 @@ namespace DailyScrum.Hubs
 
             //await Clients.Group(user.TeamMember.Name).SendAsync("UserDisconnected", user.Id);
 
+            #endregion
             return base.OnDisconnectedAsync(exception);
         }
 

@@ -6,6 +6,11 @@
 
 @{
     var userPhoto = UserManager.GetUserAsync(User).Result.PhotoPath;
+
+    if (userPhoto == null)
+    {
+        userPhoto = "no-avatar.jpg";
+    }
 }
 
 <ul class="navbar-nav">
@@ -13,14 +18,7 @@
     {
         <li class="nav-item dropdown">
             <a href="#" data-toggle="dropdown" class="nav-item nav-link dropdown-toggle user-action">
-                @if (userPhoto != null)
-                {
-                    <img src="~/avatars/@userPhoto" class="rounded-circle user-image-navbar" alt="Avatar">
-                }
-                else
-                {
-                    <i class="fa fa-user align-baseline"></i>
-                }
+                <img src="@Url.Content("~/avatars/"+ @userPhoto ) " class="rounded-circle user-image-navbar" alt="Avatar">
                 @UserManager.GetUserName(User) <b class="caret"></b>
             </a>
             <div class="dropdown-menu">
