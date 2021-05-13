@@ -48,13 +48,14 @@ namespace DailyScrum.Hubs
         public async Task GenerateConnectedUsers(string teamName)
         {
             _connectedTeams.TryGetValue(teamName, out TeamViewModel model);
-            await Clients.Caller.SendAsync("GenerateAllUsers", model.ConnectedUsersCount, model.TeamMemberCount);
+            await Clients.Caller.SendAsync("GenerateUserCounter", model.ConnectedUsersCount, model.TeamMemberCount);
         }
 
         public async Task UpdateUserList(string teamName)
         {
             _connectedTeams.TryGetValue(teamName, out TeamViewModel model);
-            await Clients.OthersInGroup(teamName).SendAsync("UpdateUserList", model.ConnectedUsersCount, model.TeamMemberCount);
+            //await Clients.OthersInGroup(teamName).SendAsync("UpdateUserList", model.ConnectedUsersCount, model.TeamMemberCount);
+            await Clients.Group(teamName).SendAsync("UpdateUserList", model.ConnectedUsersCount, model.TeamMemberCount);
         }
 
         private async Task HandleNewTeam()
@@ -63,12 +64,13 @@ namespace DailyScrum.Hubs
             {
                 var teamMates = await _dbContext.Users
                     .Include(x => x.TeamMember)
-                    .Where(a => a.TeamMember.Name.Equals(DbUser.TeamMember.Name)).ToListAsync();
+                    .Where(a => a.TeamMember.Name.Equals(DbUser.TeamMember.Name)).OrderBy(order => order.LastName).ToListAsync();
 
                 var teamModel = new TeamViewModel
                 {
                     UsersList = teamMates,
-                    TeamMemberCount = teamMates.Count()
+                    TeamMemberCount = teamMates.Count(),
+                    UsersOnline = Enumerable.Repeat(false, teamMates.Count())
                 };
 
                 _connectedTeams.Add(DbUser.TeamMember.Name, teamModel);
@@ -97,11 +99,20 @@ namespace DailyScrum.Hubs
 
             await Groups.AddToGroupAsync(Context.ConnectionId, DbUser.TeamMember.Name);
 
+            // ustaw status jako online
+
+
             await ShowTeamName(DbUser.TeamMember.Name);
             await HandleTeamMemberNumber(1);
             await GenerateConnectedUsers(DbUser.TeamMember.Name);
 
             await GenerateUserList();
+
+
+            await GetAllUsersStatus();
+
+            await SetUserStatus(true);
+
 
             #region patola
             //if (_connectedTeams.ContainsKey(user.TeamMember.Name) == false)
@@ -178,13 +189,57 @@ namespace DailyScrum.Hubs
             return base.OnConnectedAsync();
         }
 
+
+        private async Task GetAllUsersStatus()
+        {
+            _connectedTeams.TryGetValue(DbUser.TeamMember.Name, out var model);
+
+            var lista = new List<string>();
+
+            int index = 0;
+            foreach (var item in model.UsersOnline)
+            {
+                if (item)
+                {
+                    await Clients.Caller.SendAsync("GetAllUsersStatus", model.UsersList[index].Id as string);
+                }
+                index++;
+            }
+        }
+
+        private async Task SetUserStatus(bool isOnline)
+        {
+            var isOK = _connectedUsers.TryGetValue(Context.ConnectionId, out var connUser);
+
+            if (isOK)
+            {
+                _connectedTeams.TryGetValue(DbUser.TeamMember.Name, out var model);
+
+                var index = model.UsersList.IndexOf(model.UsersList.Where(x => x.Email.Equals(connUser.Email)).FirstOrDefault());
+                var onlineUser = model.UsersOnline.ToList();
+
+                if (isOnline)
+                {
+                    onlineUser[index] = true;
+                }
+                else
+                {
+                    onlineUser[index] = false;
+                }
+            }
+
+            await Clients.Group(DbUser.TeamMember.Name).SendAsync("SetUserStatus", DbUser.Id, isOnline);
+        }
+
         private async Task GenerateUserList()
         {
             _connectedTeams.TryGetValue(DbUser.TeamMember.Name, out var model);
 
             foreach (var item in model.UsersList)
             {
-                await Clients.Caller.SendAsync("UserConnected", $"{item.FirstName} {item.LastName}", item.Email, item.Id, item.PhotoPath);
+                var photo = item.PhotoPath == null ? "no-avatar.jpg" : item.PhotoPath;
+
+                await Clients.Caller.SendAsync("UserConnected", $"{item.FirstName} {item.LastName}", item.Email, item.Id, photo);
             }
         }
 
@@ -192,12 +247,9 @@ namespace DailyScrum.Hubs
         {
             await HandleTeamMemberNumber(-1);
 
+            await SetUserStatus(false);
 
             _connectedUsers.Remove(Context.ConnectionId);
-
-
-
-
 
             #region patola2
             //_connectedTeams.TryGetValue(user.TeamMember.Name, out List<ApplicationUser> members);
@@ -235,6 +287,10 @@ namespace DailyScrum.Hubs
             #endregion
             return base.OnDisconnectedAsync(exception);
         }
+
+
+
+
 
         public async Task SendMessage(string message)
         {
