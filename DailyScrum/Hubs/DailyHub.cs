@@ -17,13 +17,12 @@ namespace DailyScrum.Hubs
         private static Dictionary<string, ApplicationUser> _connectedUsers = new Dictionary<string, ApplicationUser>();
         private static Dictionary<string, TeamViewModel> _connectedTeams = new Dictionary<string, TeamViewModel>();
 
+        private readonly DailyScrumContext _dbContext;
+
         private string SignalRIdentityName => Context.User.Identity.Name;
         private ApplicationUser DbUser => _connectedUsers
             .Where(x => x.Key == this.Context.ConnectionId)
             .FirstOrDefault().Value;
-
-        private readonly DailyScrumContext _dbContext;
-
         private ApplicationUser GetUser()
         {
             var user = _dbContext.Users.Include(a => a.TeamMember)
@@ -40,54 +39,7 @@ namespace DailyScrum.Hubs
         }
 
 
-        public async Task ShowTeamName(string teamName)
-        {
-            await Clients.Caller.SendAsync("DisplayTeamName", teamName);
-        }
 
-        public async Task GenerateConnectedUsers(string teamName)
-        {
-            _connectedTeams.TryGetValue(teamName, out TeamViewModel model);
-            await Clients.Caller.SendAsync("GenerateUserCounter", model.ConnectedUsersCount, model.TeamMemberCount);
-        }
-
-        public async Task UpdateUserList(string teamName)
-        {
-            _connectedTeams.TryGetValue(teamName, out TeamViewModel model);
-            //await Clients.OthersInGroup(teamName).SendAsync("UpdateUserList", model.ConnectedUsersCount, model.TeamMemberCount);
-            await Clients.Group(teamName).SendAsync("UpdateUserList", model.ConnectedUsersCount, model.TeamMemberCount);
-        }
-
-        private async Task HandleNewTeam()
-        {
-            if (!_connectedTeams.ContainsKey(DbUser.TeamMember.Name))
-            {
-                var teamMates = await _dbContext.Users
-                    .Include(x => x.TeamMember)
-                    .Where(a => a.TeamMember.Name.Equals(DbUser.TeamMember.Name)).OrderBy(order => order.LastName).ToListAsync();
-
-                var teamModel = new TeamViewModel
-                {
-                    UsersList = teamMates,
-                    TeamMemberCount = teamMates.Count(),
-                    UsersOnline = Enumerable.Repeat(false, teamMates.Count())
-                };
-
-                _connectedTeams.Add(DbUser.TeamMember.Name, teamModel);
-            }
-        }
-
-        private async Task HandleTeamMemberNumber(int operation)
-        {
-            var team = _connectedTeams.TryGetValue(DbUser.TeamMember.Name, out var teamModel);
-
-            if (team)
-            {
-                teamModel.ConnectedUsersCount += operation;
-            }
-
-            await UpdateUserList(DbUser.TeamMember.Name);
-        }
 
         public override async Task<Task> OnConnectedAsync()
         {
@@ -106,87 +58,31 @@ namespace DailyScrum.Hubs
             await HandleTeamMemberNumber(1);
             await GenerateConnectedUsers(DbUser.TeamMember.Name);
 
+
             await GenerateUserList();
 
 
-            await GetAllUsersStatus();
+            //TU JEST PROBLEM
 
+            await GetAllUsersStatus();
             await SetUserStatus(true);
 
-
-            #region patola
-            //if (_connectedTeams.ContainsKey(user.TeamMember.Name) == false)
-            //{
-            //    var teamMates = await _dbContext.Users
-            //        .Include(x => x.TeamMember)
-            //        .Where(a => a.TeamMember.Name.Equals(user.TeamMember.Name)).ToListAsync();
-
-            //    _connectedTeams.Add(user.TeamMember.Name, new List<ApplicationUser>(teamMates));
-
-
-
-            //    var number = _dbContext.Users
-            //         .Include(x => x.TeamMember)
-            //         .Where(a => a.TeamMember.Name.Equals(user.TeamMember.Name))
-            //         .Count();
-
-            //    var mod = new TeamViewModel
-            //    {
-            //        ConnectedUsersCount = 1,
-            //        TeamMemberCount = number
-            //    };
-
-            //    _connectedTeamsInfo.Add(user.TeamMember.Name, mod);
-
-            //    await Groups.AddToGroupAsync(Context.ConnectionId, user.TeamMember.Name);
-            //}
-            //else
-            //{
-            //    _connectedTeamsInfo.TryGetValue(user.TeamMember.Name, out TeamViewModel model);
-            //    model.ConnectedUsersCount += 1;
-            //    await UpdateUserList(user.TeamMember.Name);
-            //}
-
-
-
-            //if (_connectedTeams.TryGetValue(user.TeamMember.Name, out List<ApplicationUser> members))
-            //{
-            //    if (members.Where(u => u.Id == user.Id).FirstOrDefault() == null)
-            //    {
-            //        members.Add(user);
-            //        await Groups.AddToGroupAsync(Context.ConnectionId, user.TeamMember.Name);
-
-
-            //        //await Groups.AddToGroupAsync(Context.ConnectionId, user.TeamMember.Name);
-            //    }
-            //}
-
-            ////test
-            //await ShowTeamName(user.TeamMember.Name);
-            //await GenerateConnectedUsers(user.TeamMember.Name);
-
-
-
-
-            //_connectedTeams.TryGetValue(user.TeamMember.Name, out List<ApplicationUser> teamMembers);
-
-            //foreach (var item in teamMembers)
-            //{
-            //    await Clients.Caller.SendAsync("UserConnected", $"{item.FirstName} {item.LastName}", item.Email, item.Id, item.PhotoPath);
-            //}
-
-            //await Clients.OthersInGroup(user.TeamMember.Name).SendAsync("UserConnected", $"{user.FirstName} {user.LastName}", user.Email, user.Id, user.PhotoPath);
-
-            ////await Clients.Group(user.TeamMember.Name).SendAsync("UserConnected", $"{user.FirstName} {user.LastName}", user.Email, user.Id, user.PhotoPath);
-
-            //await Clients.Group(user.TeamMember.Name).SendAsync("NotifyJoinedUser", $"{user.LastName} {user.FirstName}");
-
-            //await Clients.All.SendAsync("TestMethod", SignalRIdentityName, user.TeamMember.Name);
-            //await Clients.Group(user.TeamMember.Name).SendAsync("TestMethod", SignalRIdentityName, "TUSTE");
-            //await Clients.OthersInGroup(user.TeamMember.Name).SendAsync("TestMethod", SignalRIdentityName, "SUPERTUSTE");
-
-            #endregion
             return base.OnConnectedAsync();
+        }
+
+
+
+
+
+        public async override Task<Task> OnDisconnectedAsync(Exception exception)
+        {
+            await HandleTeamMemberNumber(-1);
+
+            await SetUserStatus(false);
+
+            _connectedUsers.Remove(Context.ConnectionId);
+
+            return base.OnDisconnectedAsync(exception);
         }
 
 
@@ -194,15 +90,14 @@ namespace DailyScrum.Hubs
         {
             _connectedTeams.TryGetValue(DbUser.TeamMember.Name, out var model);
 
-            var lista = new List<string>();
-
             int index = 0;
             foreach (var item in model.UsersOnline)
             {
-                if (item)
-                {
-                    await Clients.Caller.SendAsync("GetAllUsersStatus", model.UsersList[index].Id as string);
-                }
+                var id = model.UsersList[index].Id;
+                var isOnline = item;
+
+                await Clients.Caller.SendAsync("SetUserStatus", id, item);
+
                 index++;
             }
         }
@@ -216,15 +111,15 @@ namespace DailyScrum.Hubs
                 _connectedTeams.TryGetValue(DbUser.TeamMember.Name, out var model);
 
                 var index = model.UsersList.IndexOf(model.UsersList.Where(x => x.Email.Equals(connUser.Email)).FirstOrDefault());
-                var onlineUser = model.UsersOnline.ToList();
+                //var onlineUser = ;
 
                 if (isOnline)
                 {
-                    onlineUser[index] = true;
+                    model.UsersOnline[index] = true;
                 }
                 else
                 {
-                    onlineUser[index] = false;
+                    model.UsersOnline[index] = false;
                 }
             }
 
@@ -243,49 +138,14 @@ namespace DailyScrum.Hubs
             }
         }
 
-        public async override Task<Task> OnDisconnectedAsync(Exception exception)
+
+
+
+        public async Task UpdateUserList(string teamName)
         {
-            await HandleTeamMemberNumber(-1);
-
-            await SetUserStatus(false);
-
-            _connectedUsers.Remove(Context.ConnectionId);
-
-            #region patola2
-            //_connectedTeams.TryGetValue(user.TeamMember.Name, out List<ApplicationUser> members);
-
-            //_connectedTeamsInfo.TryGetValue(user.TeamMember.Name, out TeamViewModel model);
-
-            //model.ConnectedUsersCount -= 1;
-            //await UpdateUserList(user.TeamMember.Name);
-
-            //if (model.ConnectedUsersCount == 0)
-            //{
-            //    _connectedTeamsInfo.Remove(user.TeamMember.Name);
-            //}
-
-            //if (members != null)
-            //{
-            //    members.Remove(user);
-            //}
-
-            //await Groups.RemoveFromGroupAsync(Context.ConnectionId, user.TeamMember.Name);
-
-            //await Clients.Group(user.TeamMember.Name).SendAsync("UserDisconnected", user.Id);
-
-            //var user = _dbContext.Users.Include(a => a.TeamMember)
-            //    .Where(x => x.UserName == SignalRIdentityName)
-            //    .FirstOrDefault();
-
-            //if (user != null)
-            //{
-            //    _connectedUsers.Remove(user);
-            //}
-
-            //await Clients.Group(user.TeamMember.Name).SendAsync("UserDisconnected", user.Id);
-
-            #endregion
-            return base.OnDisconnectedAsync(exception);
+            _connectedTeams.TryGetValue(teamName, out TeamViewModel model);
+            //await Clients.OthersInGroup(teamName).SendAsync("UpdateUserList", model.ConnectedUsersCount, model.TeamMemberCount);
+            await Clients.Group(teamName).SendAsync("UpdateUserList", model.ConnectedUsersCount, model.TeamMemberCount);
         }
 
 
@@ -297,5 +157,50 @@ namespace DailyScrum.Hubs
             await Clients.Group("DEV1").SendAsync("TestMethod", this.Context.User.Identity.Name, message);
         }
 
+
+
+
+        //ok
+        public async Task ShowTeamName(string teamName)
+        {
+            await Clients.Caller.SendAsync("DisplayTeamName", teamName);
+        }
+
+        private async Task HandleNewTeam()
+        {
+            if (!_connectedTeams.ContainsKey(DbUser.TeamMember.Name))
+            {
+                var teamMates = await _dbContext.Users
+                    .Include(x => x.TeamMember)
+                    .Where(a => a.TeamMember.Name.Equals(DbUser.TeamMember.Name)).OrderBy(order => order.LastName).ToListAsync();
+
+                var teamModel = new TeamViewModel
+                {
+                    UsersList = teamMates,
+                    TeamMemberCount = teamMates.Count(),
+                    UsersOnline = Enumerable.Repeat(false, teamMates.Count()).ToList()
+                };
+
+                _connectedTeams.Add(DbUser.TeamMember.Name, teamModel);
+            }
+        }
+
+        public async Task GenerateConnectedUsers(string teamName)
+        {
+            _connectedTeams.TryGetValue(teamName, out TeamViewModel model);
+            await Clients.Caller.SendAsync("GenerateUserCounter", model.ConnectedUsersCount, model.TeamMemberCount);
+        }
+
+        private async Task HandleTeamMemberNumber(int operation)
+        {
+            var team = _connectedTeams.TryGetValue(DbUser.TeamMember.Name, out var teamModel);
+
+            if (team)
+            {
+                teamModel.ConnectedUsersCount += operation;
+            }
+
+            await UpdateUserList(DbUser.TeamMember.Name);
+        }
     }
 }

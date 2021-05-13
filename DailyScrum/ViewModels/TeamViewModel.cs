@@ -8,7 +8,7 @@ namespace DailyScrum.ViewModels
         public int ConnectedUsersCount { get; set; }
         public int TeamMemberCount { get; set; }
 
-        public IEnumerable<bool> UsersOnline { get; set; }
+        public List<bool> UsersOnline { get; set; }
         public List<ApplicationUser> UsersList { get; set; }
     }
 }

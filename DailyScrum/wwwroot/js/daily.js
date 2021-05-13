@@ -45,17 +45,15 @@ connection.on("TestMethod", function (user, message) {
 //    document.getElementById("messagesList").appendChild(li);
 //});
 
-connection.on("GetAllUsersStatus", function (test) {
-    debugger;
-    var tescik = test;
-    if (tescik) {
-
-    }
-});
+//connection.on("GetAllUsersStatus", function (userId, online) {
+//    debugger;
+//    if (online) {
+//        var element = document.getElementById(`${userId}-icon`);
+//        element.classList.remove("offline");
+//    }
+//});
 
 connection.on("SetUserStatus", function (userId, isOnline) {
-    debugger;
-
     var element = document.getElementById(`${userId}-icon`);
 
     if (isOnline) {
