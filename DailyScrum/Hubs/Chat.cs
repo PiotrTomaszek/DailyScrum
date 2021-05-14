@@ -35,7 +35,6 @@ namespace DailyScrum.Hubs
                     }
                 }
             }
-
         }
 
         public async Task SendMessage(string message)

@@ -63,6 +63,8 @@ namespace DailyScrum.Hubs
             await SetUserStatus(true);
 
             await GetAllMessages();
+            await GetAllPosts();
+            await EnableSubmitButton();
 
             return base.OnConnectedAsync();
         }

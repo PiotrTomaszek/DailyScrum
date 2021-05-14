@@ -106,6 +106,30 @@ body {
     width: 50px;
 }
 
+.daily-yesterday-line {
+    width: 1px;
+    height: 80%;
+    color: orangered;
+    border-right: 2px solid forestgreen
+}
+
+.daily-today-line {
+    width: 1px;
+    height: 80%;
+    color: orangered;
+    border-right: 2px solid orangered
+}
+
+.daily-problem-line {
+    width: 1px;
+    height: 80%;
+    color: orangered;
+    border-right: 2px solid firebrick
+}
+
+
+
+
 
 .online_icon {
     position: absolute;

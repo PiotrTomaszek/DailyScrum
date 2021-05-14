@@ -5,7 +5,6 @@ $(document).ready(function () {
 window.onresize = ResizeContentContainer2;
 
 function ResizeContentContainer2() {
-    debugger;
     var windowHeight = $(window).height();
     var navbarHeight = document.getElementById('navbarHolder').clientHeight;
     var footerHeight = document.getElementById('footerHolder').clientHeight;
