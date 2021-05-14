@@ -32,12 +32,38 @@ connection.on("TestMethod", function (user, message) {
     document.getElementById("messagesList").appendChild(li);
 });
 
-connection.on("SendDailyPost", function (cos) {
+connection.on("SendDailyPost", function (name, yesterday, today, problem, time, id) {
     debugger;
+    var place = document.getElementById('dailyPostPlace');
 
-    var a = cos;
+    var newDiv = document.createElement('div');
+    newDiv.classList.add('p-card');
+    newDiv.classList.add('bg-white');
+    newDiv.classList.add('p-2');
+    newDiv.classList.add('px-3');
+    newDiv.classList.add('mb-1');
 
+    newDiv.innerHTML = `<div class="row">
+                        <div class="col-2 col-md-1 ">
+                            <img src="@Url.Content("~/avatars/testphoto.jpg")" alt="" style="width:40px;height:40px" />
+                        </div>
+                        <div class="col-8 col-md-9 text-left">
+                            <p>${time}</p>
+                            <h6>${name}doda³ nowy post do spotkania daily!</h6>
+                        </div>
+                        <div class="col-2 col-md-2">
+                            <button class="btn text-center" type="button" data-toggle="collapse" data-target="#collapseUserTest" aria-expanded="false" aria-controls="collapseExample">
+                                <i class="fas fa-plus"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="collapse" id="collapseUser-${id}" style="height:100%">
+                        <p>${yesterday}</p>
+                        <p>${today}</p>
+                        <p>${problem}</p>
+                    </div>`
 
+    place.appendChild(newDiv)
 });
 
 

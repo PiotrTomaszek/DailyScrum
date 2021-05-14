@@ -38,7 +38,7 @@
                 <div style="height:100%;@*overflow-y:scroll;*@">
                     <div class="container mt-5 mb-5">
                         <div class="row mt-1">
-                            <div class="col-md-12 offset-lg-2 col-lg-8">
+                            <div class="col-md-12 offset-lg-2 col-lg-8" id="dailyPostPlace">
                                 <div class="p-card bg-white p-2 rounded px-3 mb-1">
                                     <div class="row">
                                         <div class="col-2 col-md-1 ">
@@ -160,10 +160,10 @@
                     @*<button id="btn" type="button">Click Me!</button>*@
 
                     <h5 class="mt-5">Co zrobisz dzisiaj?</h5>
-                    <input type="text" class="d-inline" value="" placeholder="Task" />
+                    <input type="text" class="d-inline" value="" id="todayInput" placeholder="Task" />
 
                     <h5 class="mt-5">Widzisz jakieś przeszkody na drodzę?</h5>
-                    <input type="text" class="d-inline" value="" placeholder="Task" />
+                    <input type="text" class="d-inline" value="" id="problemInput" placeholder="Task" />
 
                 </form>
 
@@ -227,7 +227,11 @@
     <script>
         var element = document.getElementById('submitDailyPost');
         element.addEventListener('click', function () {
-            connection.invoke("SendPost", 'dzioa').catch(function (err) {
+
+            var yesterday = document.getElementById('yesterdayInput').value;
+            var today = document.getElementById('todayInput').value;
+            var problem = document.getElementById('problemInput').value;
+            connection.invoke("SendPost", yesterday, today, problem).catch(function (err) {
                 return console.error(err.toString());
             });
 

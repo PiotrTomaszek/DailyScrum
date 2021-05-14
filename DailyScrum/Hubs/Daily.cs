@@ -10,9 +10,11 @@ namespace DailyScrum.Hubs
     [Authorize]
     public partial class DailyHub : Hub
     {
-        public async Task SendPost(string cos)
+        public async Task SendPost(string yesterday, string today, string problem)
         {
-            await Clients.Group(DbUser.TeamMember.Name).SendAsync("SendDailyPost", cos);
+            var time = DateTime.UtcNow.ToShortTimeString();
+
+            await Clients.Group(DbUser.TeamMember.Name).SendAsync("SendDailyPost",UserFullName, yesterday, today, problem, time, DbUser.Id);
         }
     }
 }
