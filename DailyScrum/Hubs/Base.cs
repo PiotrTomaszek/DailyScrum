@@ -60,9 +60,6 @@ namespace DailyScrum.Hubs
             await GetAllUsersStatus();
             await SetUserStatus(true);
 
-
-
-
             await GetAllMessages();
 
             return base.OnConnectedAsync();

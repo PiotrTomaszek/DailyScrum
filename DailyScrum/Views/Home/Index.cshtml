@@ -1,33 +1,34 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Daily";
 }
 
 <div class="container-fluid">
+    @* Daily Part *@
     <div class="row">
-        <div id="dailyHolder"></div>
+        <div id="dailyHolder" style="width:100%;background-color:bisque;" >
+            
+        </div>
     </div>
 
     <div class="row">
-
+        
+        @* Chat Part *@
         <div class="col-md-8 col-lg-9">
             <div>
-
                 <div class="chat-container" id="chatHolder" style="overflow-y:scroll;">
                     <ul class="chat-box chatContainerScroll list-unstyled" id="messagesList">
                     </ul>
                 </div>
             </div>
-
             <div class="input-group mb-3">
                 <input type="text" id="messageInput" class="form-control" placeholder="Napisz wiadomość" aria-label="Recipient's username" aria-describedby="button-addon2">
                 <button class="btn btn-outline-primary" type="button" id="sendButton">Wyślij</button>
             </div>
         </div>
 
+        @* User List Part *@
         <div class="col-md-4 col-lg-3">
             <div class="card mb-sm-3 mb-md-0 contacts_card" id="usersHolder">
-
-
                 <div class="card-header text-center" id="cardHeaderHolder">
                     <div class="row ">
                         @*<div class="col-8">*@
@@ -41,7 +42,6 @@
                     </div>
                     <p>Online: <span id="online-team-members"></span></p>
                 </div>
-
                 <div id="cardBodyHolder">
                     <div class="card-body @*collapse*@ contacts_body" id="collapseUserList" style="overflow-y: scroll;height:100%">
                         <ul id="usersList" class="contacts list-unstyled">
@@ -52,9 +52,9 @@
                 </div>
             </div>
         </div>
+
     </div>
 </div>
-
 
 @section Scripts{
     <link href="~/css/chat.css" rel="stylesheet" />

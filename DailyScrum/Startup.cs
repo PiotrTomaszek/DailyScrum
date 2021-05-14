@@ -71,8 +71,6 @@ namespace DailyScrum
 
                 endpoints.MapRazorPages();
 
-                //endpoints.MapGet()
-
                 endpoints.MapHub<DailyHub>("/daily");
             });
         }

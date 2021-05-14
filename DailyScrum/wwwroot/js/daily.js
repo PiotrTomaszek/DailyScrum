@@ -32,8 +32,13 @@ connection.on("TestMethod", function (user, message) {
     document.getElementById("messagesList").appendChild(li);
 });
 
+function scrollToBottom() {
+    var scroller = document.getElementById('chatHolder');
 
+    scroller.scrollTop = scroller.scrollHeight - scroller.clientHeight
+}
 
+// to jest ok ale do refactor
 connection.on("ShowSentMessage", function (user, message, date) {
     var li = document.createElement("li");
 
@@ -46,8 +51,10 @@ connection.on("ShowSentMessage", function (user, message, date) {
     li.classList.add('chat-right');
 
     document.getElementById("messagesList").appendChild(li);
-});
 
+    scrollToBottom();
+
+});
 
 connection.on("SendMessageToGroup", function (user, message, date) {
     var li = document.createElement("li");
@@ -64,6 +71,8 @@ connection.on("SendMessageToGroup", function (user, message, date) {
     li.classList.add('chat-left');
 
     document.getElementById("messagesList").appendChild(li);
+
+    scrollToBottom();
 });
 
 
@@ -121,12 +130,4 @@ connection.on("DisplayTeamName", function (teamname) {
 //    li.classList.add("text-center");
 //    li.style.fontWeight = "bold";
 //    document.getElementById("messagesList").appendChild(li);
-//});
-
-//connection.on("GetAllUsersStatus", function (userId, online) {
-//    debugger;
-//    if (online) {
-//        var element = document.getElementById(`${userId}-icon`);
-//        element.classList.remove("offline");
-//    }
 //});
