@@ -32,6 +32,16 @@ connection.on("TestMethod", function (user, message) {
     document.getElementById("messagesList").appendChild(li);
 });
 
+connection.on("SendDailyPost", function (cos) {
+    debugger;
+
+    var a = cos;
+
+
+});
+
+
+
 function scrollToBottom() {
     var scroller = document.getElementById('chatHolder');
 
