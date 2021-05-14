@@ -3,15 +3,72 @@
 }
 
 <div class="container-fluid">
+
     @* Daily Part *@
     <div class="row">
-        <div id="dailyHolder" style="width:100%;background-color:bisque;" >
-            
+        <div class="container">
+            <div id="dailyHolder" style="width:100%;background-color:bisque; overflow-y:scroll;">
+                <div style="height:15%;background-color:white">
+                    <div class="container">
+                        <div class="row text-center">
+                            <div class="col-4">
+                                <h1>#Daily</h1>
+                            </div>
+                            <div class="col-5 text-left">
+                                <h6>Czas rozpoczęcia: <span id="starting-time"></span></h6>
+                                <h6>Pozostały czas: <span id="timer"></span></h6>
+                            </div>
+
+                            <div class="col-3 align-self-sm-center">
+
+                                <button class="btn align-content-center mt-1 dropdown-toggle" type="button" id="dailyDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="fas fa-ellipsis-h"></i>
+                                </button>
+
+                                <div class="dropdown-menu" aria-labelledby="dailyDropdown">
+                                    <a class="dropdown-item text-center" id="modalHolder" data-toggle="modal" data-target="#exampleModal">Doday post</a>
+                                    @*<button type="button" class="btn btn-primary" >
+                                        Doday post
+                                    </button>*@
+                                </div>
+
+                                <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLabel">Daily post</h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                tutaj inputy
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Anuluj</button>
+                                                <button type="button" class="btn btn-primary">Akceptuj</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <ul class="list-unstyled">
+                    <li>
+
+                    </li>
+                </ul>
+            </div>
         </div>
     </div>
 
     <div class="row">
-        
+
         @* Chat Part *@
         <div class="col-md-8 col-lg-9">
             <div>
@@ -30,8 +87,8 @@
         <div class="col-md-4 col-lg-3">
             <div class="card mb-sm-3 mb-md-0 contacts_card" id="usersHolder">
                 <div class="card-header text-center" id="cardHeaderHolder">
-                    <div class="row ">
-                        @*<div class="col-8">*@
+                    <div class="row">
+
                         <h5 id="team-name"></h5>
                         @*</div>*@
                         @*<div class="col-4">
@@ -62,4 +119,5 @@
     <script src="~/js/signalr/dist/browser/signalr.min.js"></script>
     <script src="~/js/daily.js"></script>
     <script src="~/js/windowSizeCalculator.js"></script>
+
 }

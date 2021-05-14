@@ -24,7 +24,8 @@ namespace DailyScrum.Hubs
                     UsersList = teamMates,
                     TeamMemberCount = teamMates.Count(),
                     UsersOnline = Enumerable.Repeat(false, teamMates.Count()).ToList(),
-                    Messages = new List<MessageViewModel>()
+                    Messages = new List<MessageViewModel>(),
+                    DailyPosts = new List<DailyPostViewModel>()
                 };
 
                 _connectedTeams.Add(DbUser.TeamMember.Name, teamModel);
