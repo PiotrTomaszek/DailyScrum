@@ -3,12 +3,68 @@
 }
 
 <div class="container-fluid">
-
     <div class="row">
+        <div id="dailyHolder"></div>
+    </div>
+
+    <div class="row" style="height:300px">
 
         <div class="col-md-8 col-lg-9">
-            <div style="overflow-y:auto;background-color:ghostwhite" id="chatHolder">
-                <ul class="list-unstyled" id="messagesList"></ul>
+            <div>
+                @*<div id="chatHolder">*@
+                @*<ul class="list-unstyled" id="messagesList">*@
+                <div class="chat-container" id="chatHolder" style="overflow-y: scroll; background-color: ghostwhite">
+                    <ul class="chat-box chatContainerScroll">
+                        <li class="chat-left">
+                            <div class="chat-avatar">
+                                <img src="https://www.bootdey.com/img/Content/avatar/avatar3.png" alt="Retail Admin">
+                                <div class="chat-name">Russell</div>
+                            </div>
+                            <div class="chat-text">
+                                Hello, I'm Russell.
+                                <br>How can I help you today?
+                            </div>
+                            <div class="chat-hour">08:55 <span class="fa fa-check-circle"></span></div>
+                        </li>
+                        <li class="chat-right">
+                            <div class="chat-hour">08:56 <span class="fa fa-check-circle"></span></div>
+                            <div class="chat-text">
+                                Hi, Russell
+                                <br> I need more information about Developer Plan.
+                            </div>
+                            <div class="chat-avatar">
+                                <img src="https://www.bootdey.com/img/Content/avatar/avatar3.png" alt="Retail Admin">
+                                <div class="chat-name">Sam</div>
+                            </div>
+                        </li>
+                        <li class="chat-left">
+                            <div class="chat-avatar">
+                                <img src="https://www.bootdey.com/img/Content/avatar/avatar3.png" alt="Retail Admin">
+                                <div class="chat-name">Russell</div>
+                            </div>
+                            <div class="chat-text">
+                                Are we meeting today?
+                                <br>Project has been already finished and I have results to show you.
+                            </div>
+                            <div class="chat-hour">08:57 <span class="fa fa-check-circle"></span></div>
+                        </li>
+                        <li class="chat-right">
+                            <div class="chat-hour">08:59 <span class="fa fa-check-circle"></span></div>
+                            <div class="chat-text">
+                                Well I am not sure.
+                                <br>I have results to show you.
+                            </div>
+                            <div class="chat-avatar">
+                                <img src="https://www.bootdey.com/img/Content/avatar/avatar5.png" alt="Retail Admin">
+                                <div class="chat-name">Joyse</div>
+                            </div>
+                        </li>
+
+                    </ul>
+                </div>
+
+                @*</ul>*@
+                @*</div>*@
             </div>
 
             <div class="input-group mb-3">
@@ -19,41 +75,38 @@
 
         <div class="col-md-4 col-lg-3">
             <div class="card mb-sm-3 mb-md-0 contacts_card">
-                <div class="card-header text-left">
-                    <h5 id="team-name"></h5>
-                    <h6>Aktywni uczestnicy: <span id="online-team-members"></span></h6>
+
+
+                <div class="card-header text-center">
+                    <div class="row ">
+                        <div class="col-8">
+                            <h5 id="team-name"></h5>
+                        </div>
+                        @*<div class="col-4">
+                                <button class="btn" type="button" data-toggle="collapse" data-target="#collapseUserList" aria-expanded="false" aria-controls="collapseExample">
+                                    <i class="fas fa-ellipsis-h"></i>
+                                </button>
+                            </div>*@
+                    </div>
+                    <p>Online: <span id="online-team-members"></span></p>
                 </div>
-                <div class="card-body contacts_body">
+
+                <div class="card-body @*collapse*@ contacts_body" id="collapseUserList">
                     <ul id="usersList" class="contacts list-unstyled">
                         <li>
-                            <!--<div class="d-flex">
-                                <div class="img_cont">
-                                    <img src="https://static.turbosquid.com/Preview/001292/481/WV/_D.jpg" class="rounded-circle user_img">
-                                    <span class="online_icon offline"></span>
-                                </div>
-                                <div class="user_info">
-                                    <span>Rashid Samim</span>
-                                    <p>-->@*Rashid left 50 mins ago*@<!--</p>
-                                </div>
-                            </div>-->
                         </li>
                     </ul>
                 </div>
             </div>
-
-            @*<ul id="usersList" class="list-unstyled">
-                <li>dadad</li>
-            </ul>*@
-            @*<div class="container">
-                <div class="col-md-12">*@
-            @*<div id="usersList" class="list-unstyled">*@
         </div>
     </div>
 </div>
 
 
 @section Scripts{
+    <link href="~/css/chat.css" rel="stylesheet" />
+
     <script src="~/js/signalr/dist/browser/signalr.min.js"></script>
     <script src="~/js/daily.js"></script>
-    @*<script src="~/js/windowSizeCalculator.js"></script>*@
+    <script src="~/js/windowSizeCalculator.js"></script>
 }

@@ -5,9 +5,15 @@ $(document).ready(function () {
 window.onresize = ResizeContentContainer;
 
 function ResizeContentContainer() {
-  var windowHeight = $(window).height();
-  var navbarHeight = document.getElementById('navbarHolder').clientHeight;
+    var windowHeight = $(window).height();
+    var navbarHeight = document.getElementById('navbarHolder').clientHeight;
+    var footerHeight = document.getElementById('footerHolder').clientHeight;
   //console.log(windowHeight);
-  //console.log(navbarHeight);
-  $("#chatHolder").innerHeight(((windowHeight - navbarHeight) / 2) + "px");
+    //console.log(navbarHeight);
+    var calculate = ((windowHeight - (navbarHeight + footerHeight + 10)));
+    console.log("height = " + (calculate / 2))
+    $("#dailyHolder").innerHeight((calculate / 2) + "px");
+    /*$("#chatHolder").innerHeight((calculate / 2) + "px");*/
+    var el = document.getElementById('chatHolder');
+    el.style.height = (calculate / 2.8) + "px";
 }
