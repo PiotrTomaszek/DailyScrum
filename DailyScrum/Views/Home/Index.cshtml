@@ -7,64 +7,15 @@
         <div id="dailyHolder"></div>
     </div>
 
-    <div class="row" style="height:300px">
+    <div class="row">
 
         <div class="col-md-8 col-lg-9">
             <div>
-                @*<div id="chatHolder">*@
-                @*<ul class="list-unstyled" id="messagesList">*@
-                <div class="chat-container" id="chatHolder" style="overflow-y: scroll; background-color: ghostwhite">
-                    <ul class="chat-box chatContainerScroll">
-                        <li class="chat-left">
-                            <div class="chat-avatar">
-                                <img src="https://www.bootdey.com/img/Content/avatar/avatar3.png" alt="Retail Admin">
-                                <div class="chat-name">Russell</div>
-                            </div>
-                            <div class="chat-text">
-                                Hello, I'm Russell.
-                                <br>How can I help you today?
-                            </div>
-                            <div class="chat-hour">08:55 <span class="fa fa-check-circle"></span></div>
-                        </li>
-                        <li class="chat-right">
-                            <div class="chat-hour">08:56 <span class="fa fa-check-circle"></span></div>
-                            <div class="chat-text">
-                                Hi, Russell
-                                <br> I need more information about Developer Plan.
-                            </div>
-                            <div class="chat-avatar">
-                                <img src="https://www.bootdey.com/img/Content/avatar/avatar3.png" alt="Retail Admin">
-                                <div class="chat-name">Sam</div>
-                            </div>
-                        </li>
-                        <li class="chat-left">
-                            <div class="chat-avatar">
-                                <img src="https://www.bootdey.com/img/Content/avatar/avatar3.png" alt="Retail Admin">
-                                <div class="chat-name">Russell</div>
-                            </div>
-                            <div class="chat-text">
-                                Are we meeting today?
-                                <br>Project has been already finished and I have results to show you.
-                            </div>
-                            <div class="chat-hour">08:57 <span class="fa fa-check-circle"></span></div>
-                        </li>
-                        <li class="chat-right">
-                            <div class="chat-hour">08:59 <span class="fa fa-check-circle"></span></div>
-                            <div class="chat-text">
-                                Well I am not sure.
-                                <br>I have results to show you.
-                            </div>
-                            <div class="chat-avatar">
-                                <img src="https://www.bootdey.com/img/Content/avatar/avatar5.png" alt="Retail Admin">
-                                <div class="chat-name">Joyse</div>
-                            </div>
-                        </li>
 
+                <div class="chat-container" id="chatHolder" style="overflow-y:scroll;">
+                    <ul class="chat-box chatContainerScroll list-unstyled" id="messagesList">
                     </ul>
                 </div>
-
-                @*</ul>*@
-                @*</div>*@
             </div>
 
             <div class="input-group mb-3">
@@ -74,14 +25,14 @@
         </div>
 
         <div class="col-md-4 col-lg-3">
-            <div class="card mb-sm-3 mb-md-0 contacts_card">
+            <div class="card mb-sm-3 mb-md-0 contacts_card" id="usersHolder">
 
 
-                <div class="card-header text-center">
+                <div class="card-header text-center" id="cardHeaderHolder">
                     <div class="row ">
-                        <div class="col-8">
-                            <h5 id="team-name"></h5>
-                        </div>
+                        @*<div class="col-8">*@
+                        <h5 id="team-name"></h5>
+                        @*</div>*@
                         @*<div class="col-4">
                                 <button class="btn" type="button" data-toggle="collapse" data-target="#collapseUserList" aria-expanded="false" aria-controls="collapseExample">
                                     <i class="fas fa-ellipsis-h"></i>
@@ -91,11 +42,13 @@
                     <p>Online: <span id="online-team-members"></span></p>
                 </div>
 
-                <div class="card-body @*collapse*@ contacts_body" id="collapseUserList">
-                    <ul id="usersList" class="contacts list-unstyled">
-                        <li>
-                        </li>
-                    </ul>
+                <div id="cardBodyHolder">
+                    <div class="card-body @*collapse*@ contacts_body" id="collapseUserList" style="overflow-y: scroll;height:100%">
+                        <ul id="usersList" class="contacts list-unstyled">
+                            <li>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>

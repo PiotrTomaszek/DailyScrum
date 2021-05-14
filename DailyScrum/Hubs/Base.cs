@@ -60,6 +60,11 @@ namespace DailyScrum.Hubs
             await GetAllUsersStatus();
             await SetUserStatus(true);
 
+
+
+
+            await GetAllMessages();
+
             return base.OnConnectedAsync();
         }
 
@@ -72,12 +77,6 @@ namespace DailyScrum.Hubs
             _connectedUsers.Remove(Context.ConnectionId);
 
             return base.OnDisconnectedAsync(exception);
-        }
-
-
-        public async Task SendMessage(string message)
-        {
-            await Clients.Group("DEV1").SendAsync("TestMethod", this.Context.User.Identity.Name, message);
         }
     }
 }

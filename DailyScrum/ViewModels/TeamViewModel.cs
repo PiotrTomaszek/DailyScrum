@@ -10,5 +10,7 @@ namespace DailyScrum.ViewModels
 
         public List<bool> UsersOnline { get; set; }
         public List<ApplicationUser> UsersList { get; set; }
+
+        public List<MessageViewModel> Messages { get; set; }
     }
 }

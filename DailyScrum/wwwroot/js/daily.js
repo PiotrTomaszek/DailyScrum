@@ -34,8 +34,37 @@ connection.on("TestMethod", function (user, message) {
 
 
 
+connection.on("ShowSentMessage", function (user, message, date) {
+    var li = document.createElement("li");
+
+    li.innerHTML = ` <div class="chat-hour">${date}</div>
+                            <div class="chat-text" style="background-color: grey">
+                                ${message}
+                            </div>
+                            <div class="chat-avatar">`
+
+    li.classList.add('chat-right');
+
+    document.getElementById("messagesList").appendChild(li);
+});
 
 
+connection.on("SendMessageToGroup", function (user, message, date) {
+    var li = document.createElement("li");
+
+    li.innerHTML = `<div class="chat-avatar">
+                                <img src="/avatars/testphoto.jpg" alt="${user}">
+                                <div class="chat-name">${user}</div>
+                            </div>
+                            <div class="chat-text" style="background-color: coral">
+                                ${message}
+                            </div>
+                            <div class="chat-hour">${date}</div>`;
+
+    li.classList.add('chat-left');
+
+    document.getElementById("messagesList").appendChild(li);
+});
 
 
 // to jest ok

@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -22,7 +23,8 @@ namespace DailyScrum.Hubs
                 {
                     UsersList = teamMates,
                     TeamMemberCount = teamMates.Count(),
-                    UsersOnline = Enumerable.Repeat(false, teamMates.Count()).ToList()
+                    UsersOnline = Enumerable.Repeat(false, teamMates.Count()).ToList(),
+                    Messages = new List<MessageViewModel>()
                 };
 
                 _connectedTeams.Add(DbUser.TeamMember.Name, teamModel);
