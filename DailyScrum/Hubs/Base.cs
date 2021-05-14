@@ -32,10 +32,12 @@ namespace DailyScrum.Hubs
             return user;
         }
 
+
         public DailyHub(DailyScrumContext dbContext)
         {
             _dbContext = dbContext;
         }
+
 
         public override async Task<Task> OnConnectedAsync()
         {

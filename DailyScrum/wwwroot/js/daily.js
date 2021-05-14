@@ -32,6 +32,9 @@ connection.on("TestMethod", function (user, message) {
     document.getElementById("messagesList").appendChild(li);
 });
 
+
+
+
 connection.on("SendDailyPost", function (name, yesterday, today, problem, time, id) {
     debugger;
     var place = document.getElementById('dailyPostPlace');
@@ -68,11 +71,6 @@ connection.on("SendDailyPost", function (name, yesterday, today, problem, time, 
 
 
 
-function scrollToBottom() {
-    var scroller = document.getElementById('chatHolder');
-
-    scroller.scrollTop = scroller.scrollHeight - scroller.clientHeight
-}
 
 // to jest ok ale do refactor
 connection.on("ShowSentMessage", function (user, message, date) {
@@ -110,6 +108,12 @@ connection.on("SendMessageToGroup", function (user, message, date) {
 
     scrollToBottom();
 });
+
+function scrollToBottom() {
+    var scroller = document.getElementById('chatHolder');
+
+    scroller.scrollTop = scroller.scrollHeight - scroller.clientHeight
+}
 
 
 // to jest ok
@@ -157,13 +161,3 @@ connection.on("DisplayTeamName", function (teamname) {
     var element = document.getElementById('team-name');
     element.innerHTML = `${teamname}`
 });
-
-
-//connection.on("NotifyJoinedUser", function (user) {
-//    var encodedMessage = user + " dolaczyl do spotkania.";
-//    var li = document.createElement("li");
-//    li.textContent = encodedMessage;
-//    li.classList.add("text-center");
-//    li.style.fontWeight = "bold";
-//    document.getElementById("messagesList").appendChild(li);
-//});

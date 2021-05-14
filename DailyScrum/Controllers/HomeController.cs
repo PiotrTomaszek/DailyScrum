@@ -26,6 +26,14 @@ namespace DailyScrum.Controllers
             return View();
         }
 
+        [Authorize]
+        public IActionResult Chat()
+        {
+            return View();
+        }
+
+
+
         public IActionResult Privacy()
         {
             return View();
