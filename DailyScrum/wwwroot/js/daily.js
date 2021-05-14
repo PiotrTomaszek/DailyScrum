@@ -2,7 +2,6 @@
 
 var connection = new signalR.HubConnectionBuilder().withUrl("/daily").build();
 
-document.getElementById('submitDailyPost').disabled = true;
 
 connection.start().then(function () {
     /*document.getElementById("sendButton").disabled = false;*/
@@ -23,12 +22,11 @@ connection.on("TestMethod", function (user, message) {
 });
 
 connection.on("EnableSubmitPostButton", function () {
-    debugger;
     var element = document.getElementById('submitDailyPost');
     element.disabled = false;
 });
 
-connection.on("SendDailyPost", function (name, yesterday, today, problem, time, id) {
+connection.on("SendDailyPost", function (name, yesterday, today, problem, time, id, photopath) {
     var place = document.getElementById('dailyPostPlace');
 
     var newDiv = document.createElement('div');
@@ -38,10 +36,12 @@ connection.on("SendDailyPost", function (name, yesterday, today, problem, time, 
     newDiv.classList.add('px-3');
     newDiv.classList.add('rounded');
     newDiv.classList.add('mb-1');
+    newDiv.classList.add('border');
+    newDiv.classList.add('border-dark');
 
     newDiv.innerHTML = `<div class="row">
                         <div class="col-2 col-md-1 pt-3">
-                            <img src="/avatars/testphoto.jpg" alt="" class="rounded-circle border border-dark" style="width:40px;height:40px" />
+                            <img src="/avatars/${photopath}" alt="" class="rounded-circle border border-dark" style="width:40px;height:40px" />
                         </div>
                         <div class="col-8 col-md-9 text-left">
                             <p class="mt-2">${time}</p>

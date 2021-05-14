@@ -24,7 +24,6 @@ namespace DailyScrum.Hubs
                     await Clients.Caller.SendAsync("EnableSubmitPostButton");
                 }
             }
-
         }
 
         public async Task GetAllPosts()
@@ -37,7 +36,7 @@ namespace DailyScrum.Hubs
                 {
                     var person = teamModel.UsersList.Where(x => x.Id == item.FromUser).FirstOrDefault();
 
-                    await Clients.Caller.SendAsync("SendDailyPost", $"{person.LastName} {person.FirstName}", item.FirstQuestion, item.SecondQuestion, item.ThirdQuestion, item.Date.ToShortTimeString(), item.FromUser);
+                    await Clients.Caller.SendAsync("SendDailyPost", $"{person.LastName} {person.FirstName}", item.FirstQuestion, item.SecondQuestion, item.ThirdQuestion, item.Date.ToShortTimeString(), item.FromUser, person.PhotoPath ?? "no-avatar.jpg");
                 }
             }
         }
@@ -63,7 +62,7 @@ namespace DailyScrum.Hubs
                 teamModel.DailyPosts.Add(newDailyPost);
             }
 
-            await Clients.Group(DbUser.TeamMember.Name).SendAsync("SendDailyPost", UserFullName, yesterday, today, problem, time, DbUser.Id);
+            await Clients.Group(DbUser.TeamMember.Name).SendAsync("SendDailyPost", UserFullName, yesterday, today, problem, time, DbUser.Id, DbUser.PhotoPath ?? "no-avatar.jpg");
         }
     }
 }

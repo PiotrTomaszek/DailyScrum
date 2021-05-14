@@ -29,100 +29,21 @@
                     </div>
                 </div>
             </div>
-            <div id="dailyHolder" style="width:100%;background-color:bisque; overflow-y:scroll;">
+            <div id="dailyHolder" style="width:100%;background-color:transparent; overflow-y:scroll;">
 
-                <div style="height:100%;@*overflow-y:scroll;*@">
+                <div>
+                    @*overflow-y:scroll;*@
+                    @* height:100% *@
                     <div class="container mt-5 mb-5">
                         <div class="row mt-1">
                             <div class="col-md-12 offset-lg-2 col-lg-8" id="dailyPostPlace">
-                                <!--<div class="p-card bg-white p-2 rounded px-3 mb-1">
-                                    <div class="row">
-                                        <div class="col-2 col-md-1 pt-3">
-                                            <img src="@Url.Content("~/avatars/testphoto.jpg")" alt="" class="rounded-circle border border-dark" style="width:40px;height:40px" />
-                                        </div>
-                                        <div class="col-8 col-md-9 text-left">
-                                            <p>Czas</p>
-                                            <h5>ktos dodal post</h5>
-                                        </div>
-                                        <div class="col-2 col-md-2">
-                                            <button class="btn text-center" type="button" data-toggle="collapse" data-target="#collapseUserTest" aria-expanded="false" aria-controls="collapseExample">
-                                                <i class="fas fa-plus"></i>
-                                            </button>
-                                        </div>
-                                    </div>-->
-
-                                    @*</div>*@
-
-
-                                <!--</div>
-
-                                <div class="p-card bg-white p-2 rounded px-3 mb-1">
-                                    <div class="row">
-                                        <div class="col-2 col-md-1 ">
-                                            <img src="@Url.Content("~/avatars/testphoto.jpg")" alt="" style="width:40px;height:40px" />
-                                        </div>
-                                        <div class="col-10 col-md-11 text-left">
-                                            <p>Czas</p>
-                                            <h6>ktos dodal post</h6>
-                                        </div>
-                                    </div>
-
-                                </div>-->
                             </div>
                         </div>
                     </div>
                 </div>
-                @*<ul class="list-unstyled">
-                        <li>
-
-                        </li>
-                    </ul>*@
             </div>
         </div>
     </div>
-
-    <!--<div class="row">-->
-    @* Chat Part *@
-    <!--<div class="col-md-8 col-lg-9">
-        <div>
-            <div class="chat-container" id="chatHolder" style="overflow-y:scroll;">
-                <ul class="chat-box chatContainerScroll list-unstyled" id="messagesList">
-                </ul>
-            </div>
-        </div>
-        <div class="input-group mb-3">
-            <input type="text" id="messageInput" class="form-control" placeholder="Napisz wiadomość" aria-label="Recipient's username" aria-describedby="button-addon2">
-            <button class="btn btn-outline-primary" type="button" id="sendButton">Wyślij</button>
-        </div>
-    </div>-->
-    @* User List Part *@
-    <!--<div class="col-md-4 col-lg-3">
-        <div class="card mb-sm-3 mb-md-0 contacts_card" id="usersHolder">
-            <div class="card-header text-center" id="cardHeaderHolder">
-                <div class="row">
-
-                    <h5 id="team-name"></h5>-->
-    @*</div>*@
-    @*<div class="col-4">
-            <button class="btn" type="button" data-toggle="collapse" data-target="#collapseUserList" aria-expanded="false" aria-controls="collapseExample">
-                <i class="fas fa-ellipsis-h"></i>
-            </button>
-        </div>*@
-    <!--</div>
-                    <p>Online: <span id="online-team-members"></span></p>
-                </div>
-                <div id="cardBodyHolder">
-                    <div class="card-body @*collapse*@ contacts_body" id="collapseUserList" style="overflow-y: scroll;height:100%">
-                        <ul id="usersList" class="contacts list-unstyled">
-                            <li>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-    </div>-->
 </div>
 
 
@@ -142,16 +63,16 @@
                     @* TODO *@
 
                     <h5>Co robiłeś wczoraj?</h5>
-                    <input type="text" class="d-inline" value="" id="yesterdayInput" placeholder="Task" />
+                    <input type="text" class="d-inline form-control" value="" id="yesterdayInput" placeholder="Pochwal się progresem." />
 
                     @*<input type="text" class="d-inline" value="" id="yesterdayInputNext" placeholder="Task" />*@
                     @*<button id="btn" type="button">Click Me!</button>*@
 
                     <h5 class="mt-5">Co zrobisz dzisiaj?</h5>
-                    <input type="text" class="d-inline" value="" id="todayInput" placeholder="Task" />
+                    <input type="text" class="d-inline form-control" value="" id="todayInput" placeholder="Co masz w planach?" />
 
                     <h5 class="mt-5">Widzisz jakieś przeszkody na drodzę?</h5>
-                    <input type="text" class="d-inline" value="" id="problemInput" placeholder="Task" />
+                    <input type="text" class="d-inline form-control" value="" id="problemInput" placeholder="O nieee :(" />
 
                 </form>
 
@@ -212,7 +133,10 @@
             /*})();*/
         </script>
     *@
+    <script>
+        document.getElementById('submitDailyPost').disabled = true;
 
+    </script>
     <script>
         var element = document.getElementById('submitDailyPost');
         element.addEventListener('click', function () {

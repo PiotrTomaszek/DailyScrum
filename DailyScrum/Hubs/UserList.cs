@@ -48,7 +48,6 @@ namespace DailyScrum.Hubs
             await UpdateUserList(DbUser.TeamMember.Name);
         }
 
-
         private async Task GetAllUsersStatus()
         {
             _connectedTeams.TryGetValue(DbUser.TeamMember.Name, out var model);
@@ -87,7 +86,6 @@ namespace DailyScrum.Hubs
             await Clients.Group(DbUser.TeamMember.Name).SendAsync("SetUserStatus", DbUser.Id, isOnline);
         }
 
-
         private async Task GenerateUserList()
         {
             _connectedTeams.TryGetValue(DbUser.TeamMember.Name, out var model);
@@ -105,7 +103,6 @@ namespace DailyScrum.Hubs
             //await Clients.OthersInGroup(teamName).SendAsync("UpdateUserList", model.ConnectedUsersCount, model.TeamMemberCount);
             await Clients.Group(teamName).SendAsync("UpdateUserList", model.ConnectedUsersCount, model.TeamMemberCount);
         }
-
 
         public async Task GenerateConnectedUsers(string teamName)
         {
