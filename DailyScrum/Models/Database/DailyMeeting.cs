@@ -11,7 +11,6 @@ namespace DailyScrum.Models.Database
         public Team Team { get; set; }
         public DateTime Date { get; set; }
 
-        public IEnumerable<ScrumTask> Tasks { get; set; }
         public IEnumerable<Message> Messages { get; set; }
         public IEnumerable<Problem> Problems { get; set; }
     }

@@ -25,7 +25,9 @@ namespace DailyScrum.Hubs
             .FirstOrDefault().Value;
         private ApplicationUser GetUser()
         {
-            var user = _dbContext.Users.Include(a => a.TeamMember)
+            var user = _dbContext.Users
+                .Include(a => a.TeamMember)
+                .Include(ro => ro.TeamRole)
                 .Where(x => x.UserName == SignalRIdentityName)
                 .FirstOrDefault();
 
