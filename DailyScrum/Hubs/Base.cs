@@ -66,6 +66,9 @@ namespace DailyScrum.Hubs
             await GetAllPosts();
             await EnableSubmitButton();
 
+            await TimeStuff();
+            //SetUpTimer(new TimeSpan(11, 23, 00));
+
             return base.OnConnectedAsync();
         }
 

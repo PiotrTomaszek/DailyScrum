@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -25,7 +26,8 @@ namespace DailyScrum.Hubs
                     TeamMemberCount = teamMates.Count(),
                     UsersOnline = Enumerable.Repeat(false, teamMates.Count()).ToList(),
                     Messages = new List<MessageViewModel>(),
-                    DailyPosts = new List<DailyPostViewModel>()
+                    DailyPosts = new List<DailyPostViewModel>(),
+                    MeetingStartingTime = new TimeSpan(11, 40, 00)
                 };
 
                 _connectedTeams.Add(DbUser.TeamMember.Name, teamModel);

@@ -11,7 +11,10 @@ connection.start().then(function () {
 
 /*document.getElementById("sendButton").disabled = true;*/
 
-
+connection.on("DisplayTime", function (time) {
+    var element = document.getElementById('starting-time');
+    element.innerHTML = time;
+})
 
 connection.on("TestMethod", function (user, message) {
     var msg = message.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
@@ -21,6 +24,8 @@ connection.on("TestMethod", function (user, message) {
     document.getElementById("messagesList").appendChild(li);
 });
 
+
+// nie do konca spoko ale narazie dziala
 connection.on("EnableSubmitPostButton", function () {
     var element = document.getElementById('submitDailyPost');
     element.disabled = false;
@@ -85,8 +90,6 @@ connection.on("SendDailyPost", function (name, yesterday, today, problem, time, 
 
     place.appendChild(newDiv)
 });
-
-
 
 
 // to jest ok ale do refactor

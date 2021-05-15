@@ -24,7 +24,10 @@
                         </button>
 
                         <div class="dropdown-menu" aria-labelledby="dailyDropdown">
+
                             <a class="dropdown-item text-center" id="modalHolder" data-toggle="modal" data-target="#exampleModal">Dodaj post</a>
+                            @*<a class="dropdown-item text-center" id="startMeetingHolder" data-toggle="modal" data-target="#startMeetingModal">Rozpocznij spotkanie</a>*@
+
                         </div>
                     </div>
                 </div>
@@ -46,44 +49,9 @@
     </div>
 </div>
 
+<partial name="_ModalStartMeetingPartial" />
 
-
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header ">
-                <h4 class="modal-title w-100 text-center" id="exampleModalLabel">Daily post</h4>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body w-100 text-center">
-                <form method="post" id="newDailyPostForm">
-
-                    @* TODO *@
-
-                    <h5>Co robiłeś wczoraj?</h5>
-                    <input type="text" class="d-inline form-control" value="" id="yesterdayInput" placeholder="Pochwal się progresem." />
-
-                    @*<input type="text" class="d-inline" value="" id="yesterdayInputNext" placeholder="Task" />*@
-                    @*<button id="btn" type="button">Click Me!</button>*@
-
-                    <h5 class="mt-5">Co zrobisz dzisiaj?</h5>
-                    <input type="text" class="d-inline form-control" value="" id="todayInput" placeholder="Co masz w planach?" />
-
-                    <h5 class="mt-5">Widzisz jakieś przeszkody na drodzę?</h5>
-                    <input type="text" class="d-inline form-control" value="" id="problemInput" placeholder="O nieee :(" />
-
-                </form>
-
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Anuluj</button>
-                <button type="button" class="btn btn-outline-primary" id="submitDailyPost">Akceptuj</button>
-            </div>
-        </div>
-    </div>
-</div>
+<partial name="_ModalNewPostPartial" />
 
 
 @section Scripts{
@@ -92,6 +60,10 @@
     <script src="~/js/signalr/dist/browser/signalr.min.js"></script>
     <script src="~/js/daily.js"></script>
     <script src="~/js/meetingWindowResizer.js"></script>
+
+    
+
+    <!-- #region patola -->
     @*<script src="~/js/windowSizeCalculator.js"></script>*@
 
 
@@ -133,10 +105,14 @@
             /*})();*/
         </script>
     *@
+
+
+    <!-- #endregion -->
+
     <script>
         document.getElementById('submitDailyPost').disabled = true;
-
     </script>
+
     <script>
         var element = document.getElementById('submitDailyPost');
         element.addEventListener('click', function () {
@@ -157,4 +133,7 @@
             element.disabled = true;
         }
     </script>
+
+@* nie dziaa :( *@
+    @*<script src="~/js/countdownTimer.js"></script>*@
 }
