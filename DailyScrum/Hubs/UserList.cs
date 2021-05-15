@@ -18,6 +18,7 @@ namespace DailyScrum.Hubs
             {
                 var teamMates = await _dbContext.Users
                     .Include(x => x.TeamMember)
+                    .Include(r => r.TeamRole)
                     .Where(a => a.TeamMember.Name.Equals(DbUser.TeamMember.Name)).OrderBy(order => order.LastName).ToListAsync();
 
                 var teamModel = new TeamViewModel
@@ -96,7 +97,7 @@ namespace DailyScrum.Hubs
             {
                 var photo = item.PhotoPath == null ? "no-avatar.jpg" : item.PhotoPath;
 
-                await Clients.Caller.SendAsync("UserConnected", $"{item.FirstName} {item.LastName}", item.Email, item.Id, photo);
+                await Clients.Caller.SendAsync("UserConnected", $"{item.FirstName} {item.LastName}", item.Email, item.Id, photo, item.TeamRole?.Name);
             }
         }
         public async Task UpdateUserList(string teamName)

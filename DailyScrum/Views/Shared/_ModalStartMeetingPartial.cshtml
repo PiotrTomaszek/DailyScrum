@@ -1,4 +1,4 @@
-﻿<div class="modal fade" id="startMeetingModal" tabindex="-1" role="dialog" aria-labelledby="startMeetingModal" aria-hidden="true">
+﻿<div class="modal fade " id="startMeetingModal" tabindex="-1" role="dialog" aria-labelledby="startMeetingModal" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header ">
@@ -8,9 +8,18 @@
                 </button>
             </div>
             <div class="modal-body w-100 text-center">
-                <form method="post" id="newDailyPostForm">
-                </form>
 
+                <h5>Czy na pewno chcesz rozpocząć spotkanie?</h5>
+
+                <p>Liczba osób aktualnie zalogowanych: <span id="online-team-members"></span></p>
+                <div id="cardBodyHolder">
+                    <div class="card-body @*collapse*@ contacts_body align-items-center" id="collapseUserList" style="overflow-y: scroll;height:100%">
+                        <ul id="usersList" class="contacts list-unstyled">
+                            <li>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Anuluj</button>

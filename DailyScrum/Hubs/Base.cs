@@ -68,6 +68,9 @@ namespace DailyScrum.Hubs
             await GetAllPosts();
             await EnableSubmitButton();
 
+
+            await AddScrumMasterOptions();
+
             await TimeStuff();
             //SetUpTimer(new TimeSpan(11, 23, 00));
 

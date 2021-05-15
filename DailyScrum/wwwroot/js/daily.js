@@ -11,6 +11,21 @@ connection.start().then(function () {
 
 /*document.getElementById("sendButton").disabled = true;*/
 
+connection.on("EnableScrumMasterOptions", function () {
+    var divContainer = document.getElementById('dropdownDailyOptions');
+
+    var smOption = document.createElement('a');
+    smOption.classList.add('dropdown-item');
+    smOption.classList.add('text-center');
+    smOption.id = 'startMeetingHolder';
+    smOption.dataset.toggle = 'modal';
+    smOption.dataset.target = '#startMeetingModal';
+    smOption.innerHTML = "Rozpocznij spotkanie";
+
+    divContainer.appendChild(smOption);
+});
+
+
 connection.on("DisplayTime", function (time) {
     var element = document.getElementById('starting-time');
     element.innerHTML = time;
@@ -148,7 +163,7 @@ connection.on("SetUserStatus", function (userId, isOnline) {
     }
 });
 
-connection.on("UserConnected", function (name, email, id, photoPath) {
+connection.on("UserConnected", function (name, email, id, photoPath, role) {
     var li = document.createElement("li");
 
     var newElement = `<div class="d-flex">
@@ -158,7 +173,7 @@ connection.on("UserConnected", function (name, email, id, photoPath) {
                             </div>
                             <div class="user_info">
                                 <span>${name}</span>
-                                <p></p>
+                                <p>${role}</p>
                             </div>
                          </div>`
 

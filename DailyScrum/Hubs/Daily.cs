@@ -26,6 +26,14 @@ namespace DailyScrum.Hubs
             }
         }
 
+        public async Task AddScrumMasterOptions()
+        {
+            if (DbUser.TeamRole.RoleId == 1)
+            {
+                await Clients.Caller.SendAsync("EnableScrumMasterOptions");
+            }
+        }
+
         public async Task GetAllPosts()
         {
             _connectedTeams.TryGetValue(DbUser.TeamMember.Name, out var teamModel);
