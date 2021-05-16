@@ -26,11 +26,20 @@ namespace DailyScrum.Hubs
             }
         }
 
-        public async Task AddScrumMasterOptions()
+        public async Task StartDailyMeeting()
+        {
+
+        }
+
+        public async Task AddDailyOptions()
         {
             if (DbUser.TeamRole.RoleId == 1)
             {
-                await Clients.Caller.SendAsync("EnableScrumMasterOptions");
+                await Clients.Caller.SendAsync("GenScrumMasterOptions");
+            }
+            else
+            {
+                await Clients.Caller.SendAsync("GenDevOptions");
             }
         }
 

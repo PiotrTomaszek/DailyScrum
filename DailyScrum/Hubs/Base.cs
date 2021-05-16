@@ -69,7 +69,7 @@ namespace DailyScrum.Hubs
             await EnableSubmitButton();
 
 
-            await AddScrumMasterOptions();
+            await AddDailyOptions();
 
             await TimeStuff();
             //SetUpTimer(new TimeSpan(11, 23, 00));

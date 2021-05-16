@@ -11,7 +11,31 @@ connection.start().then(function () {
 
 /*document.getElementById("sendButton").disabled = true;*/
 
-connection.on("EnableScrumMasterOptions", function () {
+connection.on("StartDaily", function () {
+
+
+
+});
+
+
+// chyba jest ok
+connection.on("GenDevOptions", function () {
+    var divContainer = document.getElementById('dropdownDailyOptions');
+
+    var devOption = document.createElement('a');
+    devOption.classList.add('dropdown-item');
+    devOption.classList.add('text-center');
+    devOption.id = 'modalHolder'; // do poprawy
+    devOption.dataset.toggle = 'modal';
+    devOption.dataset.target = '#exampleModal'; //do poprawys
+    devOption.innerHTML = "Dodaj post";
+
+    divContainer.appendChild(devOption);
+});
+
+
+// chyba jest ok
+connection.on("GenScrumMasterOptions", function () {
     var divContainer = document.getElementById('dropdownDailyOptions');
 
     var smOption = document.createElement('a');
@@ -23,6 +47,16 @@ connection.on("EnableScrumMasterOptions", function () {
     smOption.innerHTML = "Rozpocznij spotkanie";
 
     divContainer.appendChild(smOption);
+
+    var smOption2 = document.createElement('a');
+    smOption2.classList.add('dropdown-item');
+    smOption2.classList.add('text-center');
+    smOption2.id = ''; // do poprawy
+    smOption2.dataset.toggle = 'modal';
+    smOption2.dataset.target = ''; // do poprawy
+    smOption2.innerHTML = "Zakoncz spotkanie";
+
+    divContainer.appendChild(smOption2);
 });
 
 
