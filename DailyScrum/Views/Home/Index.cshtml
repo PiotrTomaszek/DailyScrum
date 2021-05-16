@@ -114,6 +114,23 @@
     </script>
 
     <script>
+        var element = document.getElementById('submitStartMeetingModal');
+        element.addEventListener('click', function () {
+
+            connection.invoke("StartDailyMeeting").catch(function (err) {
+                return console.error(err.toString());
+            });
+
+            disableButtonStart();
+            $('#startMeetingModal').modal('hide');
+
+        });
+        function disableButtonStart() {
+            element.disabled = true;
+        }
+    </script>
+
+    <script>
         var element = document.getElementById('submitDailyPost');
         element.addEventListener('click', function () {
 

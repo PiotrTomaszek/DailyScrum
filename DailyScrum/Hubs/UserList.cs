@@ -28,7 +28,8 @@ namespace DailyScrum.Hubs
                     UsersOnline = Enumerable.Repeat(false, teamMates.Count()).ToList(),
                     Messages = new List<MessageViewModel>(),
                     DailyPosts = new List<DailyPostViewModel>(),
-                    MeetingStartingTime = new TimeSpan(11, 40, 00)
+                    MeetingStartingTime = new TimeSpan(11, 40, 00),
+                    IsDailyStarted = false
                 };
 
                 _connectedTeams.Add(DbUser.TeamMember.Name, teamModel);

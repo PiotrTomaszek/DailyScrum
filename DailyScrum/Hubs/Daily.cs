@@ -11,6 +11,15 @@ namespace DailyScrum.Hubs
     [Authorize]
     public partial class DailyHub : Hub
     {
+        public TeamViewModel TeamModel
+        {
+            get
+            {
+                _connectedTeams.TryGetValue(DbUser.TeamMember.Name, out var teamModel);
+                return teamModel;
+            }
+        }
+
         public async Task EnableSubmitButton()
         {
             _connectedTeams.TryGetValue(DbUser.TeamMember.Name, out var teamModel);
@@ -28,7 +37,11 @@ namespace DailyScrum.Hubs
 
         public async Task StartDailyMeeting()
         {
+            var teamModel = TeamModel;
 
+            teamModel.IsDailyStarted = true;
+
+            await Clients.OthersInGroup(DbUser.TeamMember.Name).SendAsync("StartDaily");
         }
 
         public async Task AddDailyOptions()

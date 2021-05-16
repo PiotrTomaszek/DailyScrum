@@ -12,7 +12,7 @@ connection.start().then(function () {
 /*document.getElementById("sendButton").disabled = true;*/
 
 connection.on("StartDaily", function () {
-
+    alert('test');
 
 
 });
