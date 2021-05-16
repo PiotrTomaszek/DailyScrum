@@ -17,7 +17,7 @@
     @if (SignInManager.IsSignedIn(User))
     {
         <li class="nav-item dropdown">
-            <a href="#" data-toggle="dropdown" class="nav-item nav-link dropdown-toggle user-action">
+            <a href="#" data-toggle="dropdown" class="nav-item nav-link dropdown-toggle user-action text-white">
                 <img src="@Url.Content("~/avatars/" + @userPhoto) " class="rounded-circle user-image-navbar" alt="Avatar">
                 @UserManager.GetUserName(User) <b class="caret"></b>
             </a>
