@@ -17,9 +17,13 @@ connection.on("StartDaily", function () {
 
 });
 
-connection.on("EnabledOptions", function (isStarted, roleMember) {
+connection.on("EndDaily", function () {
+    alert('test');
 
-    debugger;
+
+});
+
+connection.on("EnabledOptions", function (isStarted, roleMember) {
 
     if (isStarted) {
 
@@ -185,11 +189,11 @@ connection.on("ShowSentMessage", function (user, message, date) {
 
 });
 
-connection.on("SendMessageToGroup", function (user, message, date) {
+connection.on("SendMessageToGroup", function (user, message, date, imgPath) {
     var li = document.createElement("li");
 
     li.innerHTML = `<div class="chat-avatar">
-                                <img src="/avatars/testphoto.jpg" alt="${user}">
+                                <img src="/avatars/${imgPath}" alt="${user}">
                                 <div class="chat-name">${user}</div>
                             </div>
                             <div class="chat-text" style="background-color: coral">

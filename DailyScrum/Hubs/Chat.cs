@@ -31,7 +31,7 @@ namespace DailyScrum.Hubs
 
                         var person = model.UsersList.Where(x => x.Id == item.From).FirstOrDefault();
 
-                        await Clients.Caller.SendAsync("SendMessageToGroup", $"{person.LastName} {person.FirstName}", item.Content, item.Date.ToShortTimeString());
+                        await Clients.Caller.SendAsync("SendMessageToGroup", $"{person.LastName} {person.FirstName}", item.Content, item.Date.ToShortTimeString(), person.PhotoPath);
                     }
                 }
             }
@@ -54,7 +54,7 @@ namespace DailyScrum.Hubs
                 teamModel.Messages.Add(newMessage);
             }
 
-            await Clients.OthersInGroup(DbUser.TeamMember.Name).SendAsync("SendMessageToGroup", UserFullName, message, DateTime.UtcNow.ToShortTimeString());
+            await Clients.OthersInGroup(DbUser.TeamMember.Name).SendAsync("SendMessageToGroup", UserFullName, message, DateTime.UtcNow.ToShortTimeString(),DbUser.PhotoPath);
             await Clients.Caller.SendAsync("ShowSentMessage", UserFullName, message, DateTime.UtcNow.ToShortTimeString());
 
         }

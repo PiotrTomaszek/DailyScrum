@@ -104,7 +104,6 @@ namespace DailyScrum.Hubs
         public async Task UpdateUserList(string teamName)
         {
             _connectedTeams.TryGetValue(teamName, out TeamViewModel model);
-            //await Clients.OthersInGroup(teamName).SendAsync("UpdateUserList", model.ConnectedUsersCount, model.TeamMemberCount);
             await Clients.Group(teamName).SendAsync("UpdateUserList", model.ConnectedUsersCount, model.TeamMemberCount);
         }
 
