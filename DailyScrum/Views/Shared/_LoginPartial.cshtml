@@ -28,9 +28,9 @@
 
                 <div class="divider dropdown-divider"></div>
 
-                <div class="dropdown-item">
+                <div class="dropdown-item bg-transparent">
                     <form id="logoutForm" class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("UserLogout","Home")">
-                        <button id="logout" type="submit" class="btn btn-outline-danger btn-block text-dark "><i class="fas fa-lock"></i> Wyloguj</button>
+                        <button id="logout" type="submit" class=" btn btn-outline-danger btn-block text-dark "><i class="fas fa-power-off"></i> Wyloguj</button>
                     </form>
                 </div>
             </div>
@@ -57,4 +57,5 @@
 </ul>
 
 @section Scripts{
+    <link href="~/lib/line-hover/base.min.css" rel="stylesheet" />
 }

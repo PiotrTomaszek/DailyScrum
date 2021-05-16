@@ -237,7 +237,7 @@ connection.on("UserConnected", function (name, email, id, photoPath, role) {
                             </div>
                             <div class="user_info">
                                 <span>${name}</span>
-                                <p>${role}</p>
+                                <p class="text-left">${role}</p>
                             </div>
                          </div>`
 
