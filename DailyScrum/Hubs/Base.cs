@@ -71,7 +71,9 @@ namespace DailyScrum.Hubs
 
             await AddDailyOptions();
 
-            await TimeStuff();
+            await GetDailyOptions();
+
+            //await TimeStuff();
             //SetUpTimer(new TimeSpan(11, 23, 00));
 
             return base.OnConnectedAsync();

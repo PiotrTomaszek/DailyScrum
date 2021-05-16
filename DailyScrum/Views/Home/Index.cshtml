@@ -50,7 +50,7 @@
 </div>
 
 <partial name="_ModalStartMeetingPartial" />
-
+<partial name="_ModalEndMeetingPartial" />
 <partial name="_ModalNewPostPartial" />
 
 
@@ -61,7 +61,7 @@
     <script src="~/js/daily.js"></script>
     <script src="~/js/meetingWindowResizer.js"></script>
 
-    
+
 
     <!-- #region patola -->
     @*<script src="~/js/windowSizeCalculator.js"></script>*@
@@ -114,6 +114,25 @@
     </script>
 
     <script>
+        var element = document.getElementById('submitEndMeetingModal');
+        element.addEventListener('click', function () {
+
+            debugger;
+
+            connection.invoke("EndDailyMeeting").catch(function (err) {
+                return console.error(err.toString());
+            });
+
+            disableButtonStart();
+            $('#endMeetingModal').modal('hide');
+
+        });
+        function disableButtonStart() {
+            element.disabled = true;
+        }
+    </script>
+
+    <script>
         var element = document.getElementById('submitStartMeetingModal');
         element.addEventListener('click', function () {
 
@@ -151,6 +170,6 @@
         }
     </script>
 
-@* nie dziaa :( *@
+    @* nie dziaa :( *@
     @*<script src="~/js/countdownTimer.js"></script>*@
 }

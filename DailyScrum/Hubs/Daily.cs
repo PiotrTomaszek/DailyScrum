@@ -20,6 +20,7 @@ namespace DailyScrum.Hubs
             }
         }
 
+
         public async Task EnableSubmitButton()
         {
             _connectedTeams.TryGetValue(DbUser.TeamMember.Name, out var teamModel);
@@ -35,13 +36,55 @@ namespace DailyScrum.Hubs
             }
         }
 
+        public async Task EndDailyMeeting()
+        {
+            var teamModel = TeamModel;
+
+                teamModel.IsDailyStarted = false;
+            if (!teamModel.IsDailyStarted)
+            {
+
+                foreach (var item in teamModel.UsersList)
+                {
+                    var conn = _connectedUsers.Where(x => x.Value.Id == item.Id).FirstOrDefault().Key;
+                    await SetEnabledOptions();
+                }
+
+                //await Clients.OthersInGroup(DbUser.TeamMember.Name).SendAsync("EndDaily");
+            }
+        }
+
+        public async Task GetDailyOptions()
+        {
+            var model = TeamModel;
+
+            await Clients.Caller.SendAsync("EnabledOptions", model.IsDailyStarted, DbUser.TeamRole.Name);
+        }
+
         public async Task StartDailyMeeting()
         {
             var teamModel = TeamModel;
 
-            teamModel.IsDailyStarted = true;
+            if (!teamModel.IsDailyStarted)
+            {
+                teamModel.IsDailyStarted = true;
 
-            await Clients.OthersInGroup(DbUser.TeamMember.Name).SendAsync("StartDaily");
+                await SetEnabledOptions();
+
+                await Clients.OthersInGroup(DbUser.TeamMember.Name).SendAsync("StartDaily");
+            }
+        }
+
+        public async Task SetEnabledOptions()
+        {
+            var teamModel = TeamModel;
+
+            foreach (var item in teamModel.UsersList)
+            {
+                var conn = _connectedUsers.Where(x => x.Value.Id == item.Id).FirstOrDefault().Key;
+                await Clients.Client(conn).SendAsync("EnabledOptions", teamModel.IsDailyStarted, item.TeamRole.Name);
+            }
+
         }
 
         public async Task AddDailyOptions()

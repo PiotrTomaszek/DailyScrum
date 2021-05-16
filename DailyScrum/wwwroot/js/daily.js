@@ -17,6 +17,29 @@ connection.on("StartDaily", function () {
 
 });
 
+connection.on("EnabledOptions", function (isStarted, roleMember) {
+
+    debugger;
+
+    if (isStarted) {
+
+        if (roleMember === "Scrum Master") {
+            document.getElementById('startMeetingHolder').classList.add('disabled');
+            document.getElementById('endMeetingHolder').classList.remove('disabled');
+        } else {
+            document.getElementById('modalHolder').classList.remove('disabled');;
+        }
+
+    } else {
+        if (roleMember === "Scrum Master") {
+            document.getElementById('startMeetingHolder').classList.remove('disabled');
+            document.getElementById('endMeetingHolder').classList.add('disabled');
+        } else {
+            document.getElementById('modalHolder').classList.add('disabled');
+        }
+    }
+
+});
 
 // chyba jest ok
 connection.on("GenDevOptions", function () {
@@ -25,6 +48,7 @@ connection.on("GenDevOptions", function () {
     var devOption = document.createElement('a');
     devOption.classList.add('dropdown-item');
     devOption.classList.add('text-center');
+    devOption.classList.add('disabled');
     devOption.id = 'modalHolder'; // do poprawy
     devOption.dataset.toggle = 'modal';
     devOption.dataset.target = '#exampleModal'; //do poprawys
@@ -48,12 +72,14 @@ connection.on("GenScrumMasterOptions", function () {
 
     divContainer.appendChild(smOption);
 
+    //do poprawy brak modal
     var smOption2 = document.createElement('a');
     smOption2.classList.add('dropdown-item');
     smOption2.classList.add('text-center');
-    smOption2.id = ''; // do poprawy
+    smOption2.classList.add('disabled');
+    smOption2.id = 'endMeetingHolder'; // do poprawy
     smOption2.dataset.toggle = 'modal';
-    smOption2.dataset.target = ''; // do poprawy
+    smOption2.dataset.target = '#endMeetingModal'; // do poprawy
     smOption2.innerHTML = "Zakoncz spotkanie";
 
     divContainer.appendChild(smOption2);
