@@ -143,7 +143,7 @@ connection.on("SendDailyPost", function (name, yesterday, today, problem, time, 
                                 <div class="daily-yesterday-line"></div>
                             </div>
                             <div class="col-8">
-                                <h6>Co zrobiles wczoraj?</h6>
+                                <h6><strong>Co zrobiles wczoraj?</strong></h6>
                                 <p>${yesterday}</p>
                             </div>
                         </div>
@@ -152,7 +152,7 @@ connection.on("SendDailyPost", function (name, yesterday, today, problem, time, 
                                 <div class="daily-today-line"></div>
                             </div>
                             <div class="col-8">
-                                <h6>Co zrobisz dzisiaj?</h6>
+                                <h6><strong>Co zrobisz dzisiaj?</strong></h6>
                                 <p>${today}</p>
                             </div>
                         </div>
@@ -161,7 +161,7 @@ connection.on("SendDailyPost", function (name, yesterday, today, problem, time, 
                                 <div class="daily-problem-line"></div>
                             </div>
                             <div class="col-8">
-                                <h6>Widzisz jakies problemy?</h6>
+                                <h6><strong>Widzisz jakies problemy?</strong></h6>
                                 <p>${problem}</p>
                             </div>
                         </div>

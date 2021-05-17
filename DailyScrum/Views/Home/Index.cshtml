@@ -117,8 +117,6 @@
         var element = document.getElementById('submitEndMeetingModal');
         element.addEventListener('click', function () {
 
-            debugger;
-
             connection.invoke("EndDailyMeeting").catch(function (err) {
                 return console.error(err.toString());
             });
