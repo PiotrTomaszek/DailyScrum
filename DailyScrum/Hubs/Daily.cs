@@ -40,7 +40,7 @@ namespace DailyScrum.Hubs
         {
             var teamModel = TeamModel;
 
-                teamModel.IsDailyStarted = false;
+            teamModel.IsDailyStarted = false;
             if (!teamModel.IsDailyStarted)
             {
 
@@ -82,9 +82,12 @@ namespace DailyScrum.Hubs
             foreach (var item in teamModel.UsersList)
             {
                 var conn = _connectedUsers.Where(x => x.Value.Id == item.Id).FirstOrDefault().Key;
-                await Clients.Client(conn).SendAsync("EnabledOptions", teamModel.IsDailyStarted, item.TeamRole.Name);
-            }
 
+                if (conn != null)
+                {
+                    await Clients.Client(conn).SendAsync("EnabledOptions", teamModel.IsDailyStarted, item.TeamRole.Name);
+                }
+            }
         }
 
         public async Task AddDailyOptions()
