@@ -6,7 +6,11 @@
     <title>@ViewData["Title"] - Daily Scrum</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
+
     <link href="~/lib/line-hover/base.min.css" rel="stylesheet" />
+    <link href="~/lib/fontawesome/css/all.min.css" rel="stylesheet" />
+    <link href="~/css/bell-animation.min.css" rel="stylesheet" />
+
 </head>
 <body class="myBackgroundImage">
     <header>
@@ -20,7 +24,12 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between text-center">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item ml-2">
-                            <a class="nav-link text-white link link--mneme" asp-area="" asp-controller="Home" asp-action="Index">Meeting</a>
+                            <a class="nav-link text-white link link--mneme" asp-area="" asp-controller="Home" asp-action="Index">
+                                Meeting
+                                @* animowany dzwoneczek *@
+                                <span id="meetingBellNotify">@*<i class="fa fa-bell faa-ring animated"></i>*@</span>
+                            </a>
+
                         </li>
                         <li class="nav-item ml-2">
                             <a class="nav-link text-white link link--mneme" asp-area="" asp-controller="Home" asp-action="Chat">Chat</a>
@@ -48,7 +57,7 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
-    <link href="~/lib/fontawesome/css/all.min.css" rel="stylesheet" />
+
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

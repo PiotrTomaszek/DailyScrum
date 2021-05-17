@@ -81,9 +81,9 @@ connection.on("GenScrumMasterOptions", function () {
     smOption2.classList.add('dropdown-item');
     smOption2.classList.add('text-center');
     smOption2.classList.add('disabled');
-    smOption2.id = 'endMeetingHolder'; // do poprawy
+    smOption2.id = 'endMeetingHolder';
     smOption2.dataset.toggle = 'modal';
-    smOption2.dataset.target = '#endMeetingModal'; // do poprawy
+    smOption2.dataset.target = '#endMeetingModal';
     smOption2.innerHTML = "Zakoncz spotkanie";
 
     divContainer.appendChild(smOption2);
@@ -176,7 +176,7 @@ connection.on("ShowSentMessage", function (user, message, date) {
     var li = document.createElement("li");
 
     li.innerHTML = ` <div class="chat-hour">${date}</div>
-                            <div class="chat-text" style="background-color: grey">
+                            <div class="chat-text" style="background-color: lightgrey">
                                 ${message}
                             </div>
                             <div class="chat-avatar">`
@@ -196,7 +196,7 @@ connection.on("SendMessageToGroup", function (user, message, date, imgPath) {
                                 <img src="/avatars/${imgPath}" alt="${user}">
                                 <div class="chat-name">${user}</div>
                             </div>
-                            <div class="chat-text" style="background-color: coral">
+                            <div class="chat-text" style="background-color: bisque">
                                 ${message}
                             </div>
                             <div class="chat-hour">${date}</div>`;
