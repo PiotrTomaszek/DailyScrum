@@ -1,4 +1,10 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Identity
+@using DailyScrum.Areas.Identity.Data
+
+@inject UserManager<ApplicationUser> UserManager
+
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -22,14 +28,13 @@
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between text-center">
-                    <ul class="navbar-nav flex-grow-1">
+                    <ul class="navbar-nav flex-grow-1" id="navbarOptionsId">
                         <li class="nav-item ml-2">
                             <a class="nav-link text-white link link--mneme" asp-area="" asp-controller="Home" asp-action="Index">
                                 Meeting
                                 @* animowany dzwoneczek *@
                                 <span id="meetingBellNotify">@*<i class="fa fa-bell faa-ring animated"></i>*@</span>
                             </a>
-
                         </li>
                         <li class="nav-item ml-2">
                             <a class="nav-link text-white link link--mneme" asp-area="" asp-controller="Home" asp-action="Chat">Chat</a>
@@ -37,6 +42,7 @@
                         <li class="nav-item ml-2">
                             <a class="nav-link text text-white link link--mneme" asp-area="" asp-controller="Home" asp-action="Privacy">Twórca</a>
                         </li>
+
                     </ul>
                     <partial name="_LoginPartial">
                 </div>
@@ -57,6 +63,13 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+
+    <script src="~/js/signalr/dist/browser/signalr.min.js"></script>
+    <script src="~/js/base-signalR.js"></script>
+        @*<script src="~/js/daily.js"></script>*@
+
+        <script src="~/js/scrumMasterNavbar.js"></script>
+
 
     @await RenderSectionAsync("Scripts", required: false)
 </body>

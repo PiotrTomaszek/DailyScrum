@@ -1,16 +1,3 @@
-"use strict";
-
-var connection = new signalR.HubConnectionBuilder().withUrl("/daily").build();
-
-
-connection.start().then(function () {
-    /*document.getElementById("sendButton").disabled = false;*/
-}).catch(function (err) {
-    return console.error(err.toString());
-});
-
-/*document.getElementById("sendButton").disabled = true;*/
-
 connection.on("StartDaily", function () {
     alert('test');
 
@@ -61,6 +48,26 @@ connection.on("GenDevOptions", function () {
     divContainer.appendChild(devOption);
 });
 
+//connection.on("GenScrumMasterProblems", function () {
+//    var smProblemsNavbar = document.createElement('li');
+//    smProblemsNavbar.classList.add('nav-item');
+//    smProblemsNavbar.classList.add('ml-2');
+
+//    var innerLink = document.createElement('a');
+//    innerLink.classList.add('nav-link');
+//    innerLink.classList.add('text');
+//    innerLink.classList.add('text-white');
+//    innerLink.classList.add('link');
+//    innerLink.classList.add('link--mneme');
+
+//    innerLink.href = '/Home/Privacy';
+//    innerLink.innerText = 'Problemy';
+
+//    smProblemsNavbar.appendChild(innerLink);
+
+//    document.getElementById('navbarOptionsId').appendChild(smProblemsNavbar);
+//});
+
 
 // chyba jest ok
 connection.on("GenScrumMasterOptions", function () {
@@ -87,6 +94,11 @@ connection.on("GenScrumMasterOptions", function () {
     smOption2.innerHTML = "Zakoncz spotkanie";
 
     divContainer.appendChild(smOption2);
+
+
+
+
+
 });
 
 

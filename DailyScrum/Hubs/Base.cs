@@ -73,10 +73,20 @@ namespace DailyScrum.Hubs
 
             await GetDailyOptions();
 
+            await EnableScrumMasterProblemBar();
+
             //await TimeStuff();
             //SetUpTimer(new TimeSpan(11, 23, 00));
 
             return base.OnConnectedAsync();
+        }
+
+        public async Task EnableScrumMasterProblemBar()
+        {
+            if (DbUser.TeamRole.RoleId == 1)
+            {
+                await Clients.Caller.SendAsync("GenScrumMasterProblems");
+            }
         }
 
         public async override Task<Task> OnDisconnectedAsync(Exception exception)
