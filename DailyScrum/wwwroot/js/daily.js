@@ -1,13 +1,27 @@
+connection.on("NotifyUsers", function (param1, param2) {
+    debugger;
+
+    displayNotofication(param1, param2);
+});
+
 connection.on("StartDaily", function () {
-    alert('test');
+    alert('daily has started');
 
+    connection.invoke("AddNotification", "Daily");
 
+    
+
+    //displayNotofication('daily', 'start');
 });
 
 connection.on("EndDaily", function () {
-    alert('test');
+    alert('daily has ended');
 
+    debugger;
 
+    connection.invoke("AddNotification", "Daily");
+
+    /*displayNotofication('daily', 'end');*/
 });
 
 connection.on("EnabledOptions", function (isStarted, roleMember) {

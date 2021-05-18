@@ -48,6 +48,11 @@ namespace DailyScrum.Hubs
             //jezeli zalogujesz sie jeszcze raz na zalogowane konto
             _connectedUsers.Add(Context.ConnectionId, GetUser());
 
+            // test notyfikacji
+
+            _usersNotifications.Add(DbUser.UserName, new NotificationViewModel());
+
+
             //sprawdzenie czy istieje ten zespol
             await HandleNewTeam();
 
@@ -94,6 +99,9 @@ namespace DailyScrum.Hubs
             await HandleTeamMemberNumber(-1);
 
             await SetUserStatus(false);
+
+            //test
+            _usersNotifications.Remove(DbUser.UserName);
 
             _connectedUsers.Remove(Context.ConnectionId);
 

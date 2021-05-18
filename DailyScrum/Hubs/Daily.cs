@@ -47,6 +47,8 @@ namespace DailyScrum.Hubs
                 {
                     var conn = _connectedUsers.Where(x => x.Value.Id == item.Id).FirstOrDefault().Key;
                     await SetEnabledOptions();
+
+                    await Clients.OthersInGroup(DbUser.TeamMember.Name).SendAsync("EndDaily");
                 }
 
                 //await Clients.OthersInGroup(DbUser.TeamMember.Name).SendAsync("EndDaily");

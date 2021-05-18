@@ -17,9 +17,9 @@ function ResizeContentContainer2() {
     var el2 = document.getElementById('usersHolder');
     el.style.height = (calculate) + "px";
 
-    var head = document.getElementById('cardHeaderHolder').clientHeight;
+    //var head = document.getElementById('cardHeaderHolder').clientHeight;
 
-    var el3 = document.getElementById('cardBodyHolder');
-    el3.style.height = ((calculate ) - head) + "px";
+    //var el3 = document.getElementById('cardBodyHolder');
+    //el3.style.height = ((calculate ) - head) + "px";
 
 }
