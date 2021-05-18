@@ -22,9 +22,12 @@
                 <span class="d-sm-none d-md-inline">@UserManager.GetUserName(User) <b class="caret"></b></span>
             </a>
             <div class="dropdown-menu dropdown-menu-right">
-                <a asp-area="Identity" asp-page="/Account/Manage" asp-route-returnUrl="@Url.Action("UserAccountManage","Home")" class="dropdown-item text-center">
-                    <i class="fa fa-user align-baseline"></i>  Profil
-                </a>
+
+                <form method="post" asp-action="RedirectToAccount" asp-controller="Home">
+                    <button id="" type="submit" class=" btn btn-sm btn-block text-dark ">
+                        <i class="fa fa-user align-baseline"></i>Profil
+                    </button>
+                </form>
 
                 <div class="divider dropdown-divider"></div>
 

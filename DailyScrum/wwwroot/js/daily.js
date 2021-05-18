@@ -40,9 +40,9 @@ connection.on("GenDevOptions", function () {
     devOption.classList.add('dropdown-item');
     devOption.classList.add('text-center');
     devOption.classList.add('disabled');
-    devOption.id = 'modalHolder'; // do poprawy
+    devOption.id = 'modalHolder';
     devOption.dataset.toggle = 'modal';
-    devOption.dataset.target = '#exampleModal'; //do poprawys
+    devOption.dataset.target = '#exampleModal';
     devOption.innerHTML = "Dodaj post";
 
     divContainer.appendChild(devOption);
@@ -195,14 +195,13 @@ connection.on("SendMessageToGroup", function (user, message, date, imgPath) {
     scrollToBottom();
 });
 
+// to jest ok
 function scrollToBottom() {
     var scroller = document.getElementById('chatHolder');
 
     scroller.scrollTop = scroller.scrollHeight - scroller.clientHeight
 }
 
-
-// to jest ok
 connection.on("SetUserStatus", function (userId, isOnline) {
     var element = document.getElementById(`${userId}-icon`);
 

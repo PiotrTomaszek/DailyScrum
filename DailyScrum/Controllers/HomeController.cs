@@ -27,27 +27,28 @@ namespace DailyScrum.Controllers
         }
 
         [Authorize]
+        [Route("/chat")]
         public IActionResult Chat()
         {
             return View();
         }
 
 
-
-        public IActionResult Privacy()
+        [Route("/creator")]
+        public IActionResult Creator()
         {
             return View();
         }
 
+        [HttpPost]
+        public IActionResult RedirectToAccount()
+        {
+            return Redirect("/konto");
+        }
 
         public IActionResult UserLogout()
         {
             return RedirectToPage("/Account/Logout", new { area = "Identity" });
-        }
-
-        public IActionResult UserAccountManage()
-        {
-            return RedirectToPage("/Account/Manage", new { area = "Identity" });
         }
 
 

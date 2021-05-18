@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -72,6 +71,10 @@ namespace DailyScrum.Hubs
                 await SetEnabledOptions();
 
                 await Clients.OthersInGroup(DbUser.TeamMember.Name).SendAsync("StartDaily");
+
+                //test
+                teamModel.MeetingStartingTime = new TimeSpan(DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second);
+                //tutaj powinno zaczac sie odliczanie 
             }
         }
 
