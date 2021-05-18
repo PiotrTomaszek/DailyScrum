@@ -9,4 +9,17 @@
 
 <h1>test scrum</h1>
 
+<h1>@ViewData["HasTeam"]</h1>
 
+@if ((bool)@ViewData["HasTeam"])
+{
+    <h5>Mosz juz zespol</h5>
+}
+else
+{
+    <h1>Nie masz zespolu</h1>
+}
+
+if((bool)@ViewData["IsScrumMaster"]){
+<h2>Ty jestes scrum masterem</h2>
+}
