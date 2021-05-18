@@ -50,7 +50,7 @@ namespace DailyScrum.Hubs
 
             // test notyfikacji
 
-            _usersNotifications.Add(DbUser.UserName, new NotificationViewModel());
+            //_usersNotifications.Add(DbUser.UserName, new NotificationViewModel());
 
 
             //sprawdzenie czy istieje ten zespol
@@ -101,7 +101,7 @@ namespace DailyScrum.Hubs
             await SetUserStatus(false);
 
             //test
-            _usersNotifications.Remove(DbUser.UserName);
+            //_usersNotifications.Remove(DbUser.UserName);
 
             _connectedUsers.Remove(Context.ConnectionId);
 

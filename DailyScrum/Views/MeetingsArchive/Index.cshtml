@@ -1,0 +1,47 @@
+﻿@model IEnumerable<DailyScrum.Models.Database.DailyMeeting>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table bg-white">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.DailyMeetingId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Date)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.HasFinished)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DailyMeetingId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Date)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.HasFinished)
+                </td>
+                <td>
+                    @Html.ActionLink("Details", "Details", new { id = item.DailyMeetingId }) |
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

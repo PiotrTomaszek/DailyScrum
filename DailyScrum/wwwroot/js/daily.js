@@ -166,7 +166,7 @@ connection.on("SendDailyPost", function (name, yesterday, today, problem, time, 
                                 <p>${problem}</p>
                             </div>
                         </div>
-                    </div>`
+                    </div>`;
 
     place.appendChild(newDiv)
 });
@@ -249,10 +249,16 @@ connection.on("UserConnected", function (name, email, id, photoPath, role) {
 connection.on("UpdateUserList", function (currentNumber, allMembers) {
     var element = document.getElementById('online-team-members');
     element.innerHTML = `${currentNumber}/${allMembers}`;
+
+    var element = document.getElementById('online-team-members2');
+    element.innerHTML = `${currentNumber}/${allMembers}`;
 });
 
 connection.on("GenerateUserCounter", function (currentNumber, allMembers) {
     var element = document.getElementById('online-team-members');
+    element.innerHTML = `${currentNumber}/${allMembers}`;
+
+    var element = document.getElementById('online-team-members2');
     element.innerHTML = `${currentNumber}/${allMembers}`;
 });
 

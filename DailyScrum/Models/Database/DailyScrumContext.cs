@@ -17,16 +17,17 @@ namespace DailyScrum.Data
         public DbSet<Problem> Problems { get; set; }
         public DbSet<DailyMeeting> DailyMeetings { get; set; }
         public DbSet<Message> Messages { get; set; }
-        public DbSet<Role> ScrumRoles{ get; set; }
+        public DbSet<Role> ScrumRoles { get; set; }
+        public DbSet<DailyPost> Posts{ get; set; }
 
         public DailyScrumContext(DbContextOptions<DailyScrumContext> options)
             : base(options)
         {
         }
 
-        //protected override void OnModelCreating(ModelBuilder builder)
-        //{
-        //    base.OnModelCreating(builder);
-        //}
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            base.OnModelCreating(builder);
+        }
     }
 }

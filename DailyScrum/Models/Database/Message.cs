@@ -10,6 +10,7 @@ namespace DailyScrum.Models.Database
         public string Content { get; set; }
         public DateTime Date { get; set; }
         public ApplicationUser FromUser { get; set; }
-        public string ToMeeting { get; set; }
+
+        public Team Team { get; set; }
     }
 }

@@ -2,6 +2,7 @@ using DailyScrum.Areas.Identity.Data;
 using DailyScrum.Data;
 using DailyScrum.Hubs;
 using DailyScrum.Models.DbLogic;
+using DailyScrum.Repository;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -37,6 +38,11 @@ namespace DailyScrum
             {
                 options.SignIn.RequireConfirmedAccount = false;
             }).AddEntityFrameworkStores<DailyScrumContext>();
+
+            // test z baza danych
+
+            services.AddTransient<IUserRepository, UserRepository>();
+            services.AddTransient<IDailyMeetingRepository, DailyMeetingsRepository>();
 
             services.AddControllersWithViews();
 

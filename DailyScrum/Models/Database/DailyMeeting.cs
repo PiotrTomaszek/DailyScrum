@@ -10,8 +10,10 @@ namespace DailyScrum.Models.Database
         public int DailyMeetingId { get; set; }
         public Team Team { get; set; }
         public DateTime Date { get; set; }
+        public bool HasFinished { get; set; }
 
-        public IEnumerable<Message> Messages { get; set; }
+        public IEnumerable<DailyPost> Posts { get; set; }
+
         public IEnumerable<Problem> Problems { get; set; }
     }
 }
