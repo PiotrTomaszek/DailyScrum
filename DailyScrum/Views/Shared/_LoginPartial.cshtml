@@ -5,7 +5,7 @@
 @inject UserManager<ApplicationUser> UserManager
 
 @{
-    var userPhoto = UserManager.GetUserAsync(User).Result.PhotoPath;
+    var userPhoto = UserManager.GetUserAsync(User).Result?.PhotoPath;
 
     if (userPhoto == null)
     {

@@ -8,6 +8,10 @@ namespace DailyScrum.Areas.Identity.Pages.Account.Manage
 {
     public static class ManageNavPages
     {
+        public static string ScrumOptions => "ScrumOptions";
+
+        public static string ScrumOptionsNavClass(ViewContext viewContext) => PageNavClass(viewContext, ScrumOptions);
+
         public static string Index => "Index";
 
         public static string Email => "Email";
