@@ -71,10 +71,20 @@ namespace DailyScrum.Controllers
             {
                 var toUpdate = _context.Users.Include(a => a.TeamMember).Where(x => x.TeamMember.TeamId == team.TeamId).ToList();
 
+                scrumMaster.TeamRole = null;
+                scrumMaster.TeamMember = null;
+
+                await _context.SaveChangesAsync();
+                _context.Users.Update(scrumMaster);
+                await _context.SaveChangesAsync();
+
                 foreach (var item in toUpdate)
                 {
                     item.TeamRole = null;
                     item.TeamMember = null;
+
+                    await _context.SaveChangesAsync();
+                    _context.Update(item);
                 }
 
                 _context.Teams.Remove(team);

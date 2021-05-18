@@ -33,8 +33,19 @@ namespace DailyScrum.Areas.Identity.Pages.Account.Manage
 
         public class InputModel
         {
+            [DataType(DataType.Text)]
+            [Display(Name = "Imię")]
+            [StringLength(50, ErrorMessage = "Imię musi być dłuższe niż 10 znaków.", MinimumLength = 10)]
+            public string FirstName { get; set; }
+
+            [DataType(DataType.Text)]
+            [Display(Name = "Nazwisko")]
+            [StringLength(50, ErrorMessage = "Nazwisko musi być dłuższe niż 10 znaków.", MinimumLength = 10)]
+            public string LastName { get; set; }
+
+
             [Phone]
-            [Display(Name = "Phone number")]
+            [Display(Name = "Numer Telefonu")]
             public string PhoneNumber { get; set; }
         }
 

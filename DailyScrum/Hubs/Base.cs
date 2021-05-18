@@ -83,7 +83,7 @@ namespace DailyScrum.Hubs
 
         public async Task EnableScrumMasterProblemBar()
         {
-            if (DbUser.TeamRole.RoleId == 1)
+            if (DbUser.TeamRole?.RoleId == 1)
             {
                 await Clients.Caller.SendAsync("GenScrumMasterProblems");
             }
