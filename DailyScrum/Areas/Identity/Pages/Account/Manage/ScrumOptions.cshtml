@@ -6,20 +6,51 @@
 }
 
 
+<div class="bg-white">
+    <h1>test scrum</h1>
 
-<h1>test scrum</h1>
+    <h1>@ViewData["HasTeam"]</h1>
 
-<h1>@ViewData["HasTeam"]</h1>
+    @if ((bool)@ViewData["HasTeam"])
+    {
+        <h5>Mosz juz zespol</h5>
+    }
+    else
+    {
+        <h1>Nie masz zespolu</h1>
+    }
 
-@if ((bool)@ViewData["HasTeam"])
-{
-    <h5>Mosz juz zespol</h5>
-}
-else
-{
-    <h1>Nie masz zespolu</h1>
-}
+    @if ((bool)@ViewData["IsScrumMaster"])
+    {
+        <h2>Ty jestes scrum masterem</h2>
+    }
+    else
+    {
+        <form id="account" method="post">
+            <hr />
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-if((bool)@ViewData["IsScrumMaster"]){
-<h2>Ty jestes scrum masterem</h2>
-}
+            <div class="mb-2 mr-sm-2 p-2">
+                <div class="input-group ">
+                    <label asp-for="Input.Name" />
+                    <input asp-for="Input.Name" class="form-control" placeholder="Hasło" />
+                </div>
+                <span asp-validation-for="Input.Name" class="text-danger"></span>
+            </div>
+
+            <div class="mb-2 mr-sm-2 p-2">
+                <div class="input-group ">
+                    <label asp-for="Input.DailyTime" />
+                    <input asp-for="Input.DailyTime" class="form-control" placeholder="Hasło" />
+                </div>
+                <span asp-validation-for="Input.DailyTime" class="text-danger"></span>
+            </div>
+
+
+            <div class="form-group">
+                <button type="submit" class="btn btn-lg text-white btn-outline-primary">Zaloguj się</button>
+            </div>
+
+        </form>
+    }
+</div>

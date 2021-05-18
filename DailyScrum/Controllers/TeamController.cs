@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DailyScrum.Controllers
 {
-    public class ProblemsController : Controller
+    public class TeamController : Controller
     {
 
 
