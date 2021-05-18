@@ -23,6 +23,10 @@
     @if ((bool)@ViewData["IsScrumMaster"])
     {
         <h2>Ty jestes scrum masterem</h2>
+
+        <form method="post" asp-action="DeleteTeam" asp-controller="Home">
+            <button type="submit" class="btn btn-lg text-white btn-outline-primary">Usuń zespół</button>
+        </form>
     }
     else
     {

@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 using DailyScrum.Data;
+using DailyScrum.Models.Database;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -51,7 +52,7 @@ namespace DailyScrum.Areas.Identity.Pages.Account.Manage
 
             if (ModelState.IsValid)
             {
-
+                CreateNewTeam(Input.Name,Input.DailyTime);
 
                 return RedirectToPage("./ScrumOptions");
             }
@@ -60,7 +61,7 @@ namespace DailyScrum.Areas.Identity.Pages.Account.Manage
             return Page();
         }
 
-        public void CreateNewTeam()
+        public void CreateNewTeam(string teamName, DateTime dailyTime)
         {
             var thisUserUserName = HttpContext.User.Identity.Name;
 
@@ -70,6 +71,26 @@ namespace DailyScrum.Areas.Identity.Pages.Account.Manage
                .Where(x => x.UserName == thisUserUserName)
                .FirstOrDefault();
 
+            try
+            {
+                var team = new Team
+                {
+                    DisplayName = teamName,
+                    Name = Guid.NewGuid().ToString()
+                };
+
+                _context.Teams.Add(team);
+
+                creator.TeamRole = _context.ScrumRoles.Find(1);
+                creator.TeamMember = team;
+
+                 _context.SaveChanges();
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
 
         }
 
@@ -93,7 +114,7 @@ namespace DailyScrum.Areas.Identity.Pages.Account.Manage
             }
 
             // do wyswietlenie dla Scrum Mastera
-            if (user.TeamRole.RoleId == 1)
+            if (user.TeamRole?.RoleId == 1)
             {
                 ViewData["IsScrumMaster"] = true;
             }

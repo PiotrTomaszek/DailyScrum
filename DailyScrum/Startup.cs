@@ -1,6 +1,7 @@
 using DailyScrum.Areas.Identity.Data;
 using DailyScrum.Data;
 using DailyScrum.Hubs;
+using DailyScrum.Models.DbLogic;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;

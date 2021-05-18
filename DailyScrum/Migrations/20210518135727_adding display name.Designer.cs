@@ -4,14 +4,16 @@ using DailyScrum.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DailyScrum.Migrations
 {
     [DbContext(typeof(DailyScrumContext))]
-    partial class DailyScrumContextModelSnapshot : ModelSnapshot
+    [Migration("20210518135727_adding display name")]
+    partial class addingdisplayname
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -115,7 +117,7 @@ namespace DailyScrum.Migrations
 
                     b.HasKey("RoleId");
 
-                    b.ToTable("ScrumRoles");
+                    b.ToTable("Role");
                 });
 
             modelBuilder.Entity("DailyScrum.Models.Database.DailyMeeting", b =>
@@ -195,9 +197,6 @@ namespace DailyScrum.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<DateTime>("DailyTime")
-                        .HasColumnType("datetime2");
 
                     b.Property<string>("DisplayName")
                         .HasColumnType("nvarchar(max)");

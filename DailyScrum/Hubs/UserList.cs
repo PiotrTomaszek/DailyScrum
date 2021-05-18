@@ -14,7 +14,7 @@ namespace DailyScrum.Hubs
     {
         private async Task HandleNewTeam()
         {
-            if (!_connectedTeams.ContainsKey(DbUser.TeamMember.Name))
+            if (!_connectedTeams.ContainsKey(DbUser.TeamMember?.Name))
             {
                 var teamMates = await _dbContext.Users
                     .Include(x => x.TeamMember)
