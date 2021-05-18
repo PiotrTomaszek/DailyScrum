@@ -1,12 +1,15 @@
 ﻿using DailyScrum.Data;
 using DailyScrum.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -17,12 +20,13 @@ namespace DailyScrum.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly DailyScrumContext _context;
+        private IWebHostEnvironment _webHostEnvironment;
 
-
-        public HomeController(ILogger<HomeController> logger, DailyScrumContext context)
+        public HomeController(ILogger<HomeController> logger, DailyScrumContext context, IWebHostEnvironment webHostEnvironment)
         {
             _logger = logger;
             _context = context;
+            _webHostEnvironment = webHostEnvironment;
         }
 
         [Authorize]
@@ -109,6 +113,25 @@ namespace DailyScrum.Controllers
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+
+
+        public async Task UploadFileToFile(IFormFile file)
+        {
+            if (file == null)
+            {
+                HttpContext.Session.SetString("ImageName", "");
+                return;
+            }
+
+            var uniqueName = $"{Guid.NewGuid()}_{file.FileName}";
+            HttpContext.Session.SetString("ImageName", uniqueName);
+
+            var toFolder = Path.Combine(_webHostEnvironment.WebRootPath, "images");
+            var filePath = Path.Combine(toFolder, uniqueName);
+
+            using var fileStream = new FileStream(filePath, FileMode.Create);
+            await file.CopyToAsync(fileStream);
         }
     }
 }
