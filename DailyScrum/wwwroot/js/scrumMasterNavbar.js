@@ -10,7 +10,11 @@
     innerLink.classList.add('link');
     innerLink.classList.add('link--mneme');
 
-    innerLink.href = '/Problems/Index';
+    //innerLink.setAttribute('asp-controller', 'Home');
+    //innerLink.setAttribute('asp-action', 'Index');
+
+    //innerLink.href = '/Problems/Index';
+    innerLink.href = '/problems';
     innerLink.innerText = 'Problemy';
 
     smProblemsNavbar.appendChild(innerLink);

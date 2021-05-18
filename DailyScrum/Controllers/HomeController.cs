@@ -15,30 +15,52 @@ using System.Threading.Tasks;
 
 namespace DailyScrum.Controllers
 {
-
+    [Authorize]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
         private readonly DailyScrumContext _context;
         private IWebHostEnvironment _webHostEnvironment;
 
-        public HomeController(ILogger<HomeController> logger, DailyScrumContext context, IWebHostEnvironment webHostEnvironment)
+        public HomeController(ILogger<HomeController> logger,
+            DailyScrumContext context,
+            IWebHostEnvironment webHostEnvironment)
         {
             _logger = logger;
             _context = context;
             _webHostEnvironment = webHostEnvironment;
         }
 
-        [Authorize]
+        //[Authorize]
         public IActionResult Index()
         {
+            var user = _context.Users
+                .Include(x => x.TeamMember)
+                .Where(u => u.UserName == User.Identity.Name)
+                .FirstOrDefault();
+
+            if (user?.TeamMember == null)
+            {
+                return RedirectToAction(nameof(UserWithoutTeam));
+            }
+
             return View();
         }
 
-        [Authorize]
+        //[Authorize]
         [Route("/chat")]
         public IActionResult Chat()
         {
+            var user = _context.Users
+                .Include(x => x.TeamMember)
+                .Where(u => u.UserName == User.Identity.Name)
+                .FirstOrDefault();
+
+            if (user?.TeamMember == null)
+            {
+                return RedirectToAction(nameof(UserWithoutTeam));
+            }
+
             return View();
         }
 
@@ -48,6 +70,14 @@ namespace DailyScrum.Controllers
         {
             return View();
         }
+
+        [Route("/noteam")]
+        public IActionResult UserWithoutTeam()
+        {
+            return View();
+        }
+
+        
 
         [HttpPost]
         public IActionResult RedirectToAccount()
