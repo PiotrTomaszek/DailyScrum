@@ -30,5 +30,29 @@ namespace DailyScrum.Repository
         {
             throw new NotImplementedException();
         }
+
+        public void SetFirstName(string userName, string firstName)
+        {
+            var user = _context.Users
+               .Where(x => x.UserName.Equals(userName))
+               .FirstOrDefault();
+
+            user.FirstName = firstName;
+
+            _context.Users.Update(user);
+            _context.SaveChanges();
+        }
+
+        public void SetLastName(string userName, string lastName)
+        {
+            var user = _context.Users
+                .Where(x => x.UserName.Equals(userName))
+                .FirstOrDefault();
+
+            user.LastName = lastName;
+
+            _context.Users.Update(user);
+            _context.SaveChanges();
+        }
     }
 }

@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 using DailyScrum.Areas.Identity.Data;
+using DailyScrum.Repository;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -14,13 +15,16 @@ namespace DailyScrum.Areas.Identity.Pages.Account.Manage
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly IUserRepository _userRepository;
 
         public IndexModel(
             UserManager<ApplicationUser> userManager,
-            SignInManager<ApplicationUser> signInManager)
+            SignInManager<ApplicationUser> signInManager,
+            IUserRepository userRepository)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _userRepository = userRepository;
         }
 
         public string Username { get; set; }
@@ -35,16 +39,16 @@ namespace DailyScrum.Areas.Identity.Pages.Account.Manage
         {
             [DataType(DataType.Text)]
             [Display(Name = "Imię")]
-            [StringLength(50, ErrorMessage = "Imię musi być dłuższe niż 10 znaków.", MinimumLength = 10)]
+            [StringLength(50, ErrorMessage = "Imię musi być dłuższe niż 2 znaki.", MinimumLength = 2)]
             public string FirstName { get; set; }
 
             [DataType(DataType.Text)]
             [Display(Name = "Nazwisko")]
-            [StringLength(50, ErrorMessage = "Nazwisko musi być dłuższe niż 10 znaków.", MinimumLength = 10)]
+            [StringLength(50, ErrorMessage = "Nazwisko musi być dłuższe niż 2 znaki.", MinimumLength = 2)]
             public string LastName { get; set; }
 
 
-            [Phone]
+            [Phone(ErrorMessage = "Nie poprawny numer telefonu.")]
             [Display(Name = "Numer Telefonu")]
             public string PhoneNumber { get; set; }
         }
@@ -54,11 +58,16 @@ namespace DailyScrum.Areas.Identity.Pages.Account.Manage
             var userName = await _userManager.GetUserNameAsync(user);
             var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
 
+            var firstName = _userManager.GetUserAsync(User).Result.FirstName;
+            var lastName = _userManager.GetUserAsync(User).Result.LastName;
+
             Username = userName;
 
             Input = new InputModel
             {
-                PhoneNumber = phoneNumber
+                PhoneNumber = phoneNumber,
+                LastName = lastName,
+                FirstName = firstName
             };
         }
 
@@ -99,8 +108,28 @@ namespace DailyScrum.Areas.Identity.Pages.Account.Manage
                 }
             }
 
+            var firstName = _userManager.GetUserAsync(User).Result.FirstName;
+            var lastName = _userManager.GetUserAsync(User).Result.LastName;
+
+            if (Input.FirstName != firstName)
+            {
+                _userRepository.SetFirstName(User.Identity.Name, Input.FirstName);
+
+                StatusMessage = "Blad imie";
+
+            }
+
+            if (Input.LastName != lastName)
+            {
+                _userRepository.SetLastName(User.Identity.Name, Input.LastName);
+
+                StatusMessage = "Blad nazwisko";
+            }
+
+            //propozycja zeby zdjecie bylo podobnie co tutajt e rzecz a okienko modalne do dropzona
+
             await _signInManager.RefreshSignInAsync(user);
-            StatusMessage = "Your profile has been updated";
+            StatusMessage = "Zaaktualizowano profil.";
             return RedirectToPage();
         }
     }

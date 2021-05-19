@@ -82,12 +82,25 @@ connection.on("GenScrumMasterOptions", function () {
     smOption2.classList.add('dropdown-item');
     smOption2.classList.add('text-center');
     smOption2.classList.add('disabled');
+    smOption2.classList.add('text-muted'); // do poprawy
     smOption2.id = 'endMeetingHolder';
     smOption2.dataset.toggle = 'modal';
     smOption2.dataset.target = '#endMeetingModal';
     smOption2.innerHTML = "Zakoncz spotkanie";
 
     divContainer.appendChild(smOption2);
+
+    // do sprawdzania starych spotkañ
+
+    var archiveManager = document.createElement('a');
+    archiveManager.classList.add('dropdown-item');
+    archiveManager.classList.add('text-center');
+    archiveManager.style.color = 'black';
+    archiveManager.id = 'meetingArchiveManager';
+    archiveManager.innerHTML = "Archiwum spotkan";
+    archiveManager.href = '/meetingsarchive';
+
+    divContainer.appendChild(archiveManager);
 });
 
 

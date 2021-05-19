@@ -26,37 +26,39 @@
 <h3 class="text-center">@ViewData["Title"]</h3>
 <partial name="_StatusMessage" model="Model.StatusMessage" />
 
-<div class="row pb-2">
-    <div class="col-md-4 ">
+<div class="row">
+    <div class="col-md-4 pb-4">
         <partial name="_ManageNav">
     </div>
-    <div class="col-md-6 daily-background-color text-white p-5">
+    <div class="col-md-7 daily-background-color text-white p-5">
         <form id="profile-form" method="post" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
             <div class="row">
-                <div class="offset-1 col-5 pb-2">
-                    <img src="@Url.Content("~/avatars/" + @userPhoto)" class="rounded-circle @*border border-dark*@" style="height:150px;width:150px" />
+                <div class="@*offset-2 col-6*@ text-center w-100 @*pb-2*@">
+                    <button class=" bg-transparent btn">
+                        <img src="@Url.Content("~/avatars/" + @userPhoto)" class="rounded-circle @*border border-dark*@" style="height:126px;width:126px" />
+                    </button>
                 </div>
                 <div class="col-4">
-                    <input asp-for="Username" class="bg-dark text-white form-control" readonly />
+                    @*<input asp-for="Username" class="bg-dark text-white form-control" readonly />*@
 
-                    <button >
-                        Zmień zdjęcie
-                    </button>
+                    @*<button >
+                            Zmień zdjęcie
+                        </button>*@
 
                 </div>
             </div>
 
             @* <i class="far fa-envelope"></i> *@
 
-            <input hidden id="file" name="file" />
-            <div class="dropzone dropzone-file-area" id="fileUpload">
-                <div class="dz-default dz-message text-dark">
-                    <h3 class="sbold">Twoje zdjęcie.</h3>
-                    <span>Przeciągnij albo naciśnij i wybierz plik z dysku.</span>
-                </div>
-            </div>
+            @*<input hidden id="file" name="file" />
+                <div class="dropzone dropzone-file-area" id="fileUpload">
+                    <div class="dz-default dz-message text-dark">
+                        <h3 class="sbold">Twoje zdjęcie.</h3>
+                        <span>Przeciągnij albo naciśnij i wybierz plik z dysku.</span>
+                    </div>
+                </div>*@
 
             <div class="form-group">
                 <label asp-for="Input.FirstName"></label>

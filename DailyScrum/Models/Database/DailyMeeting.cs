@@ -11,7 +11,7 @@ namespace DailyScrum.Models.Database
         public int DailyMeetingId { get; set; }
         public Team Team { get; set; }
 
-        [Display(Name = "Data rozpoczęcia spotkania")]
+        [Display(Name = "Data spotkania")]
         public DateTime Date { get; set; }
         [Display(Name = "Zakończono")]
         public bool HasFinished { get; set; }

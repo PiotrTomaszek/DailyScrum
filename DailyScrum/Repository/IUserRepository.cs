@@ -9,5 +9,8 @@ namespace DailyScrum.Repository
     {
         int GetTeamId(string userName);
         int GetTeamRoleId(string userName);
+
+        void SetFirstName(string userName, string firstName);
+        void SetLastName(string userName, string lastName);
     }
 }

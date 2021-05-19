@@ -17,27 +17,37 @@
                 @Html.DisplayNameFor(model => model.HasFinished)
             </th>
             <th></th>
+            @*<th></th>*@
         </tr>
     </thead>
     <tbody class=" bg-white">
         @foreach (var item in Model)
         {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Date)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.HasFinished)
-                </td>
-                <td class="text-right">
-                    <form asp-action="Details" method="get">
-                        <input type="hidden" name="id" value="@item.DailyMeetingId" />
-                        <button type="submit" class="btn btn-outline-info">
-                            Pokaż posty zespołu
-                        </button>
-                    </form>
-                </td>
-            </tr>
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Date)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.HasFinished)
+            </td>
+            @* TODO tutaj zrobic jak starczy czasu *@
+            @*<td class="text-right">
+                <form asp-action="ProblemsDetails" method="get">
+                    <input type="hidden" name="id" value="@item.DailyMeetingId" />
+                    <button type="submit" class="btn btn-sm btn-outline-danger">
+                        Pokaż problemy
+                    </button>
+                </form>
+            </td>*@
+            <td class="text-right">
+                <form asp-action="Details" method="get">
+                    <input type="hidden" name="id" value="@item.DailyMeetingId" />
+                    <button type="submit" class="btn btn-outline-info">
+                        Pokaż posty zespołu
+                    </button>
+                </form>
+            </td>
+        </tr>
         }
     </tbody>
 </table>
