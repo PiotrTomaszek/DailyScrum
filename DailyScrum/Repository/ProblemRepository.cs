@@ -28,6 +28,7 @@ namespace DailyScrum.Repository
 
             var allProblems = _context.Problems
                 .Include(x => x.Meeting)
+                .Include(z => z.FromUser)
                 .Where(a => allMeetings.Contains(a.Meeting.DailyMeetingId) && a.Fixed == false)
                 .ToList();
 

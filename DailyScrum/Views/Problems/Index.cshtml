@@ -4,13 +4,63 @@
     ViewData["Title"] = "Problemy";
 }
 
-<div class="bg-white">
-    <h1>TEST problems</h1>
+<div class="container">
+    <h1>Problemy do rozwiązania: </h1>
 
-    @foreach (var item in Model)
-    {
-        <h2>@item.Description</h2>
-    }
+
+
+
+    @*<div class="text-white  pl-4 pr-4">
+        <div class="row bg-transparent daily-background-color p-2">
+            <div class="col-5">
+                Zgłaszający
+            </div>
+            <div class="col-5">
+                Data
+            </div>
+            <div class="col-2">
+
+            </div>
+        </div>
+
+        <div class=" bg-white">
+            <ul id="scrumMasterProblemList">
+                @foreach (var item in Model)
+                {
+                    <li class="row text-dark @*p-2*@ @*">
+                        <div class="col-4 form-inline">
+                            @{
+                                var fullName = $"{item.FromUser.LastName} {item.FromUser.FirstName}";
+                            }
+                            <img src="@Url.Content("~/avatars/" + @item.FromUser.PhotoPath)" alt="fullName" class="rounded-circle" style="width:50px;height:50px" />
+                            @Html.DisplayFor(modelItem => fullName)
+                        </div>
+                        <div class="col-4">
+                            @Html.DisplayFor(modelItem => item.Description)
+                        </div>
+                        <div class="col-2">
+                            <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseProblem-@item.ProblemId" aria-expanded="false" aria-controls="collapseProblem-@item.ProblemId">
+                                Rozwiń
+                            </button>
+
+                        </div>
+                        <div class=" bg-info">
+                            <div class=" collapse" id="collapseProblem-@item.ProblemId">
+                                <div class="col-6 ">
+                                    <p>@item.Description</p>
+                                </div>
+                                <div class="col-2">
+                                    <button class="btn text-left">
+                                        adadwad buton
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                }
+            </ul>
+        </div>
+    </div>*@
 </div>
 
 

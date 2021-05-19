@@ -10,7 +10,7 @@ namespace DailyScrum.Hubs
     [Authorize]
     public partial class DailyHub : Hub
     {
-        // pobieranie wszystkich aktulanych problemów - z bazy
+        // pobieranie wszystkich aktulanych problemów - z bazy - chyba nie trza
 
 
 
