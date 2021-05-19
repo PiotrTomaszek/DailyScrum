@@ -48,7 +48,7 @@ namespace DailyScrum.Controllers
                 return RedirectToAction("NoNoNo");
             }
 
-            if(id != 0)
+            if (id != 0)
             {
                 _problemRepository.CompleteProblem(id);
             }
@@ -58,31 +58,5 @@ namespace DailyScrum.Controllers
 
             return View(problems);
         }
-
-        //[HttpPost("/problems/{id}")]
-        //public IActionResult Index(int id)
-        //{
-        //    var user = _context.Users
-        //       .Include(x => x.TeamMember)
-        //       .Include(r => r.TeamRole)
-        //       .Where(u => u.UserName == User.Identity.Name)
-        //       .FirstOrDefault();
-
-        //    if (user?.TeamMember == null)
-        //    {
-        //        return RedirectToAction("UserWithoutTeam", "Home");
-        //    }
-
-        //    if (!(user.TeamRole.Name.Equals("Scrum Master")))
-        //    {
-        //        return RedirectToAction("NoNoNo");
-        //    }
-
-        //    var problems = _problemRepository.GetAllActiveProblems(user.TeamMember.TeamId).ToList();
-
-            
-
-        //    return View(problems);
-        //}
     }
 }

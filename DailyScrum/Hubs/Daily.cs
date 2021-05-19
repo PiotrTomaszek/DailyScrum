@@ -157,7 +157,7 @@ namespace DailyScrum.Hubs
                 .Where(x => x.Value.Id == master)
                 .FirstOrDefault().Key;
 
-            await Clients.Client(SMconnectionId).SendAsync("SendProblem", UserFullName, DbUser.Id, problemHold.Description, DateTime.Now/*'data'*/, problemHold.ProblemId, DbUser.PhotoPath);
+            await Clients.Client(SMconnectionId).SendAsync("SendProblem", UserFullName, DbUser.Id, problemHold.Description, DateTime.Now.ToShortTimeString()/*'data'*/, problemHold.ProblemId, DbUser.PhotoPath);
 
             await Clients.Group(DbUser.TeamMember.Name).SendAsync("SendDailyPost", UserFullName, yesterday, today, problem, time, DbUser.Id, DbUser.PhotoPath ?? "no-avatar.jpg");
         }

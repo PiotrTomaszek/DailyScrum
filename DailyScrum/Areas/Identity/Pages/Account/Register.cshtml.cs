@@ -46,6 +46,17 @@ namespace DailyScrum.Areas.Identity.Pages.Account
 
         public class InputModel
         {
+            [Required(ErrorMessage = "Pole Imię jest wymagane.")]
+            [StringLength(50, ErrorMessage = "Imię musi mieć przynajmniej 2 znaki", MinimumLength = 2)]
+            [DataType(DataType.Text)]
+            public string FirstName { get; set; }
+
+
+            [Required(ErrorMessage = "Pole Nazwisko jest wymagane.")]
+            [StringLength(50, ErrorMessage = "Nazwisko musi mieć przynajmniej 2 znaki", MinimumLength = 2)]
+            [DataType(DataType.Text)]
+            public string LastName { get; set; }
+
             [Required(ErrorMessage = "Pole Email jest wymagane.")]
             [EmailAddress(ErrorMessage = "Nie poprawny adres email.")]
             [Display(Name = "Email")]
@@ -73,10 +84,19 @@ namespace DailyScrum.Areas.Identity.Pages.Account
         {
             returnUrl ??= Url.Content("~/");
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = Input.Email, Email = Input.Email };
+                var user = new ApplicationUser
+                {
+                    UserName = Input.Email,
+                    Email = Input.Email,
+                    FirstName = Input.FirstName,
+                    LastName = Input.LastName
+                };
+
                 var result = await _userManager.CreateAsync(user, Input.Password);
+                
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User created a new account with password.");
