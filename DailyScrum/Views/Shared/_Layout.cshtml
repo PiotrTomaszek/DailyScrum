@@ -1,6 +1,6 @@
 ﻿@using Microsoft.AspNetCore.Identity
 @using DailyScrum.Areas.Identity.Data
-@using  DailyScrum.Repository
+@using DailyScrum.Repository
 
 @inject UserManager<ApplicationUser> UserManager
 @inject IUserRepository userRepository
@@ -41,12 +41,10 @@
                             <a class="nav-link text-white link link--mneme" asp-area="" asp-controller="Home" asp-action="Chat">Chat</a>
                         </li>
 
-
                         @*
                             tutaj poprawa
                             wszytkniecie jest bardziej responsywne niz generowanie przez skrypt
                         *@
-
 
                         @if (userRepository.CheckIfScrumMaster(User.Identity.Name))
                         {
@@ -54,13 +52,9 @@
                                 <a class="nav-link text text-white link link--mneme" asp-area="" asp-controller="Problems" asp-action="Index">Problemy</a>
                             </li>
                         }
-
                         <li class="nav-item ml-2">
                             <a class="nav-link text text-white link link--mneme" asp-area="" asp-controller="Home" asp-action="Creator">Twórca</a>
                         </li>
-
-
-
                     </ul>
                     <partial name="_LoginPartial">
                 </div>
@@ -78,6 +72,7 @@
             &copy; 2021 - DailyScrum
         </div>
     </footer>
+
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
@@ -85,13 +80,8 @@
     <script src="~/js/signalr/dist/browser/signalr.min.js"></script>
     <script src="~/js/base-signalR.min.js"></script>
 
-
     <script src="~/js/notificationInvoker.js"></script>
-    @*<script src="~/js/scrumMasterNavbar.js"></script>*@
     @*<script src="~/js/daily.js"></script>*@
-
-
-
 
     @await RenderSectionAsync("Scripts", required: false)
 </body>

@@ -17,6 +17,39 @@ namespace DailyScrum.Repository
             _context = context;
         }
 
+        public void CompleteProblem(int id)
+        {
+            var problem = _context.Problems
+                .Include(z => z.FromUser)
+                .Where(a => a.ProblemId == id)
+                .FirstOrDefault();
+
+            if (problem != null)
+            {
+                problem.Fixed = true;
+
+                _context.Update(problem);
+                _context.SaveChanges();
+            }
+        }
+
+        public Problem CreateProblem(int teamId, int meetingId, string userId, string problemContent)
+        {
+            var newProblem = new Problem
+            {
+                Fixed = false,
+                Description = problemContent,
+                FromUser = _context.Users.Find(userId),
+                Meeting = _context.DailyMeetings.Find(meetingId)
+            };
+
+            _context.Problems.Add(newProblem);
+            _context.SaveChanges();
+
+            // sprawdzic czy rzecziwicie tutaj bedzie widoczny juz id problemu
+            return _context.Problems.Find(newProblem.ProblemId);
+        }
+
         public IEnumerable<Problem> GetAllActiveProblems(int teamId)
         {
             var allMeetings = _context.DailyMeetings

@@ -1,5 +1,6 @@
 ﻿using DailyScrum.Areas.Identity.Data;
 using DailyScrum.Data;
+using DailyScrum.Repository;
 using DailyScrum.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
@@ -14,6 +15,9 @@ namespace DailyScrum.Hubs
     [Authorize]
     public partial class DailyHub : Hub
     {
+        private readonly IProblemRepository _problemRepository;
+        private readonly IUserRepository _userRepository;
+
         private static Dictionary<string, ApplicationUser> _connectedUsers = new Dictionary<string, ApplicationUser>();
         private static Dictionary<string, TeamViewModel> _connectedTeams = new Dictionary<string, TeamViewModel>();
 
@@ -35,9 +39,13 @@ namespace DailyScrum.Hubs
         }
 
 
-        public DailyHub(DailyScrumContext dbContext)
+        public DailyHub(DailyScrumContext dbContext,
+            IProblemRepository problemRepository,
+            IUserRepository userRepository)
         {
             _dbContext = dbContext;
+            _problemRepository = problemRepository;
+            _userRepository = userRepository;
         }
 
 

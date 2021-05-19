@@ -11,5 +11,4 @@ function ResizeContentContainer() {
 
     var calculate = ((windowHeight - (navbarHeight + footerHeight + 100)));
     $("#dailyHolder").innerHeight((calculate) + "px");
-
 }

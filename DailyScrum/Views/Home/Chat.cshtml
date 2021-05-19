@@ -1,5 +1,4 @@
-﻿
-@{
+﻿@{
     ViewData["Title"] = "Chat";
 }
 
@@ -42,30 +41,15 @@
             </div>
         </div>*@
     </div>
-
 </div>
 
 
 @section Scripts{
     <link href="~/css/chat.css" rel="stylesheet" />
 
-    <script src="~/js/signalr/dist/browser/signalr.min.js"></script>
+    @*<script src="~/js/signalr/dist/browser/signalr.min.js"></script>*@
     <script src="~/js/daily.js"></script>
     <script src="~/js/chatWindowResizer.js"></script>
 
-    <script>
-        document.getElementById("sendButton").addEventListener("click", function (event) {
-            var message = document.getElementById("messageInput").value;
-
-            if (!(message === "")) {
-                connection.invoke("SendMessage", message).catch(function (err) {
-                    return console.error(err.toString());
-                });
-            }
-
-            document.getElementById("messageInput").value = '';
-
-            event.preventDefault();
-        });
-    </script>
+    <script src="~/js/ClickHandler/sendChatMessageButton.js"></script>
 }

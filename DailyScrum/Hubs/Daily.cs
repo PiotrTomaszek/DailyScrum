@@ -1,4 +1,5 @@
-﻿using DailyScrum.ViewModels;
+﻿using DailyScrum.Models.Database;
+using DailyScrum.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
 using System;
@@ -50,6 +51,8 @@ namespace DailyScrum.Hubs
 
                     await Clients.OthersInGroup(DbUser.TeamMember.Name).SendAsync("EndDaily");
                 }
+
+
 
                 //await Clients.OthersInGroup(DbUser.TeamMember.Name).SendAsync("EndDaily");
             }
@@ -128,6 +131,8 @@ namespace DailyScrum.Hubs
 
             _connectedTeams.TryGetValue(DbUser.TeamMember.Name, out var teamModel);
 
+            Problem problemHold = null;
+
             if (teamModel != null)
             {
                 var newDailyPost = new DailyPostViewModel
@@ -140,8 +145,19 @@ namespace DailyScrum.Hubs
                     Date = DateTime.UtcNow
                 };
 
+                // TODO poprawić bo jest na sztukę
+                problemHold = _problemRepository.CreateProblem(DbUser.TeamMember.TeamId, 2 /*O TUTAJ*/, DbUser.Id, problem);
+
                 teamModel.DailyPosts.Add(newDailyPost);
             }
+
+            var master = _userRepository.FindScrumMaster(DbUser.TeamMember.TeamId).Id;
+
+            var SMconnectionId = _connectedUsers
+                .Where(x => x.Value.Id == master)
+                .FirstOrDefault().Key;
+
+            await Clients.Client(SMconnectionId).SendAsync("SendProblem", UserFullName, DbUser.Id, problemHold.Description, DateTime.Now/*'data'*/, problemHold.ProblemId, DbUser.PhotoPath);
 
             await Clients.Group(DbUser.TeamMember.Name).SendAsync("SendDailyPost", UserFullName, yesterday, today, problem, time, DbUser.Id, DbUser.PhotoPath ?? "no-avatar.jpg");
         }

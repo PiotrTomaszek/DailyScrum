@@ -4,67 +4,53 @@
     ViewData["Title"] = "Problemy";
 }
 
-<div class="container">
-    <h1>Problemy do rozwiązania: </h1>
+<h1 class="text-center bg-white pt-2 pb-2">Problemy do rozwiązania: </h1>
 
-
-
-
-    @*<div class="text-white  pl-4 pr-4">
-        <div class="row bg-transparent daily-background-color p-2">
-            <div class="col-5">
-                Zgłaszający
-            </div>
-            <div class="col-5">
-                Data
-            </div>
-            <div class="col-2">
-
-            </div>
-        </div>
-
-        <div class=" bg-white">
-            <ul id="scrumMasterProblemList">
-                @foreach (var item in Model)
-                {
-                    <li class="row text-dark @*p-2*@ @*">
-                        <div class="col-4 form-inline">
-                            @{
-                                var fullName = $"{item.FromUser.LastName} {item.FromUser.FirstName}";
-                            }
-                            <img src="@Url.Content("~/avatars/" + @item.FromUser.PhotoPath)" alt="fullName" class="rounded-circle" style="width:50px;height:50px" />
-                            @Html.DisplayFor(modelItem => fullName)
-                        </div>
-                        <div class="col-4">
-                            @Html.DisplayFor(modelItem => item.Description)
-                        </div>
-                        <div class="col-2">
-                            <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseProblem-@item.ProblemId" aria-expanded="false" aria-controls="collapseProblem-@item.ProblemId">
-                                Rozwiń
-                            </button>
-
-                        </div>
-                        <div class=" bg-info">
-                            <div class=" collapse" id="collapseProblem-@item.ProblemId">
-                                <div class="col-6 ">
-                                    <p>@item.Description</p>
-                                </div>
-                                <div class="col-2">
-                                    <button class="btn text-left">
-                                        adadwad buton
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </li>
-                }
-            </ul>
-        </div>
-    </div>*@
-</div>
-
-
+<table class="table text-center p-3">
+    <thead class="text-white daily-background-color pl-4 pr-4">
+        <tr>
+            <th>
+                <h5>Zgłaszający</h5>
+            </th>
+            <th>
+                <h5>Data</h5>
+            </th>
+            <th>
+                <h5>Treść problemu</h5>
+            </th>
+            <th>
+            </th>
+        </tr>
+    </thead>
+    <tbody class=" bg-white" id="problemsTable">
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @{
+                        var fullName = $"{item.FromUser.LastName} {item.FromUser.FirstName}";
+                    }
+                    <img src="@Url.Content("~/avatars/" + @item.FromUser.PhotoPath)" id="userProblem-@item.FromUser.Id" alt="@fullName" class="rounded-circle" style="width:50px;height:50px" />
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Meeting.Date)
+                </td>
+                <td>
+                    <p><strong>@item.Description</strong></p>
+                </td>
+                <td class="text-right h-100 ">
+                    <form method="get" asp-action="Index" asp-controller="Problems">
+                        <input type="hidden" name="id" value="@item.ProblemId" />
+                        <button class="btn btn-outline-danger align-self-center" type="submit">
+                            Zatwierdź i usuń.
+                        </button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
 
 @section Scripts{
-    <script src="~/js/daily-problems.js"></script>
+    <script src="~/js/daily-problems.min.js"></script>
 } 

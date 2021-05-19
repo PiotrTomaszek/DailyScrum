@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DailyScrum.Areas.Identity.Data;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -11,6 +12,8 @@ namespace DailyScrum.Repository
         int GetTeamRoleId(string userName);
 
         bool CheckIfScrumMaster(string userName);
+
+        ApplicationUser FindScrumMaster(int teamId);
 
         void SetFirstName(string userName, string firstName);
         void SetLastName(string userName, string lastName);
