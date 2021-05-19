@@ -1,10 +1,20 @@
-﻿
+﻿@model List<DailyScrum.Models.Database.Problem>
+
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Problemy";
 }
 
-
-
-<div style="width:100%;background-color:white">
+<div class="bg-white">
     <h1>TEST problems</h1>
+
+    @foreach (var item in Model)
+    {
+        <h2>@item.Description</h2>
+    }
 </div>
+
+
+
+@section Scripts{
+    <script src="~/js/daily-problems.js"></script>
+} 

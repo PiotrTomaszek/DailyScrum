@@ -1,4 +1,5 @@
 ﻿using DailyScrum.Data;
+using DailyScrum.Repository;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -13,10 +14,14 @@ namespace DailyScrum.Controllers
     public class ProblemsController : Controller
     {
         private DailyScrumContext _context;
+        private IProblemRepository _problemRepository;
 
-        public ProblemsController(DailyScrumContext context)
+        public ProblemsController
+            (DailyScrumContext context,
+            IProblemRepository problemRepository)
         {
             _context = context;
+            _problemRepository = problemRepository;
         }
 
         public IActionResult NoNoNo()
@@ -43,7 +48,10 @@ namespace DailyScrum.Controllers
                 return RedirectToAction("NoNoNo");
             }
 
-            return View();
+            // jezeli jest scrum masterem i chce wyswietlic bledy
+            var problems = _problemRepository.GetAllActiveProblems(user.TeamMember.TeamId).ToList();
+
+            return View(problems);
         }
     }
 }

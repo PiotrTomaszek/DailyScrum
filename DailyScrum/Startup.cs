@@ -40,9 +40,9 @@ namespace DailyScrum
             }).AddEntityFrameworkStores<DailyScrumContext>();
 
             // test z baza danych
-
             services.AddTransient<IUserRepository, UserRepository>();
             services.AddTransient<IDailyMeetingRepository, DailyMeetingsRepository>();
+            services.AddTransient<IProblemRepository, ProblemRepository>();
 
             services.AddControllersWithViews();
 
