@@ -16,6 +16,27 @@ namespace DailyScrum.Repository
             _context = context;
         }
 
+        public bool CheckIfScrumMaster(string userName)
+        {
+            var user = _context.Users
+               .Include(a => a.TeamMember)
+               .Include(c => c.TeamRole)
+               .Where(x => x.UserName.Equals(userName))
+               .FirstOrDefault();
+
+            if (user.TeamRole == null)
+            {
+                return false;
+            }
+
+            if (!user.TeamRole.Name.Equals("Scrum Master"))
+            {
+                return false;
+            }
+
+            return true;
+        }
+
         public int GetTeamId(string userName)
         {
             var user = _context.Users

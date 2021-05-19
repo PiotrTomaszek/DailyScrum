@@ -1,4 +1,6 @@
-﻿connection.on("GenScrumMasterProblems", function () {
+﻿//chyba do wyrzucienia
+
+connection.on("GenScrumMasterProblems", function () {
     var smProblemsNavbar = document.createElement('li');
     smProblemsNavbar.classList.add('nav-item');
     smProblemsNavbar.classList.add('ml-2');
