@@ -79,6 +79,8 @@ namespace DailyScrum
                 endpoints.MapRazorPages();
 
                 endpoints.MapHub<DailyHub>("/daily");
+
+                endpoints.MapFallbackToController("NoNoNo", "Problems");
             });
         }
     }

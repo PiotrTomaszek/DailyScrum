@@ -26,9 +26,16 @@ namespace DailyScrum.Controllers
             return View(_dailyrepository.GetAllMeetings(IdentityName));
         }
 
-        public IActionResult Details(int meetingId)
+        public IActionResult Details(int id)
         {
-            return View(_dailyrepository.GetMeeting(IdentityName, meetingId));
+            var model = _dailyrepository.GetMeeting(IdentityName, id);
+
+            if (model == null)
+            {
+                return RedirectToAction(nameof(Index));
+            }
+
+            return View(model);
         }
     }
 }
