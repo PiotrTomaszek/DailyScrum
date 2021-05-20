@@ -22,29 +22,15 @@ namespace DailyScrum.Hubs
         }
 
 
-        public async Task EnableSubmitButton()
-        {
-            if (TeamModel != null)
-            {
-                // tutaj sprawdzenie czy juz dal posta
-                if (!_postRepository.HasAlreadyPosted(DbUser.UserName, TeamModel.DailyMeeting?.DailyMeetingId))
-                {
-                    //tutaj zmianka
-                    await Clients.Caller.SendAsync("EnableSubmitPostButton", TeamModel.IsDailyStarted, true);
-                }
-            }
-        }
+      
 
         public async Task StartDailyMeeting()
         {
-            var teamModel = TeamModel;
-
-            if (!teamModel.IsDailyStarted)
+            if (!TeamModel.IsDailyStarted)
             {
-                teamModel.IsDailyStarted = true;
+                TeamModel.IsDailyStarted = true;
 
-                //create daily meeting
-                teamModel.DailyMeeting = _dailyRepository.CreateDailyMeeting(DbUser.TeamMember.TeamId);
+                TeamModel.DailyMeeting = _dailyRepository.CreateDailyMeeting(DbUser.TeamMember.TeamId);
 
                 await SetEnabledOptions();
 
@@ -52,27 +38,27 @@ namespace DailyScrum.Hubs
 
                 await Clients.Group(DbUser.TeamMember.Name).SendAsync("ResetDailyBoard");
 
-                await Clients.Group(DbUser.TeamMember.Name).SendAsync("EnableSubmitPostButton", teamModel.IsDailyStarted);
+                await Clients.Group(DbUser.TeamMember.Name).SendAsync("EnableSubmitPostButton", TeamModel.IsDailyStarted);
 
+                // tutaj poprawa
                 //test
-                teamModel.MeetingStartingTime = new TimeSpan(DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second);
+                TeamModel.MeetingStartingTime = new TimeSpan(DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second);
+
                 //tutaj powinno zaczac sie odliczanie 
             }
         }
 
         public async Task EndDailyMeeting()
         {
-            var teamModel = TeamModel;
-
-            teamModel.IsDailyStarted = false;
-            if (!teamModel.IsDailyStarted)
+            TeamModel.IsDailyStarted = false;
+            if (!TeamModel.IsDailyStarted)
             {
 
-                _dailyRepository.EndDailyMeeting(teamModel.DailyMeeting.DailyMeetingId);
+                _dailyRepository.EndDailyMeeting(TeamModel.DailyMeeting.DailyMeetingId);
 
 
                 // tutaj do poprawy bo powinno pobierac wszystkich z bazy danych
-                foreach (var item in teamModel.UsersList)
+                foreach (var item in TeamModel.UsersList)
                 {
                     // ?? po co ja to dalem
                     var conn = _connectedUsers.Where(x => x.Value.Id == item.Id).FirstOrDefault().Key;
@@ -92,22 +78,34 @@ namespace DailyScrum.Hubs
 
         public async Task SetEnabledOptions()
         {
-            var teamModel = TeamModel;
-
-            foreach (var item in teamModel.UsersList)
+            foreach (var item in TeamModel.UsersList)
             {
                 var conn = _connectedUsers.Where(x => x.Value.Id == item.Id).FirstOrDefault().Key;
 
                 if (conn != null)
                 {
-                    await Clients.Client(conn).SendAsync("EnabledOptions", teamModel.IsDailyStarted, item.TeamRole.Name);
+                    await Clients.Client(conn).SendAsync("EnabledOptions", TeamModel.IsDailyStarted, item.TeamRole.Name);
+                }
+            }
+        }
+
+
+        // to jest chyba ok
+
+        public async Task EnableSubmitButton()
+        {
+            if (TeamModel != null)
+            {
+                if (!_postRepository.HasAlreadyPosted(DbUser.UserName, TeamModel.DailyMeeting?.DailyMeetingId))
+                {
+                    await Clients.Caller.SendAsync("EnableSubmitPostButton", TeamModel.IsDailyStarted, true);
                 }
             }
         }
 
         public async Task AddDailyOptions()
         {
-            if (DbUser.TeamRole.RoleId == 1)
+            if (_userRepository.CheckIfScrumMaster(DbUser.UserName))
             {
                 await Clients.Caller.SendAsync("GenScrumMasterOptions");
             }
@@ -119,18 +117,13 @@ namespace DailyScrum.Hubs
 
         public async Task GetAllPosts()
         {
-            var teamModel = TeamModel;
-
-            if (teamModel?.DailyMeeting != null)
+            if (TeamModel?.DailyMeeting != null)
             {
-                var posts = _postRepository.GetAllPost(teamModel.DailyMeeting.DailyMeetingId);
+                var posts = _postRepository.GetAllPost(TeamModel.DailyMeeting.DailyMeetingId);
 
                 foreach (var post in posts)
                 {
-
                     var fullname = $"{ post.FromUser.LastName} {post.FromUser.FirstName}";
-
-                    //var person = teamModel.UsersList.Where(x => x.Id == item.FromUser).FirstOrDefault();
 
                     await Clients.Caller.SendAsync("SendDailyPost", fullname,
                         post.FirstQuestion, post.SecondQuestion, post.ThirdQuestion,
