@@ -9,7 +9,7 @@ function ResizeContentContainer2() {
     var navbarHeight = document.getElementById('navbarHolder').clientHeight;
     var footerHeight = document.getElementById('footerHolder').clientHeight;
 
-    var calculate = ((windowHeight - (navbarHeight + footerHeight + 100)));
+    var calculate = ((windowHeight - (navbarHeight + footerHeight + 150)));
     
     var el = document.getElementById('chatHolder');
     el.style.height = (calculate) + "px";

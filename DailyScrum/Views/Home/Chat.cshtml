@@ -6,18 +6,25 @@
     <div class="row">
 
         @* Chat Part *@
-        <div class="col-md-8 col-lg-9">
-            <div class="bg-white">
-                <div class="chat-container" id="chatHolder" style="overflow-y:scroll;overflow-x: hidden;">
-                    <ul class="chat-box chatContainerScroll list-unstyled" id="messagesList" >
+        <div class="col-sm-12 col-md-8 offset-md-2">
+            <div class="daily-background-color p-3">
+                <div class="text-center p-2">
+                    <button type="button" class="btn btn-block btn-outline-light align-content-center " data-toggle="modal" data-target="#showUsersModal">
+                        <i class="fas fa-users"></i>
+                    </button>
+                </div>
+                <div class="chat-container bg-white" id="chatHolder" style="overflow-y:scroll;overflow-x: hidden;">
+                    <ul class="chat-box chatContainerScroll list-unstyled" id="messagesList">
                     </ul>
                 </div>
             </div>
-            <div class="input-group mb-3">
+            <div class="input-group mb-3 ">
                 <input type="text" id="messageInput" class="form-control" placeholder="Napisz wiadomość..." aria-label="Recipient's username" aria-describedby="button-addon2">
                 <button class="btn btn-primary " type="button" id="sendButton">Wyślij</button>
             </div>
         </div>
+
+        <partial name="_ModalUserList" />
 
         @* User List Part *@
         @*<div class="col-md-4 col-lg-3">
@@ -32,24 +39,23 @@
                 </div>
                 <div id="cardBodyHolder">
                     <div class="card-body @*collapse*@ @*contacts_body" id="collapseUserList" style="overflow-y: scroll;height:100%">
-                        <ul id="usersList" class="contacts list-unstyled">
-                            <li>
-                            </li>
-                        </ul>
+                            <ul id="usersList" class="contacts list-unstyled">
+                                <li>
+                                </li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
+            </div>*@
+                </div>
             </div>
-        </div>*@
-    </div>
-</div>
 
 
-@section Scripts{
-    <link href="~/css/chat.css" rel="stylesheet" />
+            @section Scripts{
+                <link href="~/css/chat.css" rel="stylesheet" />
 
-    @*<script src="~/js/signalr/dist/browser/signalr.min.js"></script>*@
-    <script src="~/js/daily.js"></script>
-    <script src="~/js/chatWindowResizer.js"></script>
+                <script src="~/js/daily.js"></script>
+                <script src="~/js/chatWindowResizer.js"></script>
 
-    <script src="~/js/ClickHandler/sendChatMessageButton.js"></script>
-}
+                <script src="~/js/ClickHandler/sendChatMessageButton.js"></script>
+            }

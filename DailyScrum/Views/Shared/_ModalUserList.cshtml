@@ -1,0 +1,26 @@
+﻿<div class="modal fade " id="showUsersModal" tabindex="-1" role="dialog" aria-labelledby="showUsersModal" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header ">
+                <h4 class="modal-title w-100 text-center" id="userListTitle">#DailyMembers</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body w-100 text-center">
+                <p>Liczba osób aktualnie zalogowanych: <span id="online-team-members"></span></p>
+                <div id="cardBodyHolder">
+                    <div class="card-body @*collapse*@ contacts_body align-items-center" id="collapseUserList" style="overflow-y: scroll;height:100%">
+                        <ul id="usersList" class="contacts list-unstyled">
+                            <li>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Zamknij</button>
+            </div>
+        </div>
+    </div>
+</div>

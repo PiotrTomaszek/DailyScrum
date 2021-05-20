@@ -23,14 +23,13 @@
     }
 }
 
-<h3 class="text-center">@ViewData["Title"]</h3>
 <partial name="_StatusMessage" model="Model.StatusMessage" />
 
 <div class="row">
-    <div class="col-md-4 pb-4">
+    <div class="col-md-4  pb-4 @*p-5*@">
         <partial name="_ManageNav">
     </div>
-    <div class="col-md-7 daily-background-color text-white p-5">
+    <div class="col-md-8 daily-background-color text-white p-5 pb-5">
         <form id="profile-form" method="post" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
