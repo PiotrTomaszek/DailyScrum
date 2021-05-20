@@ -3,6 +3,7 @@ using DailyScrum.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -36,6 +37,27 @@ namespace DailyScrum.Hubs
             }
         }
 
+        public async Task StartDailyMeeting()
+        {
+            var teamModel = TeamModel;
+
+            if (!teamModel.IsDailyStarted)
+            {
+                teamModel.IsDailyStarted = true;
+
+                //create daily meeting
+                teamModel.DailyMeeting = _dailyRepository.CreateDailyMeeting(DbUser.TeamMember.TeamId);
+
+                await SetEnabledOptions();
+
+                await Clients.OthersInGroup(DbUser.TeamMember.Name).SendAsync("StartDaily");
+
+                //test
+                teamModel.MeetingStartingTime = new TimeSpan(DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second);
+                //tutaj powinno zaczac sie odliczanie 
+            }
+        }
+
         public async Task EndDailyMeeting()
         {
             var teamModel = TeamModel;
@@ -44,6 +66,7 @@ namespace DailyScrum.Hubs
             if (!teamModel.IsDailyStarted)
             {
 
+                // tutaj do poprawy bo powinno pobierac wszystkich z bazy danych
                 foreach (var item in teamModel.UsersList)
                 {
                     var conn = _connectedUsers.Where(x => x.Value.Id == item.Id).FirstOrDefault().Key;
@@ -51,8 +74,6 @@ namespace DailyScrum.Hubs
 
                     await Clients.OthersInGroup(DbUser.TeamMember.Name).SendAsync("EndDaily");
                 }
-
-
 
                 //await Clients.OthersInGroup(DbUser.TeamMember.Name).SendAsync("EndDaily");
             }
@@ -63,24 +84,6 @@ namespace DailyScrum.Hubs
             var model = TeamModel;
 
             await Clients.Caller.SendAsync("EnabledOptions", model.IsDailyStarted, DbUser.TeamRole.Name);
-        }
-
-        public async Task StartDailyMeeting()
-        {
-            var teamModel = TeamModel;
-
-            if (!teamModel.IsDailyStarted)
-            {
-                teamModel.IsDailyStarted = true;
-
-                await SetEnabledOptions();
-
-                await Clients.OthersInGroup(DbUser.TeamMember.Name).SendAsync("StartDaily");
-
-                //test
-                teamModel.MeetingStartingTime = new TimeSpan(DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second);
-                //tutaj powinno zaczac sie odliczanie 
-            }
         }
 
         public async Task SetEnabledOptions()
@@ -112,7 +115,7 @@ namespace DailyScrum.Hubs
 
         public async Task GetAllPosts()
         {
-            _connectedTeams.TryGetValue(DbUser.TeamMember.Name, out var teamModel);
+            var teamModel = TeamModel;
 
             if (teamModel != null)
             {
@@ -127,28 +130,29 @@ namespace DailyScrum.Hubs
 
         public async Task SendPost(string yesterday, string today, string problem)
         {
-            var time = DateTime.UtcNow.ToShortTimeString();
-
-            _connectedTeams.TryGetValue(DbUser.TeamMember.Name, out var teamModel);
+            var teamModel = TeamModel;
 
             Problem problemHold = null;
+            DailyPost dailyPost = null;
 
             if (teamModel != null)
             {
-                var newDailyPost = new DailyPostViewModel
-                {
-                    Id = Guid.NewGuid().ToString(),
-                    FirstQuestion = yesterday,
-                    SecondQuestion = today,
-                    ThirdQuestion = problem,
-                    FromUser = DbUser.Id,
-                    Date = DateTime.UtcNow
-                };
+                //var newDailyPost = new DailyPostViewModel
+                //{
+                //    Id = Guid.NewGuid().ToString(),
+                //    FirstQuestion = yesterday,
+                //    SecondQuestion = today,
+                //    ThirdQuestion = problem,
+                //    FromUser = DbUser.Id,
+                //    Date = DateTime.UtcNow
+                //};
 
-                // TODO poprawić bo jest na sztukę
-                problemHold = _problemRepository.CreateProblem(DbUser.TeamMember.TeamId, 2 /*O TUTAJ*/, DbUser.Id, problem);
+                // dodanie postu do bazy
+                dailyPost = _postRepository.CreateDailyPost(yesterday, today, problem, DbUser, teamModel.DailyMeeting, DateTime.Now);
 
-                teamModel.DailyPosts.Add(newDailyPost);
+                problemHold = _problemRepository.CreateProblem(DbUser.TeamMember.TeamId, teamModel.DailyMeeting.DailyMeetingId, DbUser.Id, problem);
+
+                //teamModel.DailyPosts.Add(newDailyPost);
             }
 
             var master = _userRepository.FindScrumMaster(DbUser.TeamMember.TeamId).Id;
@@ -157,9 +161,9 @@ namespace DailyScrum.Hubs
                 .Where(x => x.Value.Id == master)
                 .FirstOrDefault().Key;
 
-            await Clients.Client(SMconnectionId).SendAsync("SendProblem", UserFullName, DbUser.Id, problemHold.Description, DateTime.Now.ToShortTimeString()/*'data'*/, problemHold.ProblemId, DbUser.PhotoPath);
+            await Clients.Client(SMconnectionId).SendAsync("SendProblem", UserFullName, DbUser.Id, problemHold.Description, DateTime.Now.ToShortTimeString(), problemHold.ProblemId, DbUser.PhotoPath);
 
-            await Clients.Group(DbUser.TeamMember.Name).SendAsync("SendDailyPost", UserFullName, yesterday, today, problem, time, DbUser.Id, DbUser.PhotoPath ?? "no-avatar.jpg");
+            await Clients.Group(DbUser.TeamMember.Name).SendAsync("SendDailyPost", UserFullName, dailyPost.FirstQuestion, dailyPost.SecondQuestion, dailyPost.ThirdQuestion, dailyPost.Date.ToShortTimeString(), DbUser.Id, DbUser.PhotoPath ?? "no-avatar.jpg");
         }
     }
 }

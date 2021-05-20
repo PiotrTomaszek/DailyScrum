@@ -157,6 +157,7 @@ connection.on("EnableSubmitPostButton", function () {
 });
 
 connection.on("SendDailyPost", function (name, yesterday, today, problem, time, id, photopath) {
+
     var place = document.getElementById('dailyPostPlace');
 
     var newDiv = document.createElement('div');

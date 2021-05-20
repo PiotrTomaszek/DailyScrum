@@ -7,6 +7,7 @@ namespace DailyScrum.Repository
     {
         List<DailyMeeting> GetAllMeetings(string userName);
         DailyMeeting GetMeeting(string userName, int meetingId);
-        void CreateDailyMeeting(int teamId);
+        DailyMeeting CreateDailyMeeting(int teamId);
+        void EndDailyMeeting(int meetingId);
     }
 }

@@ -19,9 +19,21 @@ namespace DailyScrum.Repository
             _userRepository = userRepository;
         }
 
-        public void CreateDailyMeeting(int teamId)
+        public DailyMeeting CreateDailyMeeting(int teamId)
         {
-            throw new NotImplementedException();
+            var newMeeting = new DailyMeeting
+            {
+                Date = DateTime.Now,
+                HasFinished = false,
+                Posts = new List<DailyPost>(),
+                Problems = new List<Problem>(),
+                Team = _context.Teams.Find(teamId)
+            };
+
+            _context.DailyMeetings.Add(newMeeting);
+            _context.SaveChanges();
+
+            return newMeeting;
         }
 
         public List<DailyMeeting> GetAllMeetings(string userName)
@@ -42,7 +54,7 @@ namespace DailyScrum.Repository
 
             var meeting = _context.DailyMeetings
                 .Include(a => a.Team)
-                .Include(b=>b.Posts)
+                .Include(b => b.Posts)
                 .Where(x => x.Team.TeamId == teamId && x.DailyMeetingId == key)
                 .FirstOrDefault();
 

@@ -4,14 +4,16 @@ using DailyScrum.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DailyScrum.Migrations
 {
     [DbContext(typeof(DailyScrumContext))]
-    partial class DailyScrumContextModelSnapshot : ModelSnapshot
+    [Migration("20210520143549_add daily meeting to post")]
+    partial class adddailymeetingtopost
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -172,7 +174,7 @@ namespace DailyScrum.Migrations
 
                     b.HasIndex("MeetingDailyMeetingId");
 
-                    b.ToTable("DailyPosts");
+                    b.ToTable("Posts");
                 });
 
             modelBuilder.Entity("DailyScrum.Models.Database.Message", b =>

@@ -1,4 +1,5 @@
 ﻿using DailyScrum.Areas.Identity.Data;
+using DailyScrum.Models.Database;
 using System;
 using System.Collections.Generic;
 
@@ -10,6 +11,7 @@ namespace DailyScrum.ViewModels
         public int TeamMemberCount { get; set; }
 
         public bool IsDailyStarted { get; set; }
+        public DailyMeeting DailyMeeting { get; set; }
 
         public TimeSpan MeetingStartingTime { get; set; }
         public TimeSpan MeettingDuration { get; set; }

@@ -4,14 +4,16 @@ using DailyScrum.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DailyScrum.Migrations
 {
     [DbContext(typeof(DailyScrumContext))]
-    partial class DailyScrumContextModelSnapshot : ModelSnapshot
+    [Migration("20210520143252_added date to dailypost")]
+    partial class addeddatetodailypost
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -148,6 +150,9 @@ namespace DailyScrum.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int?>("DailyMeetingId")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
 
@@ -157,9 +162,6 @@ namespace DailyScrum.Migrations
                     b.Property<string>("FromUserId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<int?>("MeetingDailyMeetingId")
-                        .HasColumnType("int");
-
                     b.Property<string>("SecondQuestion")
                         .HasColumnType("nvarchar(max)");
 
@@ -168,11 +170,11 @@ namespace DailyScrum.Migrations
 
                     b.HasKey("DailyPostId");
 
+                    b.HasIndex("DailyMeetingId");
+
                     b.HasIndex("FromUserId");
 
-                    b.HasIndex("MeetingDailyMeetingId");
-
-                    b.ToTable("DailyPosts");
+                    b.ToTable("Posts");
                 });
 
             modelBuilder.Entity("DailyScrum.Models.Database.Message", b =>
@@ -413,17 +415,15 @@ namespace DailyScrum.Migrations
 
             modelBuilder.Entity("DailyScrum.Models.Database.DailyPost", b =>
                 {
+                    b.HasOne("DailyScrum.Models.Database.DailyMeeting", null)
+                        .WithMany("Posts")
+                        .HasForeignKey("DailyMeetingId");
+
                     b.HasOne("DailyScrum.Areas.Identity.Data.ApplicationUser", "FromUser")
                         .WithMany()
                         .HasForeignKey("FromUserId");
 
-                    b.HasOne("DailyScrum.Models.Database.DailyMeeting", "Meeting")
-                        .WithMany("Posts")
-                        .HasForeignKey("MeetingDailyMeetingId");
-
                     b.Navigation("FromUser");
-
-                    b.Navigation("Meeting");
                 });
 
             modelBuilder.Entity("DailyScrum.Models.Database.Message", b =>

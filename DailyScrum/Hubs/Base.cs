@@ -22,6 +22,9 @@ namespace DailyScrum.Hubs
 
         private readonly IProblemRepository _problemRepository;
         private readonly IUserRepository _userRepository;
+        private readonly IDailyMeetingRepository _dailyRepository;
+        private readonly IPostRepository _postRepository;
+
 
         private string SignalRIdentityName => Context.User.Identity.Name;
 
@@ -31,11 +34,15 @@ namespace DailyScrum.Hubs
 
         public DailyHub(DailyScrumContext dbContext,
             IProblemRepository problemRepository,
-            IUserRepository userRepository)
+            IUserRepository userRepository,
+            IDailyMeetingRepository dailyRepository,
+            IPostRepository postRepository)
         {
             _dbContext = dbContext;
             _problemRepository = problemRepository;
             _userRepository = userRepository;
+            _dailyRepository = dailyRepository;
+            _postRepository = postRepository;
         }
 
 
@@ -100,9 +107,14 @@ namespace DailyScrum.Hubs
 
         public async override Task<Task> OnDisconnectedAsync(Exception exception)
         {
-            await HandleTeamMemberNumber(-1);
+            if (_userRepository.CheckIfHasTeam(SignalRIdentityName))
+            {
+                // wyrzuca nulla jak nie ma zespolu a sie wyloguje
+                await HandleTeamMemberNumber(-1);
 
-            await SetUserStatus(false);
+                await SetUserStatus(false);
+
+            }
 
             //test
             //_usersNotifications.Remove(DbUser.UserName);

@@ -18,7 +18,7 @@ namespace DailyScrum.Data
         public DbSet<DailyMeeting> DailyMeetings { get; set; }
         public DbSet<Message> Messages { get; set; }
         public DbSet<Role> ScrumRoles { get; set; }
-        public DbSet<DailyPost> Posts{ get; set; }
+        public DbSet<DailyPost> DailyPosts{ get; set; }
 
         public DailyScrumContext(DbContextOptions<DailyScrumContext> options)
             : base(options)
