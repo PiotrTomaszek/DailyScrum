@@ -15,29 +15,19 @@ namespace DailyScrum.Hubs
     [Authorize]
     public partial class DailyHub : Hub
     {
-        private readonly IProblemRepository _problemRepository;
-        private readonly IUserRepository _userRepository;
-
         private static Dictionary<string, ApplicationUser> _connectedUsers = new Dictionary<string, ApplicationUser>();
         private static Dictionary<string, TeamViewModel> _connectedTeams = new Dictionary<string, TeamViewModel>();
 
         private readonly DailyScrumContext _dbContext;
 
+        private readonly IProblemRepository _problemRepository;
+        private readonly IUserRepository _userRepository;
+
         private string SignalRIdentityName => Context.User.Identity.Name;
+
         private ApplicationUser DbUser => _connectedUsers
             .Where(x => x.Key == this.Context.ConnectionId)
             .FirstOrDefault().Value;
-        private ApplicationUser GetUser()
-        {
-            var user = _dbContext.Users
-                .Include(a => a.TeamMember)
-                .Include(ro => ro.TeamRole)
-                .Where(x => x.UserName == SignalRIdentityName)
-                .FirstOrDefault();
-
-            return user;
-        }
-
 
         public DailyHub(DailyScrumContext dbContext,
             IProblemRepository problemRepository,
@@ -54,42 +44,47 @@ namespace DailyScrum.Hubs
             //powiazanie connId z userem ->
             //tutaj jest bug ktory incrementuje ilosc zalogowanych osob
             //jezeli zalogujesz sie jeszcze raz na zalogowane konto
-            _connectedUsers.Add(Context.ConnectionId, GetUser());
+            _connectedUsers.Add(Context.ConnectionId, _userRepository.GetUserByUserName(SignalRIdentityName));
 
             // test notyfikacji
 
             //_usersNotifications.Add(DbUser.UserName, new NotificationViewModel());
 
 
-            //sprawdzenie czy istieje ten zespol
-            await HandleNewTeam();
+            // tutaj zrobie sobie sprawdzenie czy ma zespol bo w przeciwnym wypadku twywali signala
+            if (_userRepository.CheckIfHasTeam(SignalRIdentityName))
+            {
+                //sprawdzenie czy istieje ten zespol
+                await HandleNewTeam();
 
-            await Groups.AddToGroupAsync(Context.ConnectionId, DbUser.TeamMember.Name);
-
-
-            await ShowTeamName(DbUser.TeamMember.Name);
-            await HandleTeamMemberNumber(1);
-            await GenerateConnectedUsers(DbUser.TeamMember.Name);
+                await Groups.AddToGroupAsync(Context.ConnectionId, DbUser.TeamMember.Name);
 
 
-            await GenerateUserList();
-
-            await GetAllUsersStatus();
-            await SetUserStatus(true);
-
-            await GetAllMessages();
-            await GetAllPosts();
-            await EnableSubmitButton();
+                await ShowTeamName(DbUser.TeamMember.Name);
+                await HandleTeamMemberNumber(1);
+                await GenerateConnectedUsers(DbUser.TeamMember.Name);
 
 
-            await AddDailyOptions();
+                await GenerateUserList();
 
-            await GetDailyOptions();
+                await GetAllUsersStatus();
+                await SetUserStatus(true);
 
-            //await EnableScrumMasterProblemBar();
+                await GetAllMessages();
+                await GetAllPosts();
+                await EnableSubmitButton();
 
-            //await TimeStuff();
-            //SetUpTimer(new TimeSpan(11, 23, 00));
+
+                await AddDailyOptions();
+
+                await GetDailyOptions();
+
+                //await EnableScrumMasterProblemBar();
+
+                //await TimeStuff();
+                //SetUpTimer(new TimeSpan(11, 23, 00));
+
+            }
 
             return base.OnConnectedAsync();
         }

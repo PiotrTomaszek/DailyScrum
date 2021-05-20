@@ -17,6 +17,17 @@ namespace DailyScrum.Repository
             _context = context;
         }
 
+        public bool CheckIfHasTeam(string userName)
+        {
+            var user = _context.Users
+                .Where(x => x.UserName.Equals(userName))
+                .FirstOrDefault();
+
+            var result = user.TeamMember == null ? false : true;
+
+            return result;
+        }
+
         public bool CheckIfScrumMaster(string userName)
         {
             var user = _context.Users
@@ -62,6 +73,17 @@ namespace DailyScrum.Repository
         public int GetTeamRoleId(string userName)
         {
             throw new NotImplementedException();
+        }
+
+        public ApplicationUser GetUserByUserName(string userName)
+        {
+            var user = _context.Users
+                .Include(a => a.TeamMember)
+                .Include(ro => ro.TeamRole)
+                .Where(x => x.UserName == userName)
+                .FirstOrDefault();
+
+            return user;
         }
 
         public void SetFirstName(string userName, string firstName)
