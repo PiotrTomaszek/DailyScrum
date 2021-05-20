@@ -2,6 +2,7 @@
 using DailyScrum.Models.Database;
 using System;
 using System.Collections.Generic;
+using System.Threading;
 
 namespace DailyScrum.ViewModels
 {
@@ -13,11 +14,10 @@ namespace DailyScrum.ViewModels
         public bool IsDailyStarted { get; set; }
         public DailyMeeting DailyMeeting { get; set; }
 
-        public TimeSpan MeetingStartingTime { get; set; }
-        public TimeSpan MeettingDuration { get; set; }
+        public Timer Timer { get; set; }
 
-        //// do wyrzucenia
-        //public List<DailyPostViewModel> DailyPosts { get; set; }
+        public DateTime MeetingStartingTime { get; set; }
+        public TimeSpan MeettingDuration { get; set; }
 
 
         //tutaj uwaga

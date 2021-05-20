@@ -22,7 +22,7 @@ namespace DailyScrum.Hubs
         }
 
 
-      
+
 
         public async Task StartDailyMeeting()
         {
@@ -40,27 +40,25 @@ namespace DailyScrum.Hubs
 
                 await Clients.Group(DbUser.TeamMember.Name).SendAsync("EnableSubmitPostButton", TeamModel.IsDailyStarted);
 
-                // tutaj poprawa
-                //test
-                TeamModel.MeetingStartingTime = new TimeSpan(DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second);
+                TeamModel.MeetingStartingTime = TeamModel.DailyMeeting.Date;
+
+                // test
+                var timeToEnd = TeamModel.DailyMeeting.Date.AddMinutes(1);
 
                 //tutaj powinno zaczac sie odliczanie 
+                SetUpTimer(new TimeSpan(timeToEnd.Hour, timeToEnd.Minute,timeToEnd.Second), DbUser.TeamMember.Name);
             }
         }
-
+        
         public async Task EndDailyMeeting()
         {
             TeamModel.IsDailyStarted = false;
             if (!TeamModel.IsDailyStarted)
             {
-
                 _dailyRepository.EndDailyMeeting(TeamModel.DailyMeeting.DailyMeetingId);
 
-
-                // tutaj do poprawy bo powinno pobierac wszystkich z bazy danych
-                foreach (var item in TeamModel.UsersList)
+                foreach (var item in _userRepository.GetAllTeamMebers(DbUser.TeamMember.Name))
                 {
-                    // ?? po co ja to dalem
                     var conn = _connectedUsers.Where(x => x.Value.Id == item.Id).FirstOrDefault().Key;
                     await SetEnabledOptions();
 

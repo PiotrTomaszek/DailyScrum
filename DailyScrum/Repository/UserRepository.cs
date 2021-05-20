@@ -60,6 +60,16 @@ namespace DailyScrum.Repository
             return scrumMaster;
         }
 
+        public List<ApplicationUser> GetAllTeamMebers(string teamName)
+        {
+            var members = _context.Users
+                .Include(x => x.TeamMember)
+                .Where(a => a.TeamMember.Name.Equals(teamName))
+                .ToList();
+
+            return members;
+        }
+
         public int GetTeamId(string userName)
         {
             var user = _context.Users

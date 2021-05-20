@@ -44,6 +44,7 @@ namespace DailyScrum
             services.AddTransient<IDailyMeetingRepository, DailyMeetingsRepository>();
             services.AddTransient<IProblemRepository, ProblemRepository>();
             services.AddTransient<IPostRepository, PostRepository>();
+            services.AddTransient<ITeamRepository, TeamRepository>();
 
             services.AddControllersWithViews();
 

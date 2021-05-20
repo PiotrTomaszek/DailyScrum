@@ -11,7 +11,9 @@ namespace DailyScrum.Repository
         int GetTeamId(string userName);
         int GetTeamRoleId(string userName);
 
+
         ApplicationUser GetUserByUserName(string userName);
+        List<ApplicationUser> GetAllTeamMebers(string teamName);
 
         bool CheckIfScrumMaster(string userName);
         bool CheckIfHasTeam(string userName);

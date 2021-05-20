@@ -24,7 +24,7 @@ namespace DailyScrum.Hubs
         private readonly IUserRepository _userRepository;
         private readonly IDailyMeetingRepository _dailyRepository;
         private readonly IPostRepository _postRepository;
-
+        private readonly ITeamRepository _teamRepository;
 
         private string SignalRIdentityName => Context.User.Identity.Name;
 
@@ -36,13 +36,15 @@ namespace DailyScrum.Hubs
             IProblemRepository problemRepository,
             IUserRepository userRepository,
             IDailyMeetingRepository dailyRepository,
-            IPostRepository postRepository)
+            IPostRepository postRepository,
+            ITeamRepository teamRepository)
         {
             _dbContext = dbContext;
             _problemRepository = problemRepository;
             _userRepository = userRepository;
             _dailyRepository = dailyRepository;
             _postRepository = postRepository;
+            _teamRepository = teamRepository;
         }
 
 

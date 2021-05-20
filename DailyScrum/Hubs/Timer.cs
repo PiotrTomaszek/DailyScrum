@@ -13,31 +13,44 @@ namespace DailyScrum.Hubs
     {
         public async Task TimeStuff()
         {
-            _connectedTeams.TryGetValue(DbUser.TeamMember.Name, out var model);
-
-            await Clients.Caller.SendAsync("DisplayTime", model.MeetingStartingTime.ToString());
+            await Clients.Caller.SendAsync("DisplayTime", TeamModel.MeetingStartingTime.ToString());
         }
 
         // dzioa ale do ogarniecia
-        //private System.Threading.Timer timer;
-        //private void SetUpTimer(TimeSpan alertTime)
-        //{
-        //    var current = DateTime.Now;
-        //    var timeToGo = alertTime - current.TimeOfDay;
 
-        //    if (timeToGo < TimeSpan.Zero)
-        //    {
-        //        return;
-        //    }
+        private void SetUpTimer(TimeSpan alertTime, string teamName)
+        {
+            var current = DateTime.Now;
+            var timeToGo = alertTime - current.TimeOfDay;
 
-        //    this.timer = new System.Threading.Timer(x =>
-        //    {
-        //        this.SomeMethodRunsAt1600();
-        //    }, null, timeToGo, Timeout.InfiniteTimeSpan);
-        //}
-        //private void SomeMethodRunsAt1600()
-        //{
-        //    var a = "a";
-        //}
+            if (timeToGo < TimeSpan.Zero)
+            {
+                return;
+            }
+
+            TeamModel.Timer = new System.Threading.Timer(x =>
+           {
+               EndDailyMeetingByTime(teamName);
+           }, null, timeToGo, Timeout.InfiniteTimeSpan);
+        }
+        private async Task EndDailyMeetingByTime(string teamName)
+        {
+            _connectedTeams.TryGetValue(teamName, out var teamModel);
+
+            teamModel.IsDailyStarted = false;
+            if (!teamModel.IsDailyStarted)
+            {
+                _dailyRepository.EndDailyMeeting(teamModel.DailyMeeting.DailyMeetingId);
+
+                foreach (var item in _userRepository.GetAllTeamMebers(DbUser.TeamMember.Name))
+                {
+                    var conn = _connectedUsers.Where(x => x.Value.Id == item.Id).FirstOrDefault().Key;
+
+                    await SetEnabledOptions();
+
+                    await Clients.Client(conn).SendAsync("EndDaily");
+                }
+            }
+        }
     }
 }
