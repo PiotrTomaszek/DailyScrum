@@ -77,8 +77,6 @@ namespace DailyScrum.Controllers
             return View();
         }
 
-        
-
         [HttpPost]
         public IActionResult RedirectToAccount()
         {
@@ -91,6 +89,7 @@ namespace DailyScrum.Controllers
         //    //return 
         //}
 
+        // to na razie nie dzioa
         [HttpPost]
         public async Task DeleteTeam()
         {

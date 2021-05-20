@@ -4,7 +4,7 @@
     ViewData["Title"] = "Problemy";
 }
 
-<h1 class="text-center bg-white pt-2 pb-2">Problemy do rozwiązania: </h1>
+<h1 class="text-center bg-white pt-2 pb-2">#ToDo</h1>
 
 <table class="table text-center p-3 pb-5 mb-5" >
     <thead class="text-white daily-background-color pl-4 pr-4">
@@ -42,7 +42,7 @@
                     <form method="get" asp-action="Index" asp-controller="Problems">
                         <input type="hidden" name="id" value="@item.ProblemId" />
                         <button class="btn btn-outline-danger align-self-center" type="submit">
-                            Zatwierdź i usuń.
+                            Zakończ i usuń.
                         </button>
                     </form>
                 </td>

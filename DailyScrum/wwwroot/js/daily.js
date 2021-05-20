@@ -4,12 +4,26 @@ connection.on("NotifyUsers", function (param1, param2) {
     displayNotofication(param1, param2);
 });
 
+
+connection.on("DisplayTime", function (time) {
+    var element = document.getElementById('starting-time');
+    element.innerHTML = time;
+})
+
+connection.on("TestMethod", function (user, message) {
+    var msg = message.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+    var encodedMsg = user + " says " + msg;
+    var li = document.createElement("li");
+    li.textContent = encodedMsg;
+    document.getElementById("messagesList").appendChild(li);
+});
+
 connection.on("StartDaily", function () {
     alert('daily has started');
 
     connection.invoke("AddNotification", "Daily");
 
-    
+
 
     //displayNotofication('daily', 'start');
 });
@@ -25,25 +39,58 @@ connection.on("EndDaily", function () {
 });
 
 connection.on("EnabledOptions", function (isStarted, roleMember) {
-
     if (isStarted) {
 
         if (roleMember === "Scrum Master") {
-            document.getElementById('startMeetingHolder').classList.add('disabled');
-            document.getElementById('endMeetingHolder').classList.remove('disabled');
+
+            var startBtn = document.getElementById('startMeetingHolder');
+            var endBtn = document.getElementById('endMeetingHolder');
+
+            // wylaczanie przyciskow
+            startBtn.classList.add('disabled');
+            endBtn.classList.remove('disabled');
+
+            // zmiana wygladu
+
+            startBtn.classList.add('text-muted');
+            endBtn.classList.remove('text-muted');
+
         } else {
-            document.getElementById('modalHolder').classList.remove('disabled');;
+
+            debugger;
+
+            var addPost = document.getElementById('modalHolder');
+
+            addPost.classList.remove('disabled');;
+
+            addPost.classList.remove('text-muted');
         }
 
     } else {
         if (roleMember === "Scrum Master") {
-            document.getElementById('startMeetingHolder').classList.remove('disabled');
-            document.getElementById('endMeetingHolder').classList.add('disabled');
+
+            var startBtn = document.getElementById('startMeetingHolder');
+            var endBtn = document.getElementById('endMeetingHolder');
+
+            // wylaczanie
+            startBtn.classList.remove('disabled');
+            endBtn.classList.add('disabled');
+
+            //  wyglad
+            startBtn.classList.remove('text-muted');
+            endBtn.classList.add('text-muted');
+
         } else {
-            document.getElementById('modalHolder').classList.add('disabled');
+
+            var addPost = document.getElementById('modalHolder');
+
+            // wylaczanie
+            addPost.classList.add('disabled');
+
+            // wyglad
+            addPost.classList.add('text-muted');
         }
     }
-
 });
 
 // chyba jest ok
@@ -86,7 +133,7 @@ connection.on("GenScrumMasterOptions", function () {
     smOption2.id = 'endMeetingHolder';
     smOption2.dataset.toggle = 'modal';
     smOption2.dataset.target = '#endMeetingModal';
-    smOption2.innerHTML = "Zakoncz spotkanie";
+    smOption2.innerHTML = "Koniec spotkania";
 
     divContainer.appendChild(smOption2);
 
@@ -94,29 +141,14 @@ connection.on("GenScrumMasterOptions", function () {
 
     var archiveManager = document.createElement('a');
     archiveManager.classList.add('dropdown-item');
-    archiveManager.classList.add('text-center');
+    archiveManager.classList.add('text-center');    
     archiveManager.style.color = 'black';
     archiveManager.id = 'meetingArchiveManager';
-    archiveManager.innerHTML = "Archiwum spotkan";
+    archiveManager.innerHTML = "Archiwum Daily";
     archiveManager.href = '/meetingsarchive';
 
     divContainer.appendChild(archiveManager);
 });
-
-
-connection.on("DisplayTime", function (time) {
-    var element = document.getElementById('starting-time');
-    element.innerHTML = time;
-})
-
-connection.on("TestMethod", function (user, message) {
-    var msg = message.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
-    var encodedMsg = user + " says " + msg;
-    var li = document.createElement("li");
-    li.textContent = encodedMsg;
-    document.getElementById("messagesList").appendChild(li);
-});
-
 
 // nie do konca spoko ale narazie dziala
 connection.on("EnableSubmitPostButton", function () {
