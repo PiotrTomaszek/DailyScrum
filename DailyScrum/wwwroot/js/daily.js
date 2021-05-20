@@ -5,18 +5,18 @@ connection.on("NotifyUsers", function (param1, param2) {
 });
 
 
-connection.on("DisplayTime", function (time) {
-    var element = document.getElementById('starting-time');
-    element.innerHTML = time;
-})
+//connection.on("DisplayTime", function (time) {
+//    var element = document.getElementById('starting-time');
+//    element.innerHTML = time;
+//})
 
-connection.on("TestMethod", function (user, message) {
-    var msg = message.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
-    var encodedMsg = user + " says " + msg;
-    var li = document.createElement("li");
-    li.textContent = encodedMsg;
-    document.getElementById("messagesList").appendChild(li);
-});
+//connection.on("TestMethod", function (user, message) {
+//    var msg = message.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+//    var encodedMsg = user + " says " + msg;
+//    var li = document.createElement("li");
+//    li.textContent = encodedMsg;
+//    document.getElementById("messagesList").appendChild(li);
+//});
 
 connection.on("StartDaily", function () {
     alert('daily has started');
@@ -31,7 +31,6 @@ connection.on("StartDaily", function () {
 connection.on("EndDaily", function () {
     alert('daily has ended');
 
-    debugger;
 
     connection.invoke("AddNotification", "Daily");
 
@@ -56,9 +55,6 @@ connection.on("EnabledOptions", function (isStarted, roleMember) {
             endBtn.classList.remove('text-muted');
 
         } else {
-
-            debugger;
-
             var addPost = document.getElementById('modalHolder');
 
             addPost.classList.remove('disabled');;
@@ -141,7 +137,7 @@ connection.on("GenScrumMasterOptions", function () {
 
     var archiveManager = document.createElement('a');
     archiveManager.classList.add('dropdown-item');
-    archiveManager.classList.add('text-center');    
+    archiveManager.classList.add('text-center');
     archiveManager.style.color = 'black';
     archiveManager.id = 'meetingArchiveManager';
     archiveManager.innerHTML = "Archiwum Daily";
@@ -151,9 +147,15 @@ connection.on("GenScrumMasterOptions", function () {
 });
 
 // nie do konca spoko ale narazie dziala
-connection.on("EnableSubmitPostButton", function () {
+connection.on("EnableSubmitPostButton", function (hasStarted) {
+
     var element = document.getElementById('submitDailyPost');
-    element.disabled = false;
+
+    if (hasStarted) {
+        element.disabled = false;
+    } else {
+        element.disabled = true;
+    }
 });
 
 connection.on("SendDailyPost", function (name, yesterday, today, problem, time, id, photopath) {

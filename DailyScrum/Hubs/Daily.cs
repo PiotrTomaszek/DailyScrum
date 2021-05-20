@@ -24,16 +24,18 @@ namespace DailyScrum.Hubs
 
         public async Task EnableSubmitButton()
         {
-            _connectedTeams.TryGetValue(DbUser.TeamMember.Name, out var teamModel);
+            var teamModel = TeamModel;
 
             if (teamModel != null)
             {
-                var find = teamModel.DailyPosts.Where(x => x.FromUser == DbUser.Id).FirstOrDefault();
+                await Clients.Group(DbUser.TeamMember.Name).SendAsync("EnableSubmitPostButton", teamModel.IsDailyStarted);
 
-                if (find == null)
-                {
-                    await Clients.Caller.SendAsync("EnableSubmitPostButton");
-                }
+                //var find = teamModel.DailyPosts.Where(x => x.FromUser == DbUser.Id).FirstOrDefault();
+
+                //if (find == null)
+                //{
+                //    await Clients.Caller.SendAsync("EnableSubmitPostButton", teamModel.IsDailyStarted);
+                //}
             }
         }
 
@@ -53,6 +55,8 @@ namespace DailyScrum.Hubs
                 await Clients.OthersInGroup(DbUser.TeamMember.Name).SendAsync("StartDaily");
 
                 await Clients.Group(DbUser.TeamMember.Name).SendAsync("ResetDailyBoard");
+
+                await Clients.Group(DbUser.TeamMember.Name).SendAsync("EnableSubmitPostButton", teamModel.IsDailyStarted);
 
                 //test
                 teamModel.MeetingStartingTime = new TimeSpan(DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second);
@@ -123,13 +127,21 @@ namespace DailyScrum.Hubs
         {
             var teamModel = TeamModel;
 
-            if (teamModel != null)
+            if (teamModel?.DailyMeeting != null)
             {
-                foreach (var item in teamModel.DailyPosts)
-                {
-                    var person = teamModel.UsersList.Where(x => x.Id == item.FromUser).FirstOrDefault();
+                var posts = _postRepository.GetAllPost(teamModel.DailyMeeting.DailyMeetingId);
 
-                    await Clients.Caller.SendAsync("SendDailyPost", $"{person.LastName} {person.FirstName}", item.FirstQuestion, item.SecondQuestion, item.ThirdQuestion, item.Date.ToShortTimeString(), item.FromUser, person.PhotoPath ?? "no-avatar.jpg");
+                foreach (var post in posts)
+                {
+
+                    var fullname = $"{ post.FromUser.LastName} {post.FromUser.FirstName}";
+
+                    //var person = teamModel.UsersList.Where(x => x.Id == item.FromUser).FirstOrDefault();
+
+                    await Clients.Caller.SendAsync("SendDailyPost", fullname,
+                        post.FirstQuestion, post.SecondQuestion, post.ThirdQuestion, 
+                        post.Date.ToShortTimeString(), post.FromUser.Id, 
+                        post.FromUser.PhotoPath ?? "no-avatar.jpg");
                 }
             }
         }

@@ -1,6 +1,7 @@
 ﻿using DailyScrum.Areas.Identity.Data;
 using DailyScrum.Data;
 using DailyScrum.Models.Database;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -33,6 +34,17 @@ namespace DailyScrum.Repository
             _context.SaveChanges();
 
             return newPost;
+        }
+
+        public List<DailyPost> GetAllPost(int meetingId)
+        {
+            var posts = _context.DailyPosts
+                .Include(z => z.Meeting)
+                .Include(u => u.FromUser)
+                .Where(x => x.Meeting.DailyMeetingId == meetingId)
+                .ToList();
+
+            return posts;
         }
     }
 }

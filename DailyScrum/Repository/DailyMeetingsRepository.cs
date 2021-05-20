@@ -66,6 +66,7 @@ namespace DailyScrum.Repository
             var meeting = _context.DailyMeetings
                 .Include(a => a.Team)
                 .Include(b => b.Posts)
+                .ThenInclude(u => u.FromUser)
                 .Where(x => x.Team.TeamId == teamId && x.DailyMeetingId == key)
                 .FirstOrDefault();
 

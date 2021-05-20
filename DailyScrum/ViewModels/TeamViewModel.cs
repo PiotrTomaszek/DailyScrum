@@ -16,14 +16,17 @@ namespace DailyScrum.ViewModels
         public TimeSpan MeetingStartingTime { get; set; }
         public TimeSpan MeettingDuration { get; set; }
 
-        // do wyrzucenia
-        public List<DailyPostViewModel> DailyPosts { get; set; }
+        //// do wyrzucenia
+        //public List<DailyPostViewModel> DailyPosts { get; set; }
 
+
+        //tutaj uwaga
         public List<bool> UsersOnline { get; set; }
-
         // do wyrzucenia
         public List<ApplicationUser> UsersList { get; set; }
-        // do wyrzucenia
+
+
+        //// do wyrzucenia
         public List<MessageViewModel> Messages { get; set; }
     }
 }

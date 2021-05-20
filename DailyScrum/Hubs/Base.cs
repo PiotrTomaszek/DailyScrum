@@ -107,7 +107,7 @@ namespace DailyScrum.Hubs
 
         public async override Task<Task> OnDisconnectedAsync(Exception exception)
         {
-            if (_userRepository.CheckIfHasTeam(SignalRIdentityName))
+            if (!_userRepository.CheckIfHasTeam(SignalRIdentityName))
             {
                 // wyrzuca nulla jak nie ma zespolu a sie wyloguje
                 await HandleTeamMemberNumber(-1);
