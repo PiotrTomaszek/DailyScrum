@@ -24,18 +24,14 @@ namespace DailyScrum.Hubs
 
         public async Task EnableSubmitButton()
         {
-            var teamModel = TeamModel;
-
-            if (teamModel != null)
+            if (TeamModel != null)
             {
-                await Clients.Group(DbUser.TeamMember.Name).SendAsync("EnableSubmitPostButton", teamModel.IsDailyStarted);
-
-                //var find = teamModel.DailyPosts.Where(x => x.FromUser == DbUser.Id).FirstOrDefault();
-
-                //if (find == null)
-                //{
-                //    await Clients.Caller.SendAsync("EnableSubmitPostButton", teamModel.IsDailyStarted);
-                //}
+                // tutaj sprawdzenie czy juz dal posta
+                if (!_postRepository.HasAlreadyPosted(DbUser.UserName, TeamModel.DailyMeeting?.DailyMeetingId))
+                {
+                    //tutaj zmianka
+                    await Clients.Caller.SendAsync("EnableSubmitPostButton", TeamModel.IsDailyStarted, true);
+                }
             }
         }
 
@@ -84,8 +80,6 @@ namespace DailyScrum.Hubs
 
                     await Clients.OthersInGroup(DbUser.TeamMember.Name).SendAsync("EndDaily");
                 }
-
-                //await Clients.OthersInGroup(DbUser.TeamMember.Name).SendAsync("EndDaily");
             }
         }
 
@@ -139,8 +133,8 @@ namespace DailyScrum.Hubs
                     //var person = teamModel.UsersList.Where(x => x.Id == item.FromUser).FirstOrDefault();
 
                     await Clients.Caller.SendAsync("SendDailyPost", fullname,
-                        post.FirstQuestion, post.SecondQuestion, post.ThirdQuestion, 
-                        post.Date.ToShortTimeString(), post.FromUser.Id, 
+                        post.FirstQuestion, post.SecondQuestion, post.ThirdQuestion,
+                        post.Date.ToShortTimeString(), post.FromUser.Id,
                         post.FromUser.PhotoPath ?? "no-avatar.jpg");
                 }
             }
@@ -148,29 +142,16 @@ namespace DailyScrum.Hubs
 
         public async Task SendPost(string yesterday, string today, string problem)
         {
-            var teamModel = TeamModel;
-
             Problem problemHold = null;
             DailyPost dailyPost = null;
 
-            if (teamModel != null)
+            if (TeamModel != null)
             {
-                //var newDailyPost = new DailyPostViewModel
-                //{
-                //    Id = Guid.NewGuid().ToString(),
-                //    FirstQuestion = yesterday,
-                //    SecondQuestion = today,
-                //    ThirdQuestion = problem,
-                //    FromUser = DbUser.Id,
-                //    Date = DateTime.UtcNow
-                //};
-
                 // dodanie postu do bazy
-                dailyPost = _postRepository.CreateDailyPost(yesterday, today, problem, DbUser, teamModel.DailyMeeting, DateTime.Now);
+                dailyPost = _postRepository.CreateDailyPost(yesterday, today, problem, DbUser, TeamModel.DailyMeeting, DateTime.Now);
+                problemHold = _problemRepository.CreateProblem(DbUser.TeamMember.TeamId, TeamModel.DailyMeeting.DailyMeetingId, DbUser.Id, problem);
 
-                problemHold = _problemRepository.CreateProblem(DbUser.TeamMember.TeamId, teamModel.DailyMeeting.DailyMeetingId, DbUser.Id, problem);
-
-                //teamModel.DailyPosts.Add(newDailyPost);
+                await EnableSubmitButton();
             }
 
             var master = _userRepository.FindScrumMaster(DbUser.TeamMember.TeamId).Id;

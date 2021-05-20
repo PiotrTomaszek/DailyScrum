@@ -46,5 +46,23 @@ namespace DailyScrum.Repository
 
             return posts;
         }
+
+        public bool HasAlreadyPosted(string userName, int? meetingId)
+        {
+            if(meetingId == null)
+            {
+                return false;
+            }
+
+            var hasPosted = _context.DailyPosts
+                .Include(user => user.FromUser)
+                .Include(meeting => meeting.Meeting)
+                .Where(x => x.FromUser.UserName.Equals(userName) && x.Meeting.DailyMeetingId == meetingId)
+                .FirstOrDefault();
+
+            var result = hasPosted == null ? false : true;
+
+            return result;
+        }
     }
 }

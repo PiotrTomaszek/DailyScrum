@@ -147,12 +147,17 @@ connection.on("GenScrumMasterOptions", function () {
 });
 
 // nie do konca spoko ale narazie dziala
-connection.on("EnableSubmitPostButton", function (hasStarted) {
+connection.on("EnableSubmitPostButton", function (hasStarted, hasPosted) {
 
     var element = document.getElementById('submitDailyPost');
 
     if (hasStarted) {
-        element.disabled = false;
+        if (hasPosted) {
+            element.disabled = true;
+        }
+        else {
+            element.disabled = false;
+        }
     } else {
         element.disabled = true;
     }

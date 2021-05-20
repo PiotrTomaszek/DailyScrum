@@ -40,6 +40,7 @@ namespace DailyScrum.Hubs
         {
             await Clients.Caller.SendAsync("DisplayTeamName", teamName);
         }
+
         private async Task HandleTeamMemberNumber(int operation)
         {
             var team = _connectedTeams.TryGetValue(DbUser.TeamMember.Name, out var teamModel);
