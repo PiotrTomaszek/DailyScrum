@@ -26,10 +26,10 @@
 <partial name="_StatusMessage" model="Model.StatusMessage" />
 
 <div class="row">
-    <div class="col-md-4  pb-4 @*p-5*@">
+    <div class="col-md-3 offset-md-1 pb-3">
         <partial name="_ManageNav">
     </div>
-    <div class="col-md-8 daily-background-color text-white p-5 pb-5">
+    <div class="col-md-7 daily-background-color text-white  p-5 pb-5 mb-5">
         <form id="profile-form" method="post" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
@@ -38,14 +38,6 @@
                     <button class=" bg-transparent btn">
                         <img src="@Url.Content("~/avatars/" + @userPhoto)" class="rounded-circle @*border border-dark*@" style="height:126px;width:126px" />
                     </button>
-                </div>
-                <div class="col-4">
-                    @*<input asp-for="Username" class="bg-dark text-white form-control" readonly />*@
-
-                    @*<button >
-                            Zmień zdjęcie
-                        </button>*@
-
                 </div>
             </div>
 
@@ -78,7 +70,7 @@
                 <span asp-validation-for="Input.PhoneNumber" class="text-danger"></span>
             </div>
 
-            <button id="update-profile-button" type="submit" class="btn btn-primary">Zapisz</button>
+            <button id="update-profile-button" type="submit" class="btn  btn-primary">Zapisz dane!</button>
         </form>
     </div>
 </div>
