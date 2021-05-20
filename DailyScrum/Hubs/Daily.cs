@@ -52,6 +52,8 @@ namespace DailyScrum.Hubs
 
                 await Clients.OthersInGroup(DbUser.TeamMember.Name).SendAsync("StartDaily");
 
+                await Clients.Group(DbUser.TeamMember.Name).SendAsync("ResetDailyBoard");
+
                 //test
                 teamModel.MeetingStartingTime = new TimeSpan(DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second);
                 //tutaj powinno zaczac sie odliczanie 
@@ -66,9 +68,13 @@ namespace DailyScrum.Hubs
             if (!teamModel.IsDailyStarted)
             {
 
+                _dailyRepository.EndDailyMeeting(teamModel.DailyMeeting.DailyMeetingId);
+
+
                 // tutaj do poprawy bo powinno pobierac wszystkich z bazy danych
                 foreach (var item in teamModel.UsersList)
                 {
+                    // ?? po co ja to dalem
                     var conn = _connectedUsers.Where(x => x.Value.Id == item.Id).FirstOrDefault().Key;
                     await SetEnabledOptions();
 

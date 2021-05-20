@@ -36,6 +36,17 @@ namespace DailyScrum.Repository
             return newMeeting;
         }
 
+        public void EndDailyMeeting(int meetingId)
+        {
+            var meeting = _context.DailyMeetings
+                .Where(x => x.DailyMeetingId == meetingId)
+                .FirstOrDefault();
+
+            meeting.HasFinished = true;
+
+            _context.SaveChanges();
+        }
+
         public List<DailyMeeting> GetAllMeetings(string userName)
         {
             var teamId = _userRepository.GetTeamId(userName);
