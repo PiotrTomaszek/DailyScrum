@@ -34,22 +34,23 @@
                             <a class="nav-link text-white link link--mneme" asp-area="" asp-controller="Home" asp-action="Index">
                                 Meeting
                                 @* animowany dzwoneczek *@
-                                <span id="meetingBellNotify">@*<i class="fa fa-bell faa-ring animated"></i>*@</span>
+                                <span id="meetingBellNotifyDaily"></span>
                             </a>
                         </li>
                         <li class="nav-item ml-2">
-                            <a class="nav-link text-white link link--mneme" asp-area="" asp-controller="Home" asp-action="Chat">Chat</a>
+                            <a class="nav-link text-white link link--mneme" asp-area="" asp-controller="Home" asp-action="Chat">
+                                Chat
+                                <span id="meetingBellNotifyChat"></span>
+                            </a>
                         </li>
-
-                        @*
-                            tutaj poprawa
-                            wszytkniecie jest bardziej responsywne niz generowanie przez skrypt
-                        *@
 
                         @if (userRepository.CheckIfScrumMaster(User.Identity.Name))
                         {
                             <li class="nav-item ml-2">
-                                <a class="nav-link text text-white link link--mneme" asp-area="" asp-controller="Problems" asp-action="Index">Problemy</a>
+                                <a class="nav-link text text-white link link--mneme" asp-area="" asp-controller="Problems" asp-action="Index">
+                                    Problemy
+                                    <span id="meetingBellNotifyProblem"></span>
+                                </a>
                             </li>
                         }
                         <li class="nav-item ml-2">

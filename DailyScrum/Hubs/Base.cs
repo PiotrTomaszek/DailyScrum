@@ -88,6 +88,10 @@ namespace DailyScrum.Hubs
 
                 await CheckIfDailyHasEnded();
                 await DisplayTimer();
+
+                await AddNotificationSystemToUser();
+
+                await DisplayNotifications();
             }
 
             return base.OnConnectedAsync();
@@ -106,6 +110,8 @@ namespace DailyScrum.Hubs
 
             //test
             //_usersNotifications.Remove(DbUser.UserName);
+
+            //await RemoveNotificationSystemToUser();
 
             _connectedUsers.Remove(Context.ConnectionId);
 

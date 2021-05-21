@@ -1,10 +1,13 @@
 ﻿
-connection.on("Notification", function (from , sth) {
-    displayNotofication(from, sth);
+connection.on("Notification", function (from, place) {
+
+    debugger;
+
+    displayNotofication(from, place);
 });
 
 
-function displayNotofication(whatKind, additionalParameter) {
+function displayNotofication(whatKind, place) {
     //meeting  chyba ok
     //chat oraz problemy
 
@@ -16,13 +19,9 @@ function displayNotofication(whatKind, additionalParameter) {
 
         if (actualWindowPage === '/') {
             console.log('on meeting');
+            connection.invoke("RemoveNotification", 'Daily');
         } else {
-            if (additionalParameter === 'start') {
-
-                generateBell(meetingBellNotify);
-
-            } else {
-            }
+            generateBell(place);
         }
     }
     else if (whatKind === 'chat') {

@@ -26,6 +26,7 @@ namespace DailyScrum.Hubs
                     UsersList = teamMates,
                     TeamMemberCount = teamMates.Count(),
                     UsersOnline = Enumerable.Repeat(false, teamMates.Count()).ToList(),
+                    UsersNotification = Enumerable.Repeat(new NotificationViewModel(), teamMates.Count()).ToList(),
                     //Messages = new List<MessageViewModel>(),
                     //DailyPosts = new List<DailyPostViewModel>(),
                     //MeetingStartingTime = new TimeSpan(11, 40, 00),

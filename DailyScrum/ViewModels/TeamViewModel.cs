@@ -19,8 +19,9 @@ namespace DailyScrum.ViewModels
 
         //tutaj uwaga
         public List<bool> UsersOnline { get; set; }
-        // do wyrzucenia
+        // do wyrzucenia raczej nie
         public List<ApplicationUser> UsersList { get; set; }
+        public List<NotificationViewModel> UsersNotification { get; set; }
 
 
         //// do wyrzucenia
