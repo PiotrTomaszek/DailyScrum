@@ -23,55 +23,66 @@
     }
 }
 
-<partial name="_StatusMessage" model="Model.StatusMessage" />
+
 
 <div class="row">
-    <div class="col-md-3 offset-md-1 pb-3">
+    <div class="col-md-3 pb-3">
         <partial name="_ManageNav">
     </div>
-    <div class="col-md-7 daily-background-color text-white  p-5 pb-5 mb-5">
-        <form id="profile-form" method="post" enctype="multipart/form-data">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-            <div class="row">
-                <div class="@*offset-2 col-6*@ text-center w-100 @*pb-2*@">
-                    <button class=" bg-transparent btn">
-                        <img src="@Url.Content("~/avatars/" + @userPhoto)" class="rounded-circle @*border border-dark*@" style="height:126px;width:126px" />
-                    </button>
-                </div>
-            </div>
+    <div class="col-md-9 ">
 
-            @* <i class="far fa-envelope"></i> *@
+        <partial name="_StatusMessage" model="Model.StatusMessage" />
 
-            @*<input hidden id="file" name="file" />
-                <div class="dropzone dropzone-file-area" id="fileUpload">
-                    <div class="dz-default dz-message text-dark">
-                        <h3 class="sbold">Twoje zdjęcie.</h3>
-                        <span>Przeciągnij albo naciśnij i wybierz plik z dysku.</span>
+        <div class="daily-background-color p-3 pb-2 mb-5 pl-3 pr-3">
+            <div class="container-fluid text-white w-75">
+
+                <form id="profile-form" method="post" enctype="multipart/form-data">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                    <div class="row">
+                        <div class="@*offset-2 col-6*@ text-center w-100 @*pb-2*@">
+                            <button class=" bg-transparent btn">
+                                <img src="@Url.Content("~/avatars/" + @userPhoto)" class="rounded-circle @*border border-dark*@" style="height:126px;width:126px" />
+                            </button>
+                        </div>
                     </div>
-                </div>*@
 
-            <div class="form-group">
-                <label asp-for="Input.FirstName"></label>
-                <input asp-for="Input.FirstName" class="form-control" />
-                <span asp-validation-for="Input.FirstName" class="text-danger"></span>
+                    @* <i class="far fa-envelope"></i> *@
+
+                    @*<input hidden id="file" name="file" />
+                        <div class="dropzone dropzone-file-area" id="fileUpload">
+                            <div class="dz-default dz-message text-dark">
+                                <h3 class="sbold">Twoje zdjęcie.</h3>
+                                <span>Przeciągnij albo naciśnij i wybierz plik z dysku.</span>
+                            </div>
+                        </div>*@
+
+                    <div class="form-group">
+                        <label asp-for="Input.FirstName"></label>
+                        <input asp-for="Input.FirstName" class="form-control" />
+                        <span asp-validation-for="Input.FirstName" class="text-danger"></span>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label asp-for="Input.LastName"></label>
+                        <input asp-for="Input.LastName" class="form-control" />
+                        <span asp-validation-for="Input.LastName" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="Input.PhoneNumber"></label>
+                        <input asp-for="Input.PhoneNumber" class="form-control" />
+                        <span asp-validation-for="Input.PhoneNumber" class="text-danger"></span>
+                    </div>
+
+                    <div class="text-center pt-2">
+                        <button id="update-profile-button" type="submit" class="btn  btn-primary">Zapisz dane!</button>
+                    </div>
+                </form>
             </div>
-
-
-            <div class="form-group">
-                <label asp-for="Input.LastName"></label>
-                <input asp-for="Input.LastName" class="form-control" />
-                <span asp-validation-for="Input.LastName" class="text-danger"></span>
-            </div>
-
-            <div class="form-group">
-                <label asp-for="Input.PhoneNumber"></label>
-                <input asp-for="Input.PhoneNumber" class="form-control" />
-                <span asp-validation-for="Input.PhoneNumber" class="text-danger"></span>
-            </div>
-
-            <button id="update-profile-button" type="submit" class="btn  btn-primary">Zapisz dane!</button>
-        </form>
+        </div>
     </div>
 </div>
 
