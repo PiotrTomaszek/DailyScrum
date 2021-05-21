@@ -21,9 +21,16 @@ namespace DailyScrum.Hubs
 
         public async Task DisplayStartTime()
         {
-            await Clients.Caller.SendAsync("DisplayStartTime", TeamModel.DailyMeeting?.Date.ToShortTimeString());
+            await Clients.Group(DbUser.TeamMember.Name).SendAsync("DisplayStartTime", TeamModel.DailyMeeting?.Date.ToShortTimeString());
         }
 
+
+        public async Task EndDailyMeetingByTime()
+        {
+            await Task.Delay(10000);
+
+            await EndDailyMeeting();
+        }
 
         // jest miodzio
         //public async Task<IOb> EndDailyMeetingTimer(TimeSpan timeSpan)

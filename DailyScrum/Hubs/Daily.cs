@@ -52,6 +52,9 @@ namespace DailyScrum.Hubs
                 //var timeToEnd = TeamModel.DailyMeeting.Date.AddMinutes(1);
                 var timeToEnd = TeamModel.DailyMeeting.Date.AddSeconds(10);
 
+
+
+                // caly ten time nie dziala
                 //await Clients.Group(DbUser.TeamMember.Name).SendAsync("ResetDailyBoard");
 
                 //_timers.Add(DbUser.TeamMember.Name, EnableTimer(new TimeSpan(0, 0, 10),
@@ -64,7 +67,7 @@ namespace DailyScrum.Hubs
                 //    .Interval(new TimeSpan(0, 0, 10))
                 //    .Subscribe(end => EndDailyMeeting()));
 
-
+                //await EndDailyMeetingByTime();
                 //TeamModel.DummyTimer = 
             }
         }
@@ -78,12 +81,16 @@ namespace DailyScrum.Hubs
 
                 _dailyRepository.EndDailyMeeting(TeamModel.DailyMeeting.DailyMeetingId);
 
+                // po co ja tutaj iteruje?
                 foreach (var item in _userRepository.GetAllTeamMebers(DbUser.TeamMember.Name))
                 {
                     var conn = _connectedUsers.Where(x => x.Value.Id == item.Id).FirstOrDefault().Key;
                     await SetEnabledOptions();
 
-                    await Clients.OthersInGroup(DbUser.TeamMember.Name).SendAsync("EndDaily");
+                    await Clients.Client(conn).SendAsync("EndDaily");
+
+                    await Clients.Client(conn).SendAsync("EnableSubmitPostButton", TeamModel.IsDailyStarted);
+                    //await Clients.OthersInGroup(DbUser.TeamMember.Name).SendAsync("EndDaily");
                 }
             }
         }
@@ -142,9 +149,13 @@ namespace DailyScrum.Hubs
         {
             if (TeamModel != null)
             {
-                if (!_postRepository.HasAlreadyPosted(DbUser.UserName, TeamModel.DailyMeeting?.DailyMeetingId))
+                if (_postRepository.HasAlreadyPosted(DbUser.UserName, TeamModel.DailyMeeting?.DailyMeetingId))
                 {
                     await Clients.Caller.SendAsync("EnableSubmitPostButton", TeamModel.IsDailyStarted, true);
+                }
+                else
+                {
+                    await Clients.Caller.SendAsync("EnableSubmitPostButton", TeamModel.IsDailyStarted, false);
                 }
             }
         }

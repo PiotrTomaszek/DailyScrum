@@ -7,7 +7,9 @@ connection.on("NotifyUsers", function (param1, param2) {
 
 connection.on("DisplayStartTime", function (time) {
     var element = document.getElementById('starting-time');
-    element.innerHTML = time;
+
+    var start = 'Start: ' + time;
+    element.innerHTML = start;
 })
 
 //connection.on("TestMethod", function (user, message) {
