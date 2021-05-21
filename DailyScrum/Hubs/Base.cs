@@ -24,6 +24,7 @@ namespace DailyScrum.Hubs
         private readonly IDailyMeetingRepository _dailyRepository;
         private readonly IPostRepository _postRepository;
         private readonly ITeamRepository _teamRepository;
+        private readonly IMessageRepository _messageRepository;
 
         private string SignalRIdentityName => Context.User.Identity.Name;
 
@@ -36,7 +37,8 @@ namespace DailyScrum.Hubs
             IUserRepository userRepository,
             IDailyMeetingRepository dailyRepository,
             IPostRepository postRepository,
-            ITeamRepository teamRepository)
+            ITeamRepository teamRepository,
+            IMessageRepository messageRepository)
         {
             _dbContext = dbContext;
             _problemRepository = problemRepository;
@@ -44,6 +46,7 @@ namespace DailyScrum.Hubs
             _dailyRepository = dailyRepository;
             _postRepository = postRepository;
             _teamRepository = teamRepository;
+            _messageRepository = messageRepository;
         }
 
 
@@ -77,7 +80,7 @@ namespace DailyScrum.Hubs
                 await GetAllUsersStatus();
                 await SetUserStatus(true);
 
-                await GetAllMessages();
+                await GetMessages();
                 await GetAllPosts();
                 await EnableSubmitButton();
 

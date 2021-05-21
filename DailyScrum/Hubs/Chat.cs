@@ -15,54 +15,43 @@ namespace DailyScrum.Hubs
     {
         public string UserFullName => $"{DbUser.LastName} {DbUser.FirstName}";
 
-        public async Task GetAllMessages()
+        public async Task GetMessages()
         {
-            var teamModel = TeamModel;
+            if (TeamModel == null)
+            {
+                return;
+            }
 
-            //if (teamModel != null)
-            //{
-            //    foreach (var item in teamModel.Messages)
-            //    {
-            //        if (item.From == DbUser.Id)
-            //        {
-            //            await Clients.Caller.SendAsync("ShowSentMessage", UserFullName, item.Content, item.Date.ToShortTimeString());
-            //        }
-            //        else
-            //        {
-            //            _connectedTeams.TryGetValue(DbUser.TeamMember.Name, out var model);
+            var messages = _messageRepository.GetMessageHistory(DbUser.TeamMember.Name);
 
-            //            var person = model.UsersList.Where(x => x.Id == item.From).FirstOrDefault();
+            foreach (var item in messages)
+            {
+                if (item.FromUser.Id == DbUser.Id)
+                {
+                    await Clients.Caller.SendAsync("ShowSentMessage", UserFullName, item.Content, item.Date.ToShortTimeString());
+                }
+                else
+                {
+                    var person = TeamModel.UsersList.Where(x => x.Id == item.FromUser.Id).FirstOrDefault();
 
-            //            await Clients.Caller.SendAsync("SendMessageToGroup", $"{person.LastName} {person.FirstName}", item.Content, item.Date.ToShortTimeString(), person.PhotoPath);
-            //        }
-            //    }
-            //}
+                    await Clients.Caller.SendAsync("SendMessageToGroup", $"{person.LastName} {person.FirstName}", item.Content, item.Date.ToShortTimeString(), person.PhotoPath);
+                }
+            }
         }
 
         public async Task SendMessage(string message)
         {
-            var teamModel = TeamModel;
-
-            if (teamModel == null)
+            if (TeamModel == null)
             {
                 return;
             }
 
             message = message.ReplaceHTMLTags();
 
-            //var newMessage = new MessageViewModel
-            //{
-            //    Id = Guid.NewGuid().ToString(),
-            //    Content = message,
-            //    From = DbUser.Id,
-            //    Date = DateTime.UtcNow
-            //};
+            var mes = _messageRepository.CreateNewMessage(DbUser.TeamMember, message, DbUser, DateTime.Now);
 
-            //teamModel.Messages.Add(newMessage);
-
-
-            await Clients.OthersInGroup(DbUser.TeamMember.Name).SendAsync("SendMessageToGroup", UserFullName, message, DateTime.UtcNow.ToShortTimeString(), DbUser.PhotoPath);
-            await Clients.Caller.SendAsync("ShowSentMessage", UserFullName, message, DateTime.UtcNow.ToShortTimeString());
+            await Clients.OthersInGroup(DbUser.TeamMember.Name).SendAsync("SendMessageToGroup", UserFullName, mes.Content, mes.Date.ToShortTimeString(), DbUser.PhotoPath);
+            await Clients.Caller.SendAsync("ShowSentMessage", UserFullName,mes.Content, mes.Date.ToShortTimeString());
 
             await AddNotification("chat");
         }

@@ -35,7 +35,6 @@
                         <li class="nav-item ml-2">
                             <a class="nav-link text-white link link--mneme" asp-area="" asp-controller="Home" asp-action="Index">
                                 Meeting
-                                @* animowany dzwoneczek *@
                                 <span id="meetingBellNotifyDaily"></span>
                             </a>
                         </li>
@@ -56,7 +55,9 @@
                             </li>
                         }
                         <li class="nav-item ml-2">
-                            <a class="nav-link text text-white link link--mneme" asp-area="" asp-controller="Home" asp-action="Creator">Twórca</a>
+                            <a class="nav-link text text-white link link--mneme" asp-area="" asp-controller="Home" asp-action="Creator">
+                                Twórca
+                            </a>
                         </li>
                     </ul>
                     <partial name="_LoginPartial">
@@ -84,6 +85,9 @@
     <script src="~/js/base-signalR.min.js"></script>
 
     <script src="~/js/notificationInvoker.js"></script>
+
+   
+
     @*<script src="~/js/daily.js"></script>*@
 
     <script src="~/js/noteam-redirect.js"></script>
