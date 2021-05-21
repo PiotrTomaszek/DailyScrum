@@ -15,7 +15,7 @@ namespace DailyScrum.ViewModels
         public bool IsDailyStarted { get; set; }
         public DailyMeeting DailyMeeting { get; set; }
 
-        public Task DummyTimer { get; set; }
+        public IDisposable DummyTimer { get; set; }
 
         public DateTime MeetingStartingTime { get; set; }
         public TimeSpan MeettingDuration { get; set; }

@@ -5,10 +5,10 @@ connection.on("NotifyUsers", function (param1, param2) {
 });
 
 
-//connection.on("DisplayTime", function (time) {
-//    var element = document.getElementById('starting-time');
-//    element.innerHTML = time;
-//})
+connection.on("DisplayStartTime", function (time) {
+    var element = document.getElementById('starting-time');
+    element.innerHTML = time;
+})
 
 //connection.on("TestMethod", function (user, message) {
 //    var msg = message.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");

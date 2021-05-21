@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.SignalR;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reactive;
+using System.Reactive.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -44,14 +46,26 @@ namespace DailyScrum.Hubs
 
                 TeamModel.MeetingStartingTime = TeamModel.DailyMeeting.Date;
 
+                await DisplayStartTime();
+
                 // test
                 //var timeToEnd = TeamModel.DailyMeeting.Date.AddMinutes(1);
                 var timeToEnd = TeamModel.DailyMeeting.Date.AddSeconds(10);
 
                 //await Clients.Group(DbUser.TeamMember.Name).SendAsync("ResetDailyBoard");
 
+                //_timers.Add(DbUser.TeamMember.Name, EnableTimer(new TimeSpan(0, 0, 10),
+                //TeamModel));
+
                 // chyba dzioa ale do zmiany
-                TeamModel.DummyTimer = EndDailyMeetingTimer(new TimeSpan(0, 0, 10));
+                //TeamModel.DummyTimer = EndDailyMeetingTimer(new TimeSpan(0, 0, 10));
+
+                //_sth.Add(DbUser.TeamMember.Name, Observable
+                //    .Interval(new TimeSpan(0, 0, 10))
+                //    .Subscribe(end => EndDailyMeeting()));
+
+
+                //TeamModel.DummyTimer = 
             }
         }
 
@@ -60,7 +74,7 @@ namespace DailyScrum.Hubs
             TeamModel.IsDailyStarted = false;
             if (!TeamModel.IsDailyStarted)
             {
-                TeamModel.DummyTimer?.Dispose();
+                //TeamModel.DummyTimer?.Dispose();
 
                 _dailyRepository.EndDailyMeeting(TeamModel.DailyMeeting.DailyMeetingId);
 
@@ -95,6 +109,33 @@ namespace DailyScrum.Hubs
         }
 
 
+        public async Task AddDailyOptions()
+        {
+            if (_userRepository.CheckIfScrumMaster(DbUser.UserName))
+            {
+                await Clients.Caller.SendAsync("GenScrumMasterOptions");
+            }
+            else
+            {
+                await Clients.Caller.SendAsync("GenDevOptions");
+            }
+
+            var time = string.Empty;
+
+            if (TeamModel.DailyMeeting?.Date == null)
+            {
+                time = _teamRepository.GetDailyTime(DbUser.TeamMember.Name).ToShortTimeString();
+            }
+            else
+            {
+                time = TeamModel.DailyMeeting.Date.ToShortTimeString();
+            }
+
+            await Clients.Caller.SendAsync("DisplayStartTime", time);
+        }
+
+
+
         // to jest chyba ok
 
         public async Task EnableSubmitButton()
@@ -108,17 +149,7 @@ namespace DailyScrum.Hubs
             }
         }
 
-        public async Task AddDailyOptions()
-        {
-            if (_userRepository.CheckIfScrumMaster(DbUser.UserName))
-            {
-                await Clients.Caller.SendAsync("GenScrumMasterOptions");
-            }
-            else
-            {
-                await Clients.Caller.SendAsync("GenDevOptions");
-            }
-        }
+
 
         public async Task GetAllPosts()
         {
