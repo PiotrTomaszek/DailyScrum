@@ -11,21 +11,24 @@ namespace DailyScrum.Hubs
     [Authorize]
     public partial class DailyHub : Hub
     {
+
+        // cale to chyba zbedne
+
         // tutaj do poprawy bo bedzie dla wszystkich zepsolow
         //private static Dictionary<string, NotificationViewModel> _usersNotifications = new Dictionary<string, NotificationViewModel>();
 
-        public async Task AddNotificationSystemToUser()
-        {
-            if (!_usersNotifications.ContainsKey(DbUser.UserName))
-            {
-                _usersNotifications.Add(DbUser.UserName, new NotificationViewModel());
-            }
-        }
+        //public async Task AddNotificationSystemToUser()
+        //{
+        //    if (!TeamModel. .ContainsKey(DbUser.UserName))
+        //    {
+        //        _usersNotifications.Add(DbUser.UserName, new NotificationViewModel());
+        //    }
+        //}
 
-        public async Task RemoveNotificationSystemToUser()
-        {
-            _usersNotifications.Remove(DbUser.UserName);
-        }
+        //public async Task RemoveNotificationSystemToUser()
+        //{
+        //    _usersNotifications.Remove(DbUser.UserName);
+        //}
 
         public async Task AddNotification(string notiFrom)
         {
@@ -36,16 +39,19 @@ namespace DailyScrum.Hubs
                     case "daily":
                         {
                             item.MeetingNotify = true;
+                            await Clients.OthersInGroup(DbUser.TeamMember.Name).SendAsync("Notification", notiFrom, "meetingBellNotifyDaily");
                             break;
                         }
                     case "chat":
                         {
                             item.ChatNotify = true;
+                            await Clients.OthersInGroup(DbUser.TeamMember.Name).SendAsync("Notification", notiFrom, "meetingBellNotifyChat");
                             break;
                         }
                     case "problem":
                         {
-                            item.Value.ProblemNotify = true;
+                            item.ProblemNotify = true;
+                            await Clients.OthersInGroup(DbUser.TeamMember.Name).SendAsync("Notification", notiFrom, "meetingBellNotifyProblem");
                             break;
                         }
                     case null:
@@ -54,7 +60,7 @@ namespace DailyScrum.Hubs
                 }
             }
 
-            await Clients.OthersInGroup(DbUser.TeamMember.Name).SendAsync("Notification", notiFrom, "meetingBellNotifyDaily");
+            
         }
 
         public async Task RemoveNotification(string from)
@@ -65,7 +71,7 @@ namespace DailyScrum.Hubs
 
             switch (from)
             {
-                case "caily":
+                case "daily":
                     {
                         usersNotifications.MeetingNotify = false;
                         break;
@@ -88,16 +94,23 @@ namespace DailyScrum.Hubs
 
         public async Task DisplayNotifications()
         {
-            t
+            var index = TeamModel.UsersList.IndexOf(TeamModel.UsersList.Where(x => x.Email.Equals(DbUser.Email)).FirstOrDefault());
 
-            foreach (var item in _usersNotifications.Where(x => x.Key.Equals(DbUser.TeamMember.Name)))
+            var usersNotifications = TeamModel.UsersNotification.ElementAt(index);
+
+            if (usersNotifications.MeetingNotify)
             {
-                if (item.Value.ChatNotify)
-                {
-                    await Clients.Caller.SendAsync("Notification", "daily", "meetingBellNotifyDaily");
-                }
+                await Clients.Caller.SendAsync("Notification", "daily", "meetingBellNotifyDaily");
+            }
 
-                //...todo
+            if (usersNotifications.ChatNotify)
+            {
+                await Clients.Caller.SendAsync("Notification", "chat", "meetingBellNotifyChat");
+            }
+
+            if (usersNotifications.ProblemNotify)
+            {
+                await Clients.Caller.SendAsync("Notification", "problem", "meetingBellNotifyProblem");
             }
         }
     }

@@ -89,7 +89,7 @@ namespace DailyScrum.Hubs
                 await CheckIfDailyHasEnded();
                 await DisplayTimer();
 
-                await AddNotificationSystemToUser();
+                //await AddNotificationSystemToUser();
 
                 await DisplayNotifications();
             }

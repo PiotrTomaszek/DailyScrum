@@ -64,6 +64,7 @@ namespace DailyScrum.Hubs
             await Clients.OthersInGroup(DbUser.TeamMember.Name).SendAsync("SendMessageToGroup", UserFullName, message, DateTime.UtcNow.ToShortTimeString(), DbUser.PhotoPath);
             await Clients.Caller.SendAsync("ShowSentMessage", UserFullName, message, DateTime.UtcNow.ToShortTimeString());
 
+            await AddNotification("chat");
         }
     }
 }

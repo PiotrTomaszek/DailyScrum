@@ -1,15 +1,8 @@
-﻿
-connection.on("Notification", function (from, place) {
-
-    debugger;
-
+﻿connection.on("Notification", function (from, place) {
     displayNotofication(from, place);
 });
 
-
 function displayNotofication(whatKind, place) {
-    //meeting  chyba ok
-    //chat oraz problemy
 
     debugger;
 
@@ -19,7 +12,7 @@ function displayNotofication(whatKind, place) {
 
         if (actualWindowPage === '/') {
             console.log('on meeting');
-            connection.invoke("RemoveNotification", 'Daily');
+            connection.invoke("RemoveNotification", 'daily');
         } else {
             generateBell(place);
         }
@@ -27,11 +20,19 @@ function displayNotofication(whatKind, place) {
     else if (whatKind === 'chat') {
         if (actualWindowPage === '/chat') {
             console.log('on chat');
+            connection.invoke("RemoveNotification", 'chat');
         } else {
-
+            generateBell(place);
         }
     }
-
+    else if (whatKind === 'problem') {
+        if (actualWindowPage === '/problems') {
+            console.log('on chat');
+            connection.invoke("RemoveNotification", 'problem');
+        } else {
+            generateBell(place);
+        }
+    }
 }
 
 function generateBell(placeToSpawn) {
