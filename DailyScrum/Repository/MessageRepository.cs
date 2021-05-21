@@ -17,24 +17,29 @@ namespace DailyScrum.Repository
             _context = context;
         }
 
-        public Message CreateNewMessage(Team team, string content, ApplicationUser from, DateTime date)
+        public Message CreateNewMessage(int teamId, string content, string fromUserId, DateTime date)
         {
-            //var team = _context.Teams
-            //    .Where(t => t.TeamId == teamId)
-            //    .FirstOrDefault();
+            var team = _context.Teams
+                .Include(s => s.Members)
+                .ThenInclude(w => w.TeamRole)
+                .Where(t => t.TeamId == teamId)
+                .FirstOrDefault();
 
             var newMessage = new Message
             {
                 //Team = team,
                 Content = content,
                 Date = date,
-                FromUser = from
+                //FromUser = from
             };
 
             _context.Messages.Add(newMessage);
             _context.SaveChanges();
 
             newMessage.Team = team;
+            _context.SaveChanges();
+
+            newMessage.FromUser = _context.Users.Find(fromUserId);
             _context.SaveChanges();
 
             return newMessage;
@@ -46,8 +51,9 @@ namespace DailyScrum.Repository
                 .Include(x => x.Team)
                 .Include(z => z.FromUser)
                 .Where(a => a.Team.Name.Equals(teamName))
-                .OrderBy(order => order.Date)
+                .OrderByDescending(order => order.Date)
                 .Take(10)
+                .OrderBy(order => order.Date)
                 .ToList();
 
             return messages;

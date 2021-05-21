@@ -1,8 +1,8 @@
 ﻿namespace DailyScrum.Areas.Identity.Data
 {
-    public class Role
+    public class ScrumRole
     {
-        public int RoleId { get; set; }
+        public int ScrumRoleId { get; set; }
         public string Name { get; set; }
     }
 }

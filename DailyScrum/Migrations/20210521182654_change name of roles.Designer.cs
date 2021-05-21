@@ -4,14 +4,16 @@ using DailyScrum.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DailyScrum.Migrations
 {
     [DbContext(typeof(DailyScrumContext))]
-    partial class DailyScrumContextModelSnapshot : ModelSnapshot
+    [Migration("20210521182654_change name of roles")]
+    partial class changenameofroles
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -433,7 +435,7 @@ namespace DailyScrum.Migrations
                         .HasForeignKey("FromUserId");
 
                     b.HasOne("DailyScrum.Models.Database.Team", "Team")
-                        .WithMany("Messages")
+                        .WithMany()
                         .HasForeignKey("TeamId");
 
                     b.Navigation("FromUser");
@@ -519,8 +521,6 @@ namespace DailyScrum.Migrations
                     b.Navigation("Meetings");
 
                     b.Navigation("Members");
-
-                    b.Navigation("Messages");
                 });
 #pragma warning restore 612, 618
         }

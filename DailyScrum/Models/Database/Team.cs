@@ -15,6 +15,7 @@ namespace DailyScrum.Models.Database
 
         public IEnumerable<ApplicationUser> Members { get; set; }
         public IEnumerable<DailyMeeting> Meetings { get; set; }
+        public IEnumerable<Message> Messages{ get; set; }
 
     }
 }

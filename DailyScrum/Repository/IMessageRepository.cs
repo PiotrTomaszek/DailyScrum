@@ -10,6 +10,6 @@ namespace DailyScrum.Repository
     public interface IMessageRepository
     {
         List<Message> GetMessageHistory(string teamName);
-        Message CreateNewMessage(Team team, string content, ApplicationUser from, DateTime date);
+        Message CreateNewMessage(int teamId, string content, string fromUserId, DateTime date);
     }
 }

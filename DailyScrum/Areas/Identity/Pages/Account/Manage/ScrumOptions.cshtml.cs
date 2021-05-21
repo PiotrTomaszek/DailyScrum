@@ -87,7 +87,7 @@ namespace DailyScrum.Areas.Identity.Pages.Account.Manage
 
                 _context.Teams.Add(team);
 
-                var role = new Role
+                var role = new ScrumRole
                 {
                     Name = "Scrum Master"
                 };

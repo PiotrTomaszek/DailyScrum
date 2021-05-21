@@ -13,6 +13,6 @@ namespace DailyScrum.Areas.Identity.Data
 
         public Team TeamMember { get; set; }
 
-        public Role TeamRole { get; set; }
+        public ScrumRole TeamRole { get; set; }
     }
 }
