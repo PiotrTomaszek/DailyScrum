@@ -87,6 +87,8 @@ namespace DailyScrum.Hubs
 
                 await GetDailyOptions();
 
+                await CheckIfDailyHasEnded();
+                await DisplayTimer();
                 //await EnableScrumMasterProblemBar();
 
                 //await TimeStuff();

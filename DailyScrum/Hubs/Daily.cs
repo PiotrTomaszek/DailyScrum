@@ -48,10 +48,13 @@ namespace DailyScrum.Hubs
 
                 await DisplayStartTime();
 
+                await SetUpTimer();
+
                 // test
                 //var timeToEnd = TeamModel.DailyMeeting.Date.AddMinutes(1);
-                var timeToEnd = TeamModel.DailyMeeting.Date.AddSeconds(10);
+                //var timeToEnd = TeamModel.DailyMeeting.Date.AddSeconds(10);
 
+                //await Clients.Group(DbUser.TeamMember.Name).SendAsync("DisplayTimer", TeamModel.IsDailyStarted, 10);
 
 
                 // caly ten time nie dziala
@@ -87,11 +90,21 @@ namespace DailyScrum.Hubs
                     var conn = _connectedUsers.Where(x => x.Value.Id == item.Id).FirstOrDefault().Key;
                     await SetEnabledOptions();
 
-                    await Clients.Client(conn).SendAsync("EndDaily");
+                    if(conn != null)
+                    {
+                        await Clients.Client(conn).SendAsync("EndDaily");
 
-                    await Clients.Client(conn).SendAsync("EnableSubmitPostButton", TeamModel.IsDailyStarted);
+                        await Clients.Client(conn).SendAsync("EnableSubmitPostButton", TeamModel.IsDailyStarted);
+                    }
+                    
+
+                    
                     //await Clients.OthersInGroup(DbUser.TeamMember.Name).SendAsync("EndDaily");
                 }
+
+                //jakis error
+                //await Clients.Group(DbUser.TeamMember.Name).SendAsync("DisplayTimer", TeamModel.IsDailyStarted, 10);
+                await DisableTimer();
             }
         }
 

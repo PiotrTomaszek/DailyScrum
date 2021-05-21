@@ -24,13 +24,53 @@ namespace DailyScrum.Hubs
             await Clients.Group(DbUser.TeamMember.Name).SendAsync("DisplayStartTime", TeamModel.DailyMeeting?.Date.ToShortTimeString());
         }
 
-
-        public async Task EndDailyMeetingByTime()
+        public async Task DisplayTimer()
         {
-            await Task.Delay(10000);
+            //na szutke czas
+            var endTime = TeamModel.DailyMeeting?.Date.AddMinutes(1).Ticks;
+            var nowTime = DateTime.Now.Ticks;
 
-            await EndDailyMeeting();
+            var time = (endTime - nowTime) / 10000000;
+
+            await Clients.Caller.SendAsync("DisplayTimer", TeamModel.IsDailyStarted, time);
         }
+
+        public async Task SetUpTimer()
+        {
+            var endTime = TeamModel.DailyMeeting?.Date.AddMinutes(1).Ticks;
+            var nowTime = DateTime.Now.Ticks;
+
+            var time = (endTime - nowTime) / 10000000;
+
+            await Clients.Group(DbUser.TeamMember.Name).SendAsync("DisplayTimer", TeamModel.IsDailyStarted, time);
+        }
+
+        public async Task DisableTimer()
+        {
+            await Clients.Group(DbUser.TeamMember.Name).SendAsync("DisplayTimer", TeamModel.IsDailyStarted, -1);
+        }
+
+        public async Task CheckIfDailyHasEnded()
+        {
+            var test = TeamModel.MeetingStartingTime;
+
+            if (test.AddMinutes(1) < DateTime.Now)
+            {
+                if (TeamModel?.DailyMeeting != null && TeamModel.IsDailyStarted == true)
+                {
+                    await EndDailyMeeting();
+                }
+
+            }
+        }
+
+
+        //public async Task EndDailyMeetingByTime()
+        //{
+        //    await Task.Delay(10000);
+
+        //    await EndDailyMeeting();
+        //}
 
         // jest miodzio
         //public async Task<IOb> EndDailyMeetingTimer(TimeSpan timeSpan)
@@ -51,11 +91,7 @@ namespace DailyScrum.Hubs
         //    await EndDailyMeeting();
         //});
 
-
-
         ////await Task.Delay(timeSpan);
-
-
 
         //return dummyTask;
         //}
