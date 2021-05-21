@@ -8,5 +8,7 @@ namespace DailyScrum.Repository
     public interface ITeamRepository
     {
         DateTime GetDailyTime(string teamName);
+
+        void DeleteTeam(string teamName);
     }
 }

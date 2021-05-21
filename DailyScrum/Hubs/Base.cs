@@ -102,10 +102,12 @@ namespace DailyScrum.Hubs
             if (!_userRepository.CheckIfHasTeam(SignalRIdentityName))
             {
                 // wyrzuca nulla jak nie ma zespolu a sie wyloguje
-                await HandleTeamMemberNumber(-1);
+                if (DbUser.TeamMember?.Name != null)
+                {
+                    await HandleTeamMemberNumber(-1);
 
-                await SetUserStatus(false);
-
+                    await SetUserStatus(false);
+                }
             }
 
             //test

@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using DailyScrum.Areas.Identity.Data;
 using DailyScrum.Data;
 using DailyScrum.Models.Database;
+using DailyScrum.Repository;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -15,11 +17,14 @@ namespace DailyScrum.Areas.Identity.Pages.Account.Manage
     [Authorize]
     public class ScrumOptionsModel : PageModel
     {
+        public IUserRepository _userRepository;
         public DailyScrumContext _context;
 
-        public ScrumOptionsModel(DailyScrumContext context)
+        public ScrumOptionsModel(DailyScrumContext context,
+            IUserRepository userRepo)
         {
             _context = context;
+            _userRepository = userRepo;
         }
 
         [BindProperty]
@@ -52,7 +57,7 @@ namespace DailyScrum.Areas.Identity.Pages.Account.Manage
 
             if (ModelState.IsValid)
             {
-                CreateNewTeam(Input.Name,Input.DailyTime);
+                CreateNewTeam(Input.Name, Input.DailyTime);
 
                 return RedirectToPage("./ScrumOptions");
             }
@@ -76,15 +81,25 @@ namespace DailyScrum.Areas.Identity.Pages.Account.Manage
                 var team = new Team
                 {
                     DisplayName = teamName,
-                    Name = Guid.NewGuid().ToString()
+                    Name = Guid.NewGuid().ToString(),
+                    DailyTime = dailyTime
                 };
 
                 _context.Teams.Add(team);
 
-                creator.TeamRole = _context.ScrumRoles.Find(1);
+                var role = new Role
+                {
+                    Name = "Scrum Master"
+                };
+
+                _context.ScrumRoles.Add(role);
+                _context.SaveChanges();
+
+                creator.TeamRole = role;
+
                 creator.TeamMember = team;
 
-                 _context.SaveChanges();
+                _context.SaveChanges();
             }
             catch (Exception)
             {
@@ -114,7 +129,7 @@ namespace DailyScrum.Areas.Identity.Pages.Account.Manage
             }
 
             // do wyswietlenie dla Scrum Mastera
-            if (user.TeamRole?.RoleId == 1)
+            if (_userRepository.CheckIfScrumMaster(User.Identity.Name))
             {
                 ViewData["IsScrumMaster"] = true;
             }

@@ -44,15 +44,20 @@ namespace DailyScrum.Hubs
 
         private async Task HandleTeamMemberNumber(int operation)
         {
-            // porblem bo nie ma zespolu
-            var team = _connectedTeams.TryGetValue(DbUser.TeamMember.Name, out var teamModel);
+            //porblem bo nie ma zespolu
 
-            if (team)
+            if (DbUser.TeamMember?.Name != null)
             {
-                teamModel.ConnectedUsersCount += operation;
+                var team = _connectedTeams.TryGetValue(DbUser.TeamMember.Name, out var teamModel);
+
+                if (team)
+                {
+                    teamModel.ConnectedUsersCount += operation;
+                }
+
+                await UpdateUserList(DbUser.TeamMember?.Name);
             }
 
-            await UpdateUserList(DbUser.TeamMember.Name);
         }
 
         private async Task GetAllUsersStatus()
