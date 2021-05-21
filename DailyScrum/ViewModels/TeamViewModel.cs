@@ -15,11 +15,7 @@ namespace DailyScrum.ViewModels
         public bool IsDailyStarted { get; set; }
         public DailyMeeting DailyMeeting { get; set; }
 
-        public IDisposable DummyTimer { get; set; }
-
         public DateTime MeetingStartingTime { get; set; }
-        public TimeSpan MeettingDuration { get; set; }
-
 
         //tutaj uwaga
         public List<bool> UsersOnline { get; set; }

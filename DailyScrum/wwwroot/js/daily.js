@@ -1,8 +1,8 @@
-connection.on("NotifyUsers", function (param1, param2) {
-    debugger;
+////connection.on("NotifyUsers", function (param1, param2) {
+////    debugger;
 
-    displayNotofication(param1, param2);
-});
+////    displayNotofication(param1, param2);
+////});
 
 
 connection.on("DisplayStartTime", function (time) {
@@ -12,20 +12,10 @@ connection.on("DisplayStartTime", function (time) {
     element.innerHTML = start;
 })
 
-//connection.on("TestMethod", function (user, message) {
-//    var msg = message.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
-//    var encodedMsg = user + " says " + msg;
-//    var li = document.createElement("li");
-//    li.textContent = encodedMsg;
-//    document.getElementById("messagesList").appendChild(li);
-//});
-
 connection.on("StartDaily", function () {
     alert('daily has started');
 
     connection.invoke("AddNotification", "Daily");
-
-
 
     //displayNotofication('daily', 'start');
 });
@@ -34,7 +24,7 @@ connection.on("EndDaily", function () {
     alert('daily has ended');
 
 
-    connection.invoke("AddNotification", "Daily");
+    //connection.invoke("AddNotification", "Daily");
 
     /*displayNotofication('daily', 'end');*/
 });

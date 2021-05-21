@@ -4,11 +4,7 @@ using DailyScrum.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Reactive;
-using System.Reactive.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace DailyScrum.Hubs
@@ -24,9 +20,6 @@ namespace DailyScrum.Hubs
                 return teamModel;
             }
         }
-
-
-
 
         public async Task StartDailyMeeting()
         {
@@ -49,29 +42,6 @@ namespace DailyScrum.Hubs
                 await DisplayStartTime();
 
                 await SetUpTimer();
-
-                // test
-                //var timeToEnd = TeamModel.DailyMeeting.Date.AddMinutes(1);
-                //var timeToEnd = TeamModel.DailyMeeting.Date.AddSeconds(10);
-
-                //await Clients.Group(DbUser.TeamMember.Name).SendAsync("DisplayTimer", TeamModel.IsDailyStarted, 10);
-
-
-                // caly ten time nie dziala
-                //await Clients.Group(DbUser.TeamMember.Name).SendAsync("ResetDailyBoard");
-
-                //_timers.Add(DbUser.TeamMember.Name, EnableTimer(new TimeSpan(0, 0, 10),
-                //TeamModel));
-
-                // chyba dzioa ale do zmiany
-                //TeamModel.DummyTimer = EndDailyMeetingTimer(new TimeSpan(0, 0, 10));
-
-                //_sth.Add(DbUser.TeamMember.Name, Observable
-                //    .Interval(new TimeSpan(0, 0, 10))
-                //    .Subscribe(end => EndDailyMeeting()));
-
-                //await EndDailyMeetingByTime();
-                //TeamModel.DummyTimer = 
             }
         }
 
@@ -80,26 +50,20 @@ namespace DailyScrum.Hubs
             TeamModel.IsDailyStarted = false;
             if (!TeamModel.IsDailyStarted)
             {
-                //TeamModel.DummyTimer?.Dispose();
-
                 _dailyRepository.EndDailyMeeting(TeamModel.DailyMeeting.DailyMeetingId);
 
                 // po co ja tutaj iteruje?
-                foreach (var item in _userRepository.GetAllTeamMebers(DbUser.TeamMember.Name))
+                foreach (var item in TeamModel.UsersList)
                 {
                     var conn = _connectedUsers.Where(x => x.Value.Id == item.Id).FirstOrDefault().Key;
                     await SetEnabledOptions();
 
-                    if(conn != null)
+                    if (conn != null)
                     {
                         await Clients.Client(conn).SendAsync("EndDaily");
 
                         await Clients.Client(conn).SendAsync("EnableSubmitPostButton", TeamModel.IsDailyStarted);
                     }
-                    
-
-                    
-                    //await Clients.OthersInGroup(DbUser.TeamMember.Name).SendAsync("EndDaily");
                 }
 
                 //jakis error
@@ -115,6 +79,8 @@ namespace DailyScrum.Hubs
             await Clients.Caller.SendAsync("EnabledOptions", model.IsDailyStarted, DbUser.TeamRole.Name);
         }
 
+
+
         public async Task SetEnabledOptions()
         {
             foreach (var item in TeamModel.UsersList)
@@ -128,6 +94,7 @@ namespace DailyScrum.Hubs
             }
         }
 
+        // to jest chyba ok
 
         public async Task AddDailyOptions()
         {
@@ -154,10 +121,6 @@ namespace DailyScrum.Hubs
             await Clients.Caller.SendAsync("DisplayStartTime", time);
         }
 
-
-
-        // to jest chyba ok
-
         public async Task EnableSubmitButton()
         {
             if (TeamModel != null)
@@ -172,8 +135,6 @@ namespace DailyScrum.Hubs
                 }
             }
         }
-
-
 
         public async Task GetAllPosts()
         {

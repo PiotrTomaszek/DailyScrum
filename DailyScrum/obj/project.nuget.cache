@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "XfDmclCxrxQh9dmlI6Wmk4BgdC622AAWG2GfKTq7dr+sHpw+dUDp2EpN9PWbrEeuPXJdyR9ShgyU6Kg+tIbKCA==",
+  "dgSpecHash": "RAAbfvvYINr4L9hnaSt6f5WPRrJn9o08s+SFtEuAfXnCU3ad7bVczAm3ty8X/W0zIDpP83OaaCY9Cd3Lx0VF6Q==",
   "success": true,
   "projectFilePath": "C:\\Programs\\Visual Repos\\ASP_Projekt\\DailyScrum\\DailyScrum.csproj",
   "expectedPackageFiles": [
@@ -101,7 +101,6 @@
     "C:\\Users\\sMiecio\\.nuget\\packages\\system.objectmodel\\4.3.0\\system.objectmodel.4.3.0.nupkg.sha512",
     "C:\\Users\\sMiecio\\.nuget\\packages\\system.private.datacontractserialization\\4.3.0\\system.private.datacontractserialization.4.3.0.nupkg.sha512",
     "C:\\Users\\sMiecio\\.nuget\\packages\\system.private.uri\\4.3.2\\system.private.uri.4.3.2.nupkg.sha512",
-    "C:\\Users\\sMiecio\\.nuget\\packages\\system.reactive\\5.0.0\\system.reactive.5.0.0.nupkg.sha512",
     "C:\\Users\\sMiecio\\.nuget\\packages\\system.reflection\\4.3.0\\system.reflection.4.3.0.nupkg.sha512",
     "C:\\Users\\sMiecio\\.nuget\\packages\\system.reflection.emit\\4.3.0\\system.reflection.emit.4.3.0.nupkg.sha512",
     "C:\\Users\\sMiecio\\.nuget\\packages\\system.reflection.emit.ilgeneration\\4.3.0\\system.reflection.emit.ilgeneration.4.3.0.nupkg.sha512",

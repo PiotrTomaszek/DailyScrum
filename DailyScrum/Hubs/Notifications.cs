@@ -40,9 +40,12 @@ namespace DailyScrum.Hubs
                 }
             }
 
-            await Clients.OthersInGroup(DbUser.TeamMember.Name).SendAsync("NotifyUsers", notiFrom, "test");
+            await Clients.OthersInGroup(DbUser.TeamMember.Name).SendAsync("Notification", notiFrom, "test");
         }
 
-
+        public async Task RemoveNotification()
+        {
+            //TeamModel.
+        }
     }
 }

@@ -4,7 +4,6 @@ using DailyScrum.Repository;
 using DailyScrum.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
-using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -89,24 +88,10 @@ namespace DailyScrum.Hubs
 
                 await CheckIfDailyHasEnded();
                 await DisplayTimer();
-                //await EnableScrumMasterProblemBar();
-
-                //await TimeStuff();
-                //SetUpTimer(new TimeSpan(11, 23, 00));
-
             }
 
             return base.OnConnectedAsync();
         }
-
-        // chyba bedzie do wyrzucenia bo wszyskniecie w widoku jest lepsze
-        //public async Task EnableScrumMasterProblemBar()
-        //{
-        //    if (DbUser.TeamRole?.RoleId == 1)
-        //    {
-        //        await Clients.Caller.SendAsync("GenScrumMasterProblems");
-        //    }
-        //}
 
         public async override Task<Task> OnDisconnectedAsync(Exception exception)
         {

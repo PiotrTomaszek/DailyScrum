@@ -1,9 +1,14 @@
 ﻿
+connection.on("Notification", function (from , sth) {
+    displayNotofication(from, sth);
+});
 
 
 function displayNotofication(whatKind, additionalParameter) {
     //meeting  chyba ok
     //chat oraz problemy
+
+    debugger;
 
     var actualWindowPage = window.location.pathname;
 
