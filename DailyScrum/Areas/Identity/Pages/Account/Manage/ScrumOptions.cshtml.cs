@@ -17,14 +17,17 @@ namespace DailyScrum.Areas.Identity.Pages.Account.Manage
     [Authorize]
     public class ScrumOptionsModel : PageModel
     {
-        public IUserRepository _userRepository;
-        public DailyScrumContext _context;
+        private DailyScrumContext _context;
+        private IUserRepository _userRepository;
+        private ITeamRepository _teamRepository;
 
         public ScrumOptionsModel(DailyScrumContext context,
-            IUserRepository userRepo)
+            IUserRepository userRepo,
+            ITeamRepository teamRepository)
         {
             _context = context;
             _userRepository = userRepo;
+            _teamRepository = teamRepository;
         }
 
         [BindProperty]
@@ -38,6 +41,7 @@ namespace DailyScrum.Areas.Identity.Pages.Account.Manage
             [Display(Name = "Nazwa zespo³u")]
             public string Name { get; set; }
 
+            [Required(ErrorMessage = "Podaj odpowiedni¹ datê.")]
             [DataType(DataType.Time, ErrorMessage = "Z³e dane.")]
             [Display(Name = "Pora Daily")]
             public DateTime DailyTime { get; set; }
@@ -57,56 +61,13 @@ namespace DailyScrum.Areas.Identity.Pages.Account.Manage
 
             if (ModelState.IsValid)
             {
-                CreateNewTeam(Input.Name, Input.DailyTime);
+                _teamRepository.CreateNewTeam(Input.Name, Input.DailyTime, HttpContext.User.Identity.Name);
 
                 return RedirectToPage("./ScrumOptions");
             }
 
             SetViewData();
             return Page();
-        }
-
-        public void CreateNewTeam(string teamName, DateTime dailyTime)
-        {
-            var thisUserUserName = HttpContext.User.Identity.Name;
-
-            var creator = _context.Users
-               .Include(r => r.TeamRole)
-               .Include(n => n.TeamMember)
-               .Where(x => x.UserName == thisUserUserName)
-               .FirstOrDefault();
-
-            try
-            {
-                var team = new Team
-                {
-                    DisplayName = teamName,
-                    Name = Guid.NewGuid().ToString(),
-                    DailyTime = dailyTime
-                };
-
-                _context.Teams.Add(team);
-
-                var role = new ScrumRole
-                {
-                    Name = "Scrum Master"
-                };
-
-                _context.ScrumRoles.Add(role);
-                _context.SaveChanges();
-
-                creator.TeamRole = role;
-
-                creator.TeamMember = team;
-
-                _context.SaveChanges();
-            }
-            catch (Exception)
-            {
-
-                throw;
-            }
-
         }
 
         public void SetViewData()

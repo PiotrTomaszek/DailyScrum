@@ -1,4 +1,6 @@
-﻿using DailyScrum.Data;
+﻿using DailyScrum.Areas.Identity.Data;
+using DailyScrum.Data;
+using DailyScrum.Models.Database;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -14,6 +16,46 @@ namespace DailyScrum.Repository
         public TeamRepository(DailyScrumContext context)
         {
             _context = context;
+        }
+
+        public void CreateNewTeam(string teamName, DateTime dailyTime, string thisUserUserName)
+        {
+            var creator = _context.Users
+             .Include(r => r.TeamRole)
+             .Include(n => n.TeamMember)
+             .Where(x => x.UserName == thisUserUserName)
+             .FirstOrDefault();
+
+            try
+            {
+                var team = new Team
+                {
+                    DisplayName = teamName,
+                    Name = Guid.NewGuid().ToString(),
+                    DailyTime = dailyTime
+                };
+
+                _context.Teams.Add(team);
+
+                var role = new ScrumRole
+                {
+                    Name = "Scrum Master"
+                };
+
+                _context.ScrumRoles.Add(role);
+                _context.SaveChanges();
+
+                creator.TeamRole = role;
+
+                creator.TeamMember = team;
+
+                _context.SaveChanges();
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
 
         public void DeleteTeam(string teamName)

@@ -2,60 +2,81 @@
 @model DailyScrum.Areas.Identity.Pages.Account.Manage.ScrumOptionsModel
 
 @{
-
+    ViewData["Title"] = "Scrum Options";
 }
 
+<div class="daily-background-color p-3 text-white">
 
-<div class="bg-white">
-    <h1>test scrum</h1>
 
-    <h1>@ViewData["HasTeam"]</h1>
-
-    @if ((bool)@ViewData["HasTeam"])
-    {
-        <h5>Mosz juz zespol</h5>
-    }
-    else
-    {
-        <h1>Nie masz zespolu</h1>
-    }
+    @* Widok dla devow *@
+    @*<h1>Mo team @ViewData["HasTeam"]</h1>*@
 
     @if ((bool)@ViewData["IsScrumMaster"])
     {
-        <h2>Ty jestes scrum masterem</h2>
+        @* Widok dla scrum mastra *@
 
-        @*<form method="post" asp-action="DeleteTeam" asp-controller="Home">*@
-        <button id="btnDeleteTeam" type="submit" class="btn btn-lg text-white btn-outline-primary">Usuń zespół</button>
-        @*</form>*@
+        <div class="row text-center p-3">
+
+            <div class="container-fluid col-md-8">
+
+                <h2>Opcje Scrum Mastera</h2>
+
+                <hr class="p-2" />
+                <h4>Dodaj nowego członka</h4>
+
+                <div class="form-group">
+                    <input type="text" class="form-control" value="" placeholder="np. #123123"/>
+                </div>
+                <button id="btnAddTeamMember" type="submit" class="btn btn-lg btn-success">Dodaj</button>
+
+
+                <div class="pt-5 pb-2">
+                    <button id="btnDeleteTeam" type="submit" class="btn btn-sm btn-outline-danger">Usuń zespół</button>
+                </div>
+            </div>
+        </div>
+    }
+    else if ((bool)@ViewData["HasTeam"])
+    {
+        <h5>Mosz juz zespol</h5>
+
     }
     else
     {
-        <form id="account" method="post">
-            <hr />
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="row text-white pb-2 pt-2 p-3 ml-1 mr-1">
 
-            <div class="mb-2 mr-sm-2 p-2">
-                <div class="input-group ">
-                    <label asp-for="Input.Name" />
-                    <input asp-for="Input.Name" class="form-control" placeholder="Hasło" />
-                </div>
-                <span asp-validation-for="Input.Name" class="text-danger"></span>
+            <div class="container-fluid col-md-6 text-center">
+
+                <h3 class="pb-2">Stwórz zespół</h3>
+
+                <hr class="daily-background-color" />
+
+                <form id="account" method="post">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                    <div class="mb-2 mr-sm-2 p-2">
+                        <div class="form-group">
+                            <label asp-for="Input.Name"></label>
+                            <input asp-for="Input.Name" class="form-control" placeholder="..." />
+                        </div>
+                        <span asp-validation-for="Input.Name" class="text-danger"></span>
+                    </div>
+
+                    <div class="mb-2 mr-sm-2 p-2">
+                        <div class="form-group">
+                            <label asp-for="Input.DailyTime"></label>
+                            <input asp-for="Input.DailyTime" class="form-control" />
+                        </div>
+                        <span asp-validation-for="Input.DailyTime" class="text-danger"></span>
+                    </div>
+
+
+                    <div class="form-group p-4">
+                        <button type="submit" class="btn text-white btn-primary">Stwórz zespół</button>
+                    </div>
+                </form>
             </div>
-
-            <div class="mb-2 mr-sm-2 p-2">
-                <div class="input-group ">
-                    <label asp-for="Input.DailyTime" />
-                    <input asp-for="Input.DailyTime" class="form-control" placeholder="Hasło" />
-                </div>
-                <span asp-validation-for="Input.DailyTime" class="text-danger"></span>
-            </div>
-
-
-            <div class="form-group">
-                <button type="submit" class="btn btn-lg text-white btn-outline-primary">Zaloguj się</button>
-            </div>
-
-        </form>
+        </div>
     }
 </div>
 
@@ -64,12 +85,8 @@
     <script>
         var btn = document.getElementById('btnDeleteTeam');
 
-        btn.addEventListener('click', function () {
-
+        btn?.addEventListener('click', function () {
             connection.invoke('DeleteTeam');
-
         });
-
     </script>
-
 }

@@ -9,6 +9,8 @@ namespace DailyScrum.Repository
     {
         DateTime GetDailyTime(string teamName);
 
+        void CreateNewTeam(string teamName, DateTime dailyTime, string thisUserUserName);
+
         void DeleteTeam(string teamName);
     }
 }
