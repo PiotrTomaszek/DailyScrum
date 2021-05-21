@@ -43,6 +43,7 @@ namespace DailyScrum.Hubs
 
         private async Task HandleTeamMemberNumber(int operation)
         {
+            // porblem bo nie ma zespolu
             var team = _connectedTeams.TryGetValue(DbUser.TeamMember.Name, out var teamModel);
 
             if (team)

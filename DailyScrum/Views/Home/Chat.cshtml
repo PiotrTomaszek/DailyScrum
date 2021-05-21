@@ -24,30 +24,53 @@
             </div>
         </div>
 
+        @* to text ui chat *@
+        @*<div class="chat-body">
+            <ul class="list-unstyled" data-bind="foreach: chatMessages">
+                <li>
+                    <div class="chat-message d-flex" data-bind="css: $data.isMine() === true ? 'ismine' : 'isother'">
+                        <div class="left-side">
+                            <img src="/images/icons/avatar1.png" class="message-avatar" data-bind="attr: { src: '/images/icons/' + $data.avatar() }" />
+                        </div>
+                        <div class="message-content d-flex flex-column">
+                            <div class="d-flex justify-content-between">
+                                <span class="author" data-bind="text:$data.from"></span>
+                                <span class="timestamp">
+                                    <i class="far fa-clock"></i>
+                                    <span data-bind="text:$data.timestamp"></span>
+                                </span>
+                            </div>
+                            <span class="content" data-bind="html:$data.content"></span>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>*@
+
         <partial name="_ModalUserList" />
 
         @* User List Part *@
         @*<div class="col-md-4 col-lg-3">
-            <div class="card mb-sm-3 mb-md-0 contacts_card" id="usersHolder">
-                <div class="card-header text-center" id="cardHeaderHolder">
-                    <div class="row">
+        <div class="card mb-sm-3 mb-md-0 contacts_card" id="usersHolder">
+            <div class="card-header text-center" id="cardHeaderHolder">
+                <div class="row">
 
-                        <h5 class="w-100 text-center" id="team-name"></h5>
+                    <h5 class="w-100 text-center" id="team-name"></h5>
 
+                </div>
+                <p>Online: <span id="online-team-members"></span></p>
+            </div>
+            <div id="cardBodyHolder">
+                <div class="card-body @*collapse*@ @*contacts_body" id="collapseUserList" style="overflow-y: scroll;height:100%">
+                        <ul id="usersList" class="contacts list-unstyled">
+                            <li>
+                            </li>
+                        </ul>
                     </div>
-                    <p>Online: <span id="online-team-members"></span></p>
                 </div>
-                <div id="cardBodyHolder">
-                    <div class="card-body @*collapse*@ @*contacts_body" id="collapseUserList" style="overflow-y: scroll;height:100%">
-                            <ul id="usersList" class="contacts list-unstyled">
-                                <li>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>*@
-                </div>
+            </div>
+        </div>*@
+            </div>
             </div>
 
 

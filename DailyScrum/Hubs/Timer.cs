@@ -1,6 +1,11 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using DailyScrum.Data;
+using DailyScrum.Repository;
+using DailyScrum.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
+using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -16,41 +21,23 @@ namespace DailyScrum.Hubs
             await Clients.Caller.SendAsync("DisplayTime", TeamModel.MeetingStartingTime.ToString());
         }
 
-        // dzioa ale do ogarniecia
 
-        private void SetUpTimer(TimeSpan alertTime, string teamName)
+
+
+        // jest miodzio
+        public async Task/*<Task>*/ EndDailyMeetingTimer(TimeSpan timeSpan)
         {
-            var current = DateTime.Now;
-            var timeToGo = alertTime - current.TimeOfDay;
-
-            if (timeToGo < TimeSpan.Zero)
+            var dummyTask = Task.Run(() =>
             {
-                return;
-            }
+                Thread.Sleep(timeSpan);
+            });
 
-            TeamModel.Timer = new System.Threading.Timer(x =>
-           {
-               EndDailyMeetingByTime(teamName);
-           }, null, timeToGo, Timeout.InfiniteTimeSpan);
-        }
-        private async Task EndDailyMeetingByTime(string teamName)
-        {
-            _connectedTeams.TryGetValue(teamName, out var teamModel);
 
-            teamModel.IsDailyStarted = false;
-            if (!teamModel.IsDailyStarted)
-            {
-                _dailyRepository.EndDailyMeeting(teamModel.DailyMeeting.DailyMeetingId);
+            Task.WaitAll(dummyTask);
 
-                foreach (var item in _userRepository.GetAllTeamMebers(DbUser.TeamMember.Name))
-                {
-                    var conn = _connectedUsers.Where(x => x.Value.Id == item.Id).FirstOrDefault().Key;
+            await EndDailyMeeting();
 
-                    await SetEnabledOptions();
-
-                    await Clients.Client(conn).SendAsync("EndDaily");
-                }
-            }
+            //return dummyTask;
         }
     }
 }

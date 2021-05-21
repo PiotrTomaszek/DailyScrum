@@ -1,10 +1,12 @@
-﻿using DailyScrum.Models.Database;
+﻿using DailyScrum.Extensions;
+using DailyScrum.Models.Database;
 using DailyScrum.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace DailyScrum.Hubs
@@ -43,18 +45,23 @@ namespace DailyScrum.Hubs
                 TeamModel.MeetingStartingTime = TeamModel.DailyMeeting.Date;
 
                 // test
-                var timeToEnd = TeamModel.DailyMeeting.Date.AddMinutes(1);
+                //var timeToEnd = TeamModel.DailyMeeting.Date.AddMinutes(1);
+                var timeToEnd = TeamModel.DailyMeeting.Date.AddSeconds(10);
 
-                //tutaj powinno zaczac sie odliczanie 
-                SetUpTimer(new TimeSpan(timeToEnd.Hour, timeToEnd.Minute,timeToEnd.Second), DbUser.TeamMember.Name);
+                //await Clients.Group(DbUser.TeamMember.Name).SendAsync("ResetDailyBoard");
+
+                // chyba dzioa ale do zmiany
+                TeamModel.DummyTimer = EndDailyMeetingTimer(new TimeSpan(0, 0, 10));
             }
         }
-        
+
         public async Task EndDailyMeeting()
         {
             TeamModel.IsDailyStarted = false;
             if (!TeamModel.IsDailyStarted)
             {
+                TeamModel.DummyTimer?.Dispose();
+
                 _dailyRepository.EndDailyMeeting(TeamModel.DailyMeeting.DailyMeetingId);
 
                 foreach (var item in _userRepository.GetAllTeamMebers(DbUser.TeamMember.Name))
@@ -138,6 +145,10 @@ namespace DailyScrum.Hubs
 
             if (TeamModel != null)
             {
+                today = today.ReplaceHTMLTags();
+                problem = problem.ReplaceHTMLTags();
+                yesterday = yesterday.ReplaceHTMLTags();
+
                 // dodanie postu do bazy
                 dailyPost = _postRepository.CreateDailyPost(yesterday, today, problem, DbUser, TeamModel.DailyMeeting, DateTime.Now);
                 problemHold = _problemRepository.CreateProblem(DbUser.TeamMember.TeamId, TeamModel.DailyMeeting.DailyMeetingId, DbUser.Id, problem);

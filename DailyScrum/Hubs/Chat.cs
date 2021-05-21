@@ -1,9 +1,11 @@
-﻿using DailyScrum.ViewModels;
+﻿using DailyScrum.Extensions;
+using DailyScrum.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace DailyScrum.Hubs
@@ -39,22 +41,27 @@ namespace DailyScrum.Hubs
 
         public async Task SendMessage(string message)
         {
-            _connectedTeams.TryGetValue(DbUser.TeamMember.Name, out var teamModel);
+            var teamModel = TeamModel;
 
-            if (teamModel != null)
+            if (teamModel == null)
             {
-                var newMessage = new MessageViewModel
-                {
-                    Id = Guid.NewGuid().ToString(),
-                    Content = message,
-                    From = DbUser.Id,
-                    Date = DateTime.UtcNow
-                };
-
-                teamModel.Messages.Add(newMessage);
+                return;
             }
 
-            await Clients.OthersInGroup(DbUser.TeamMember.Name).SendAsync("SendMessageToGroup", UserFullName, message, DateTime.UtcNow.ToShortTimeString(),DbUser.PhotoPath);
+            message = message.ReplaceHTMLTags();
+
+            //var newMessage = new MessageViewModel
+            //{
+            //    Id = Guid.NewGuid().ToString(),
+            //    Content = message,
+            //    From = DbUser.Id,
+            //    Date = DateTime.UtcNow
+            //};
+
+            //teamModel.Messages.Add(newMessage);
+
+
+            await Clients.OthersInGroup(DbUser.TeamMember.Name).SendAsync("SendMessageToGroup", UserFullName, message, DateTime.UtcNow.ToShortTimeString(), DbUser.PhotoPath);
             await Clients.Caller.SendAsync("ShowSentMessage", UserFullName, message, DateTime.UtcNow.ToShortTimeString());
 
         }

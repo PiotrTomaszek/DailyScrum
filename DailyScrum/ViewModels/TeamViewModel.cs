@@ -3,6 +3,7 @@ using DailyScrum.Models.Database;
 using System;
 using System.Collections.Generic;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace DailyScrum.ViewModels
 {
@@ -14,7 +15,7 @@ namespace DailyScrum.ViewModels
         public bool IsDailyStarted { get; set; }
         public DailyMeeting DailyMeeting { get; set; }
 
-        public Timer Timer { get; set; }
+        public Task DummyTimer { get; set; }
 
         public DateTime MeetingStartingTime { get; set; }
         public TimeSpan MeettingDuration { get; set; }
