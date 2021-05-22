@@ -75,6 +75,23 @@ namespace DailyScrum.Hubs
                 index++;
             }
         }
+
+        private async Task SetAllUsersStatusForTeam()
+        {
+            _connectedTeams.TryGetValue(DbUser.TeamMember.Name, out var model);
+
+            int index = 0;
+            foreach (var item in model.UsersOnline)
+            {
+                var id = model.UsersList[index].Id;
+                var isOnline = item;
+
+                await Clients.Group(DbUser.TeamMember.Name).SendAsync("SetUserStatus", id, item);
+
+                index++;
+            }
+        }
+
         private async Task SetUserStatus(bool isOnline)
         {
             var isOK = _connectedUsers.TryGetValue(Context.ConnectionId, out var connUser);
@@ -100,7 +117,7 @@ namespace DailyScrum.Hubs
 
         private async Task GenerateUserList()
         {
-            _connectedTeams.TryGetValue(DbUser.TeamMember.Name, out var model);
+            var model = TeamModel;
 
             foreach (var item in model.UsersList)
             {

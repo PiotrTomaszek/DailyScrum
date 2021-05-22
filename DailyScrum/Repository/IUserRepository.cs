@@ -23,5 +23,6 @@ namespace DailyScrum.Repository
 
         void SetFirstName(string userName, string firstName);
         void SetLastName(string userName, string lastName);
+        ScrumRole SetTeamRole(string userName, string roleName);
     }
 }

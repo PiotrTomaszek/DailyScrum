@@ -12,10 +12,14 @@ connection.on("DisplayStartTime", function (time) {
     element.innerHTML = start;
 })
 
+connection.on("DisposeUserList", function () {
+    document.getElementById("usersList").innerHTML = '';
+});
+
 connection.on("StartDaily", function () {
     alert('daily has started');
 
-    connection.invoke("AddNotification", "Daily");
+    //connection.invoke("AddNotification", "daily");
 
     //displayNotofication('daily', 'start');
 });

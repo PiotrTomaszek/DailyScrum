@@ -7,7 +7,6 @@
 
 <div class="daily-background-color p-3 text-white pt-2">
 
-
     @* Widok dla devow *@
     @*<h1>Mo team @ViewData["HasTeam"]</h1>*@
 
@@ -38,8 +37,27 @@
     }
     else if ((bool)@ViewData["HasTeam"])
     {
-        <h5>Mosz juz zespol</h5>
+        <div class="row text-center p-3 mb-2 pb-5">
 
+            <div class="container-fluid col-md-8">
+
+                <h2>Twoja rola</h2>
+
+                <hr class="p-2" />
+
+                <h4>Ustaw rolę w zepsole</h4>
+
+                <div class="form-group container-fluid">
+                    <input type="text" id="roleName" class="form-control" value="" placeholder="np. Frontend dev" />
+                    <div class="rounded bg-success m-1 border border-dark">
+                        <span id="spanSucces" class="text-white"></span>
+                    </div>
+                </div>
+
+                <button id="btnChangeRole" type="submit" class="btn btn-lg btn-success m-1 mt-2">Ustaw</button>
+
+            </div>
+        </div>
     }
     else
     {
@@ -81,6 +99,28 @@
 </div>
 
 @section Scripts{
+
+    <script>
+        connection.on("DisplayChangeRoleSucces", function () {
+
+            var spanPlace = document.getElementById('spanSucces');
+
+            spanPlace.innerText = "Sukces, zmieniłeś swoją rolę!";
+
+        });
+    </script>
+
+    <script>
+        var btn3 = document.getElementById('btnChangeRole');
+
+        btn3?.addEventListener('click', function () {
+
+            debugger;
+
+            var user = document.getElementById('roleName');
+            connection.invoke('ChangeMemberRole', user.value);
+        });
+    </script>
 
     <script>
         var btn2 = document.getElementById('btnAddTeamMember');

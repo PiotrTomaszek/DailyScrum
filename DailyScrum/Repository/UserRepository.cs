@@ -119,5 +119,32 @@ namespace DailyScrum.Repository
             _context.Users.Update(user);
             _context.SaveChanges();
         }
+
+        public ScrumRole SetTeamRole(string userName, string roleName)
+        {
+            var member = _context.Users
+                .Include(x => x.TeamRole)
+                .Where(z => z.UserName.Equals(userName))
+                .FirstOrDefault();
+
+            if (member == null)
+            {
+                return null;
+            }
+
+            _context.ScrumRoles.Remove(member.TeamRole);
+            _context.SaveChanges();
+
+            var newRole = new ScrumRole
+            {
+                Name = roleName
+            };
+
+            _context.ScrumRoles.Add(newRole);
+            member.TeamRole = newRole;
+            _context.SaveChanges();
+
+            return newRole;
+        }
     }
 }
