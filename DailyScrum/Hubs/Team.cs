@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using DailyScrum.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
 using System;
 using System.Collections.Generic;
@@ -10,6 +11,16 @@ namespace DailyScrum.Hubs
     [Authorize]
     public partial class DailyHub : Hub
     {
+        public async Task AddTeamMember(string userName)
+        {
+            var member = _teamRepository.AddNewTeamMember(userName, DbUser.TeamMember.Name);
+
+            TeamModel.UsersList.Add(member);
+            TeamModel.UsersOnline.Add(false);
+            TeamModel.UsersNotification.Add(new NotificationViewModel());
+            TeamModel.TeamMemberCount = TeamModel.UsersList.Count;
+        }
+
         public async Task DeleteTeam()
         {
             var members = TeamModel.UsersList;

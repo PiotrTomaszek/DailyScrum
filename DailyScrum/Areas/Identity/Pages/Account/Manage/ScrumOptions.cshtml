@@ -5,7 +5,7 @@
     ViewData["Title"] = "Scrum Options";
 }
 
-<div class="daily-background-color p-3 text-white">
+<div class="daily-background-color p-3 text-white pt-2">
 
 
     @* Widok dla devow *@
@@ -15,7 +15,7 @@
     {
         @* Widok dla scrum mastra *@
 
-        <div class="row text-center p-3">
+        <div class="row text-center p-3 mb-2 pb-5">
 
             <div class="container-fluid col-md-8">
 
@@ -25,7 +25,7 @@
                 <h4>Dodaj nowego członka</h4>
 
                 <div class="form-group">
-                    <input type="text" class="form-control" value="" placeholder="np. #123123"/>
+                    <input type="text" id="teamUserNameToAdd" class="form-control" value="" placeholder="np. frontdev@mail.com" />
                 </div>
                 <button id="btnAddTeamMember" type="submit" class="btn btn-lg btn-success">Dodaj</button>
 
@@ -81,6 +81,18 @@
 </div>
 
 @section Scripts{
+
+    <script>
+        var btn2 = document.getElementById('btnAddTeamMember');
+
+        btn2?.addEventListener('click', function () {
+
+            debugger;
+
+            var user = document.getElementById('teamUserNameToAdd');
+            connection.invoke('AddTeamMember', user.value);
+        });
+    </script>
 
     <script>
         var btn = document.getElementById('btnDeleteTeam');

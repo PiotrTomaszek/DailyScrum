@@ -18,6 +18,24 @@ namespace DailyScrum.Repository
             _context = context;
         }
 
+        public ApplicationUser AddNewTeamMember(string userName, string teamName)
+        {
+            var member = _context.Users
+                .Where(x => x.UserName.Equals(userName))
+                .FirstOrDefault();
+
+            var team = _context.Teams
+                .Where(z => z.Name.Equals(teamName))
+                .FirstOrDefault();
+
+            member.TeamMember = team;
+
+            _context.Users.Update(member);
+            _context.SaveChanges();
+
+            return member;
+        }
+
         public void CreateNewTeam(string teamName, DateTime dailyTime, string thisUserUserName)
         {
             var creator = _context.Users
