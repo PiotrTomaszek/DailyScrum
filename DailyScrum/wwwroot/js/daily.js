@@ -1,9 +1,3 @@
-////connection.on("NotifyUsers", function (param1, param2) {
-////    debugger;
-
-////    displayNotofication(param1, param2);
-////});
-
 
 connection.on("DisplayStartTime", function (time) {
     var element = document.getElementById('starting-time');
@@ -17,20 +11,11 @@ connection.on("DisposeUserList", function () {
 });
 
 connection.on("StartDaily", function () {
-    alert('daily has started');
-
-    //connection.invoke("AddNotification", "daily");
-
-    //displayNotofication('daily', 'start');
+    //alert('daily has started');
 });
 
 connection.on("EndDaily", function () {
-    alert('daily has ended');
-
-
-    //connection.invoke("AddNotification", "Daily");
-
-    /*displayNotofication('daily', 'end');*/
+    //alert('daily has ended');
 });
 
 connection.on("EnabledOptions", function (isStarted, roleMember) {
@@ -46,7 +31,6 @@ connection.on("EnabledOptions", function (isStarted, roleMember) {
             endBtn.classList.remove('disabled');
 
             // zmiana wygladu
-
             startBtn.classList.add('text-muted');
             endBtn.classList.remove('text-muted');
 

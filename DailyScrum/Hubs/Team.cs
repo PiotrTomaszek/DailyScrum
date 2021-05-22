@@ -11,10 +11,20 @@ namespace DailyScrum.Hubs
     [Authorize]
     public partial class DailyHub : Hub
     {
-        public async Task UpdateUserInUserList()
+        public async Task UpdateUserData(string firstName, string lastName, string phone)
         {
+            var user = TeamModel.UsersList.FirstOrDefault(x => x.UserName.Equals(DbUser.UserName));
 
+            if (user != null)
+            {
+                user.FirstName = firstName;
+                user.LastName = lastName;
+                user.PhoneNumber = phone;
+            }
+
+            await MemberHandler();
         }
+
 
         public async Task ChangeMemberRole(string roleName)
         {
@@ -113,6 +123,14 @@ namespace DailyScrum.Hubs
             TeamModel.UsersOnline.Add(false);
             TeamModel.UsersNotification.Add(new NotificationViewModel());
             TeamModel.TeamMemberCount = TeamModel.UsersList.Count;
+
+            // tutaj sprawdzenie czy nie jest zalogowany a jak to to przelaczenie mu wikoku
+            var findId = _connectedUsers.FirstOrDefault(x => x.Value.Id.Equals(member.Id)).Key;
+
+            if (findId != null)
+            {
+                await Clients.Client(findId).SendAsync("RefreshAddToTeam");
+            }
 
             await MemberHandler();
         }

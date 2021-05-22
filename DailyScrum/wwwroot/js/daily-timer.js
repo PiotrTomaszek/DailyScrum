@@ -4,10 +4,6 @@ connection.on("DisplayTimer", function (hasStarted, time) {
 
     var timePlace = document.getElementById('timer');
 
-    debugger;
-
-
-
     if (hasStarted && time > 0) {
         myVar = startTimer(time, timePlace);
     }
@@ -15,8 +11,6 @@ connection.on("DisplayTimer", function (hasStarted, time) {
         clearInterval(myVar);
         timePlace.innerHTML = 'Koniec';
     }
-
-
 });
 
 

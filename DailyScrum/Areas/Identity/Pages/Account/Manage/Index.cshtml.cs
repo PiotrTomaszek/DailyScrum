@@ -4,10 +4,12 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 using DailyScrum.Areas.Identity.Data;
+using DailyScrum.Hubs;
 using DailyScrum.Repository;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.SignalR;
 
 namespace DailyScrum.Areas.Identity.Pages.Account.Manage
 {
@@ -17,14 +19,18 @@ namespace DailyScrum.Areas.Identity.Pages.Account.Manage
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly IUserRepository _userRepository;
 
+        private readonly IHubContext<DailyHub> _hubContext;
+
         public IndexModel(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
-            IUserRepository userRepository)
+            IUserRepository userRepository,
+            IHubContext<DailyHub> hubContext)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _userRepository = userRepository;
+            _hubContext = hubContext;
         }
 
         public string Username { get; set; }
@@ -130,6 +136,9 @@ namespace DailyScrum.Areas.Identity.Pages.Account.Manage
 
             await _signInManager.RefreshSignInAsync(user);
             StatusMessage = "Zaaktualizowano profil.";
+
+            ViewData["HasUpdatedProfil"] = true;
+
             return RedirectToPage();
         }
     }

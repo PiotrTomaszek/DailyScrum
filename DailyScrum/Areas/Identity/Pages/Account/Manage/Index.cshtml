@@ -60,20 +60,20 @@
 
                     <div class="form-group">
                         <label asp-for="Input.FirstName"></label>
-                        <input asp-for="Input.FirstName" class="form-control" />
+                        <input asp-for="Input.FirstName" id="firstNameInput" class="form-control" />
                         <span asp-validation-for="Input.FirstName" class="text-danger"></span>
                     </div>
 
 
                     <div class="form-group">
                         <label asp-for="Input.LastName"></label>
-                        <input asp-for="Input.LastName" class="form-control" />
+                        <input asp-for="Input.LastName" id="lastNameInput" class="form-control" />
                         <span asp-validation-for="Input.LastName" class="text-danger"></span>
                     </div>
 
                     <div class="form-group">
                         <label asp-for="Input.PhoneNumber"></label>
-                        <input asp-for="Input.PhoneNumber" class="form-control" />
+                        <input asp-for="Input.PhoneNumber" id="phoneInput" class="form-control" />
                         <span asp-validation-for="Input.PhoneNumber" class="text-danger"></span>
                     </div>
 
@@ -118,6 +118,18 @@
         }
     </script>
 
+    <script>
+        var btn = document.getElementById('update-profile-button');
 
+        btn?.addEventListener('click', function () {
 
+            var a = document.getElementById('firstNameInput').value;
+            var b = document.getElementById('lastNameInput').value;
+            var c = document.getElementById('phoneInput').value;
+
+            if (a.length > 1 && b.length > 1) {
+                connection.invoke("UpdateUserData", a, b, c);
+            }
+        });
+    </script>
 }

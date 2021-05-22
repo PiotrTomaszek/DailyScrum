@@ -89,7 +89,7 @@ namespace DailyScrum.Hubs
 
                 if (conn != null)
                 {
-                    await Clients.Client(conn).SendAsync("EnabledOptions", TeamModel.IsDailyStarted, item.TeamRole.Name);
+                    await Clients.Client(conn).SendAsync("EnabledOptions", TeamModel.IsDailyStarted, item.TeamRole?.Name);
                 }
             }
         }
