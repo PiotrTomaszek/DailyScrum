@@ -7,9 +7,6 @@
 
 <div class="daily-background-color p-3 text-white pt-2">
 
-    @* Widok dla devow *@
-    @*<h1>Mo team @ViewData["HasTeam"]</h1>*@
-
     @if ((bool)@ViewData["IsScrumMaster"])
     {
         @* Widok dla scrum mastra *@
@@ -26,10 +23,18 @@
                 <div class="form-group">
                     <input type="text" id="teamUserNameToAdd" class="form-control" value="" placeholder="np. frontdev@mail.com" />
                 </div>
-                <button id="btnAddTeamMember" type="submit" class="btn btn-lg btn-success">Dodaj</button>
+                <button id="btnAddTeamMember" type="submit" class="btn btn-success mb-1">Dodaj</button>
 
 
-                <div class="pt-5 pb-2">
+                <hr class="p-1" />
+                <h4>Usuń członka</h4>
+
+                <div class="form-group">
+                    <input type="text" id="teamUserNameToRemove" class="form-control" value="" placeholder="np. frontdev@mail.com" />
+                </div>
+                <button id="btnRemoveTeamMember" type="submit" class="btn btn-danger mb-4">Usuń</button>
+
+                <div class="pt-2 pb-2">
                     <button id="btnDeleteTeam" type="submit" class="btn btn-sm btn-outline-danger">Usuń zespół</button>
                 </div>
             </div>
@@ -37,6 +42,8 @@
     }
     else if ((bool)@ViewData["HasTeam"])
     {
+        @* Widok dla deva *@
+
         <div class="row text-center p-3 mb-2 pb-5">
 
             <div class="container-fluid col-md-8">
@@ -61,6 +68,8 @@
     }
     else
     {
+        @* Widok dla osoby bez zespolu *@
+
         <div class="row text-white pb-2 pt-2 p-3 ml-1 mr-1">
 
             <div class="container-fluid col-md-6 text-center">
@@ -99,6 +108,19 @@
 </div>
 
 @section Scripts{
+
+    <script>
+        var btn4 = document.getElementById('btnRemoveTeamMember');
+
+        btn4?.addEventListener('click', function () {
+
+            debugger;
+
+            var user = document.getElementById('teamUserNameToRemove');
+            connection.invoke('RemoveTeamMember', user.value);
+        });
+    </script>
+
 
     <script>
         connection.on("DisplayChangeRoleSucces", function () {

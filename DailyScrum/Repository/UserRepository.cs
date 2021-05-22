@@ -20,6 +20,7 @@ namespace DailyScrum.Repository
         public bool CheckIfHasTeam(string userName)
         {
             var user = _context.Users
+                .Include(x=>x.TeamMember)
                 .Where(x => x.UserName.Equals(userName))
                 .FirstOrDefault();
 

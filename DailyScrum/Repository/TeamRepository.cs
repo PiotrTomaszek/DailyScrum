@@ -44,36 +44,28 @@ namespace DailyScrum.Repository
              .Where(x => x.UserName == thisUserUserName)
              .FirstOrDefault();
 
-            try
+            var team = new Team
             {
-                var team = new Team
-                {
-                    DisplayName = teamName,
-                    Name = Guid.NewGuid().ToString(),
-                    DailyTime = dailyTime
-                };
+                DisplayName = teamName,
+                Name = Guid.NewGuid().ToString(),
+                DailyTime = dailyTime
+            };
 
-                _context.Teams.Add(team);
+            _context.Teams.Add(team);
 
-                var role = new ScrumRole
-                {
-                    Name = "Scrum Master"
-                };
-
-                _context.ScrumRoles.Add(role);
-                _context.SaveChanges();
-
-                creator.TeamRole = role;
-
-                creator.TeamMember = team;
-
-                _context.SaveChanges();
-            }
-            catch (Exception)
+            var role = new ScrumRole
             {
+                Name = "Scrum Master"
+            };
 
-                throw;
-            }
+            _context.ScrumRoles.Add(role);
+            _context.SaveChanges();
+
+            creator.TeamRole = role;
+
+            creator.TeamMember = team;
+
+            _context.SaveChanges();
         }
 
         public void DeleteTeam(string teamName)
@@ -107,6 +99,33 @@ namespace DailyScrum.Repository
                 .FirstOrDefault(r => r.Name.Equals(teamName));
 
             return time.DailyTime;
+        }
+
+        public ApplicationUser RemoveTeamMember(string userName)
+        {
+            var member = _context.Users
+                .Include(x => x.TeamMember)
+                .Where(x => x.UserName.Equals(userName))
+                .FirstOrDefault();
+
+            if (member == null)
+            {
+                return null;
+            }
+
+            if (member.TeamMember == null)
+            {
+                return null;
+            }
+
+            member.TeamMember = null;
+
+            //_context.Entry(member).State = EntityState.Modified;
+
+            _context.Users.Update(member);
+            _context.SaveChanges();
+
+            return member;
         }
     }
 }

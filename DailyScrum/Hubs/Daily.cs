@@ -76,7 +76,7 @@ namespace DailyScrum.Hubs
         {
             var model = TeamModel;
 
-            await Clients.Caller.SendAsync("EnabledOptions", model.IsDailyStarted, DbUser.TeamRole.Name);
+            await Clients.Caller.SendAsync("EnabledOptions", model.IsDailyStarted, DbUser.TeamRole?.Name);
         }
 
 

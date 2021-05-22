@@ -14,6 +14,8 @@ namespace DailyScrum.Repository
 
         ApplicationUser AddNewTeamMember(string userName, string teamName);
 
+        ApplicationUser RemoveTeamMember(string userName);
+
         void DeleteTeam(string teamName);
     }
 }

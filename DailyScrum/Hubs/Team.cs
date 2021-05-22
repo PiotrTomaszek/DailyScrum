@@ -35,24 +35,78 @@ namespace DailyScrum.Hubs
             //Update list
         }
 
-        public async Task RemoveTeamMember()
+        public async Task RemoveTeamMember(string userName)
         {
             // do poprawy
+            if (userName.Equals(DbUser.UserName))
+            {
+                return;
+            }
 
-            //var member = _teamRepository.AddNewTeamMember(userName, DbUser.TeamMember.Name);
+            var member = _teamRepository.RemoveTeamMember(userName);
 
-            //var dummy = TeamModel.UsersList.FirstOrDefault(x => x.UserName.Equals(member.UserName));
+            //tutaj dodalem warunek
+            if (member == null)
+            {
+                return;
+            }
 
-            //TeamModel.UsersList.Remove(dummy);
-            //TeamModel.UsersOnline.Remove(false);
+            var dummy = TeamModel.UsersList.FirstOrDefault(x => x.UserName.Equals(member?.UserName));
 
+            if (dummy == null)
+            {
+                return;
+            }
 
-            //TeamModel.UsersNotification.Add(new NotificationViewModel());
-            //TeamModel.TeamMemberCount = TeamModel.UsersList.Count;
+            var index = TeamModel.UsersList.IndexOf(dummy);
+
+            TeamModel.UsersList.Remove(dummy);
+            TeamModel.UsersOnline.RemoveAt(index);
+            TeamModel.UsersNotification.RemoveAt(index);
+            TeamModel.TeamMemberCount = TeamModel.UsersList.Count;
+
+            TeamModel.ConnectedUsersCount = TeamModel.UsersOnline.Count(x => x == true);
+
+            var findId = _connectedUsers.FirstOrDefault(x => x.Value.Id.Equals(dummy.Id)).Key;
+
+            if (findId != null)
+            {
+                await Clients.Client(findId).SendAsync("RefreshNoTeam");
+            }
+
+            await RefreshUsersStatus();
+
+            await MemberHandler();
+        }
+
+        public async Task RefreshUsersStatus()
+        {
+            _connectedTeams.TryGetValue(DbUser.TeamMember.Name, out var model);
+
+            int index = 0;
+            foreach (var item in model.UsersOnline)
+            {
+                var id = model.UsersList[index].Id;
+                var isOnline = item;
+
+                await Clients.Group(DbUser.TeamMember.Name).SendAsync("SetUserStatus", id, item);
+
+                index++;
+            }
         }
 
         public async Task AddTeamMember(string userName)
         {
+            if (userName.Equals(DbUser.UserName))
+            {
+                return;
+            }
+
+            if (_userRepository.CheckIfHasTeam(userName))
+            {
+                return;
+            }
+
             var member = _teamRepository.AddNewTeamMember(userName, DbUser.TeamMember.Name);
 
             TeamModel.UsersList.Add(member);
@@ -95,6 +149,5 @@ namespace DailyScrum.Hubs
                 await Clients.Client(member.Key).SendAsync("RefreshNoTeam");
             }
         }
-
     }
 }
