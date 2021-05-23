@@ -14,7 +14,6 @@
     img.src = '/avatars/' + photopath;
 
     newData1.appendChild(img);
-    /*newData1.appendChild(fullname);*/
 
     var newData2 = document.createElement('td');
     newData2.innerText = date

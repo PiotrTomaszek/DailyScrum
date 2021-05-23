@@ -6,7 +6,7 @@
 
 <h1 class="text-center bg-white pt-2 pb-2 rounded">#ToDo</h1>
 
-<table class="table text-center p-3 pb-5 mb-5" >
+<table class="table text-center p-3 pb-5 mb-5">
     <thead class="text-white daily-background-color pl-4 pr-4">
         <tr>
             <th>
@@ -29,8 +29,18 @@
                 <td>
                     @{
                         var fullName = $"{item.FromUser.LastName} {item.FromUser.FirstName}";
+
+                        var test = "https://avios.pl/wp-content/uploads/2018/01/no-avatar.png";
+
+                        if (item.FromUser?.PhotoPath != null)
+                        {
+                            test = @Url.Content("~/avatars/" + @item.FromUser.PhotoPath);
+                        }
                     }
-                    <img src="@Url.Content("~/avatars/" + @item.FromUser.PhotoPath)" id="userProblem-@item.FromUser.Id" alt="@fullName" class="rounded-circle" style="width:50px;height:50px" />
+                    <div class="form-group text-sm-left pl-2">
+                        <img src="@test" id="userProblem-@item.FromUser.Id" alt="" class="rounded-circle" style="width:50px;height:50px" />
+                        <label class="">@fullName</label>
+                    </div>
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Meeting.Date)
