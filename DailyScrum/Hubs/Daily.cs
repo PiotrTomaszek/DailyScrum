@@ -144,10 +144,16 @@ namespace DailyScrum.Hubs
                 {
                     var fullname = $"{ post.FromUser.LastName} {post.FromUser.FirstName}";
 
+                    var photo = "https://avios.pl/wp-content/uploads/2018/01/no-avatar.png";
+                    if (post.FromUser.PhotoPath != null)
+                    {
+                        photo = DbUser.PhotoPath;
+                    }
+
                     await Clients.Caller.SendAsync("SendDailyPost", fullname,
                         post.FirstQuestion, post.SecondQuestion, post.ThirdQuestion,
                         post.Date.ToShortTimeString(), post.FromUser.Id,
-                        post.FromUser.PhotoPath ?? "no-avatar.jpg");
+                        photo);
                 }
             }
         }
@@ -178,7 +184,7 @@ namespace DailyScrum.Hubs
             await Clients.Client(SMconnectionId).SendAsync("SendProblem", UserFullName, DbUser.Id, problemHold.Description, DateTime.Now.ToShortTimeString(), problemHold.ProblemId, DbUser.PhotoPath);
             await AddNotification("problem");
 
-            await Clients.Group(DbUser.TeamMember.Name).SendAsync("SendDailyPost", UserFullName, dailyPost.FirstQuestion, dailyPost.SecondQuestion, dailyPost.ThirdQuestion, dailyPost.Date.ToShortTimeString(), DbUser.Id, DbUser.PhotoPath ?? "no-avatar.jpg");
+            await Clients.Group(DbUser.TeamMember.Name).SendAsync("SendDailyPost", UserFullName, dailyPost.FirstQuestion, dailyPost.SecondQuestion, dailyPost.ThirdQuestion, dailyPost.Date.ToShortTimeString(), DbUser.Id, GetUserPhoto);
             await AddNotification("daily");
         }
     }

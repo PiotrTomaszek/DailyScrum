@@ -11,11 +11,9 @@ connection.on("DisposeUserList", function () {
 });
 
 connection.on("StartDaily", function () {
-    //alert('daily has started');
 });
 
 connection.on("EndDaily", function () {
-    //alert('daily has ended');
 });
 
 connection.on("EnabledOptions", function (isStarted, roleMember) {
@@ -69,7 +67,6 @@ connection.on("EnabledOptions", function (isStarted, roleMember) {
     }
 });
 
-// chyba jest ok
 connection.on("GenDevOptions", function () {
     var divContainer = document.getElementById('dropdownDailyOptions');
 
@@ -159,7 +156,7 @@ connection.on("SendDailyPost", function (name, yesterday, today, problem, time, 
 
     newDiv.innerHTML = `<div class="row">
                         <div class="col-2 col-md-1 pt-3">
-                            <img src="/avatars/${photopath}" alt="" class="rounded-circle border border-dark" style="width:40px;height:40px" />
+                            <img src="${photopath}" alt="" class="rounded-circle border border-dark" style="width:40px;height:40px" />
                         </div>
                         <div class="col-8 col-md-9 text-left">
                             <p class="mt-2">${time}</p>
@@ -227,7 +224,7 @@ connection.on("SendMessageToGroup", function (user, message, date, imgPath) {
     var li = document.createElement("li");
 
     li.innerHTML = `<div class="chat-avatar">
-                                <img src="/avatars/${imgPath}" alt="${user}">
+                                <img src="${imgPath}" alt="${user}">
                                 <div class="chat-name">${user}</div>
                             </div>
                             <div class="chat-text" style="background-color: bisque">
@@ -242,7 +239,6 @@ connection.on("SendMessageToGroup", function (user, message, date, imgPath) {
     scrollToBottom();
 });
 
-// to jest ok
 function scrollToBottom() {
     var scroller = document.getElementById('chatHolder');
 
@@ -265,7 +261,7 @@ connection.on("UserConnected", function (name, email, id, photoPath, role) {
 
     var newElement = `<div class="d-flex">
                             <div class="img_cont">
-                                <img src="/avatars/${photoPath}" class="rounded-circle user_img">
+                                <img src="${photoPath}" class="rounded-circle user_img">
                                 <span id="${id}-icon" class="online_icon offline"></span>
                             </div>
                             <div class="user_info">

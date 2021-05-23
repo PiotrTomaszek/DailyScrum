@@ -15,6 +15,19 @@ namespace DailyScrum.Hubs
     {
         public string UserFullName => $"{DbUser.LastName} {DbUser.FirstName}";
 
+        public string GetUserPhoto
+        {
+            get
+            {
+                var photo = "https://avios.pl/wp-content/uploads/2018/01/no-avatar.png";
+                if (DbUser.PhotoPath != null)
+                {
+                    photo = DbUser.PhotoPath;
+                }
+                return photo;
+            }
+        }
+
         public async Task GetMessages()
         {
             if (TeamModel == null)
@@ -34,7 +47,13 @@ namespace DailyScrum.Hubs
                 {
                     var person = TeamModel.UsersList.Where(x => x.Id == item.FromUser?.Id).FirstOrDefault();
 
-                    await Clients.Caller.SendAsync("SendMessageToGroup", $"{person?.LastName} {person?.FirstName}", item?.Content, item?.Date.ToShortTimeString(), person?.PhotoPath);
+                    var photo = "https://avios.pl/wp-content/uploads/2018/01/no-avatar.png";
+                    if (person.PhotoPath != null)
+                    {
+                        photo = person.PhotoPath;
+                    }
+
+                    await Clients.Caller.SendAsync("SendMessageToGroup", $"{person?.LastName} {person?.FirstName}", item?.Content, item?.Date.ToShortTimeString(), photo);
                 }
             }
         }
@@ -50,8 +69,10 @@ namespace DailyScrum.Hubs
 
             var mes = _messageRepository.CreateNewMessage(DbUser.TeamMember.TeamId, message, DbUser.Id, DateTime.Now);
 
-            await Clients.OthersInGroup(DbUser.TeamMember.Name).SendAsync("SendMessageToGroup", UserFullName, mes.Content, mes.Date.ToShortTimeString(), DbUser.PhotoPath);
-            await Clients.Caller.SendAsync("ShowSentMessage", UserFullName,mes.Content, mes.Date.ToShortTimeString());
+
+
+            await Clients.OthersInGroup(DbUser.TeamMember.Name).SendAsync("SendMessageToGroup", UserFullName, mes.Content, mes.Date.ToShortTimeString(), GetUserPhoto);
+            await Clients.Caller.SendAsync("ShowSentMessage", UserFullName, mes.Content, mes.Date.ToShortTimeString());
 
             await AddNotification("chat");
         }

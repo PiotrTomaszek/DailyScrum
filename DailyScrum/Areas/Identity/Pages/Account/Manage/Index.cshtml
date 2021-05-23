@@ -19,7 +19,7 @@
 
     if (userPhoto == null)
     {
-        userPhoto = "no-avatar.jpg";
+        userPhoto = "https://avios.pl/wp-content/uploads/2018/01/no-avatar.png";
     }
 }
 
@@ -42,7 +42,7 @@
                         <div class="@*offset-2 col-6*@ text-center w-100 @*pb-2*@">
 
                             <button type="button" class="btn bg-transparent" data-toggle="modal" data-target="#photoModal">
-                                <img src="@Url.Content("~/avatars/" + @userPhoto)" class="rounded-circle @*border border-dark*@" style="height:126px;width:126px" />
+                                <img src="@userPhoto" class="rounded-circle @*border border-dark*@" style="height:126px;width:126px" />
                             </button>
 
                         </div>
@@ -87,13 +87,15 @@
             </div>
             <div class="modal-body">
 
-                <input hidden id="filer" name="filer" />
-                <div class="dropzone dropzone-file-area" id="fileUpload">
-                    <div class="dz-default dz-message text-dark">
-                        <h3 class="sbold">Twoje zdjęcie.</h3>
-                        <span>Przeciągnij albo naciśnij i wybierz plik z dysku.</span>
-                    </div>
-                </div>
+                <input type="text" placeholder="Podaj z neta link do ikonki...(musi kończyć się na .jpg/.png)" value="" />
+
+                @*<input hidden id="filer" name="filer" />
+                    <div class="dropzone dropzone-file-area" id="fileUpload">
+                        <div class="dz-default dz-message text-dark">
+                            <h3 class="sbold">Twoje zdjęcie.</h3>
+                            <span>Przeciągnij albo naciśnij i wybierz plik z dysku.</span>
+                        </div>
+                    </div>*@
 
             </div>
             <div class="modal-footer">
