@@ -171,7 +171,10 @@ namespace DailyScrum.Hubs
                     .Where(x => x.Value.UserName == item.UserName)
                     .FirstOrDefault();
 
-                await Clients.Client(member.Key).SendAsync("RefreshNoTeam");
+                if (member.Key != null)
+                {
+                    await Clients.Client(member.Key).SendAsync("RefreshNoTeam");
+                }
             }
         }
     }

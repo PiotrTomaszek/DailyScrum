@@ -7,9 +7,11 @@
 @{
     var userPhoto = UserManager.GetUserAsync(User).Result?.PhotoPath;
 
-    if (userPhoto == null)
+    var path = "https://avios.pl/wp-content/uploads/2018/01/no-avatar.png";
+
+    if (userPhoto != null)
     {
-        userPhoto = "no-avatar.jpg";
+        path = Url.Content("~/avatars/" + @userPhoto);
     }
 }
 
@@ -18,7 +20,7 @@
     {
         <li class="nav-item dropdown">
             <a href="#" data-toggle="dropdown" class="nav-item nav-link dropdown-toggle user-action text-white">
-                <img src="@Url.Content("~/avatars/" + @userPhoto) " class=" rounded-circle user-image-navbar" alt="Avatar">
+                <img src="@path " class=" rounded-circle user-image-navbar" alt="Avatar">
                 <span class="d-sm-none d-md-inline">@UserManager.GetUserName(User) <b class="caret"></b></span>
             </a>
             <div class="dropdown-menu dropdown-menu-right">

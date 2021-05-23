@@ -84,8 +84,11 @@ namespace DailyScrum.Repository
             {
                 item.TeamMember = null;
 
-                _context.ScrumRoles.Remove(item.TeamRole);
-                _context.SaveChanges();
+                if (item.TeamRole != null)
+                {
+                    _context.ScrumRoles.Remove(item.TeamRole);
+                    _context.SaveChanges();
+                }
             }
 
             //_context.Teams.Remove(team);

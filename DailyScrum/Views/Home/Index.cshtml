@@ -46,7 +46,7 @@
     </div>
 </div>
 
-@* test *@
+@* Daily user list modal *@
 <div class="modal fade " id="showUsersDailyModal" tabindex="-1" role="dialog" aria-labelledby="showUsersDailyModal" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -77,22 +77,20 @@
 <partial name="_ModalStartMeetingPartial" />
 <partial name="_ModalEndMeetingPartial" />
 <partial name="_ModalNewPostPartial" />
-@*<partial name="_ModalUserList" />*@
-
 
 @section Scripts{
+
+    @* do poprawy *@
     <link href="~/css/chat.css" rel="stylesheet" />
 
     <script src="~/js/signalr/dist/browser/signalr.min.js"></script>
+
+    @* do poprawy *@
     <script src="~/js/daily.js"></script>
-    <script src="~/js/meetingWindowResizer.js"></script>
 
-    <script src="~/js/flush-daily-posts.js"></script>
-
-    <script src="~/js/daily-timer.js"></script>
-
-    @* test notyfikacji *@
-
+    <script src="~/js/daily-resizer.min.js"></script>
+    <script src="~/js/daily-flush-posts.min.js"></script>
+    <script src="~/js/daily-timer.min.js"></script>
 
     <script>
         document.getElementById('submitDailyPost').disabled = true;
