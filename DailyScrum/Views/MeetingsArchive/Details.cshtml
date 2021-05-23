@@ -6,7 +6,7 @@
 }
 <div class="row pl-4 pr-4 rounded text-sm-center text-md-left ">
     <div class="col-9 bg-white">
-        <h1>#DailyMeeting/@Model?.DailyMeetingId</h1>
+        <h1 class="text-center">#DailyMeeting</h1>
     </div>
     <div class="col-3 text-left pt-2 text-right bg-white">
         <form asp-action="Index" method="get">
@@ -47,7 +47,7 @@
 
                             if (item.FromUser?.PhotoPath != null)
                             {
-                                test = @Url.Content("~/avatars/" + @item.FromUser.PhotoPath);
+                                test = item.FromUser.PhotoPath;
                             }
                         }
                         <div class="form-group text-center text-sm-left pl-2">

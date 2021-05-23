@@ -15,7 +15,7 @@ namespace DailyScrum.Hubs
         {
             var user = TeamModel.UsersList.FirstOrDefault(x => x.UserName.Equals(DbUser.UserName));
 
-            if(user != null)
+            if (user != null)
             {
                 user.PhotoPath = _userRepository.GetUserPhotoPath(user.UserName);
             }
@@ -62,6 +62,7 @@ namespace DailyScrum.Hubs
         {
             if (userName.Equals(DbUser.UserName))
             {
+                await Clients.Caller.SendAsync("ShowRemoveMessage", "Nie mozesz usunac samego siebie!");
                 return;
             }
 
@@ -69,6 +70,7 @@ namespace DailyScrum.Hubs
 
             if (member == null)
             {
+                await Clients.Caller.SendAsync("ShowRemoveMessage", "Nie ma takiego w zespole!");
                 return;
             }
 
@@ -76,6 +78,7 @@ namespace DailyScrum.Hubs
 
             if (dummy == null)
             {
+                await Clients.Caller.SendAsync("ShowRemoveMessage", "Nie ma takiego w zespole!");
                 return;
             }
 
@@ -87,6 +90,8 @@ namespace DailyScrum.Hubs
             TeamModel.TeamMemberCount = TeamModel.UsersList.Count;
 
             TeamModel.ConnectedUsersCount = TeamModel.UsersOnline.Count(x => x == true);
+
+            await Clients.Caller.SendAsync("ShowRemoveMessage", "Sukces! Usunieto uczestnika tego spotkania.");
 
             var findId = _connectedUsers.FirstOrDefault(x => x.Value.Id.Equals(dummy.Id)).Key;
 
@@ -119,16 +124,19 @@ namespace DailyScrum.Hubs
         {
             if (userName.Equals(DbUser.UserName))
             {
+                await Clients.Caller.SendAsync("ShowAddMessage", "Dodaj innych a nie siebie.");
                 return;
             }
 
             if (!_userRepository.CheckIfExists(userName))
             {
+                await Clients.Caller.SendAsync("ShowAddMessage", "Taki user nie istnieje.");
                 return;
             }
 
             if (_userRepository.CheckIfHasTeam(userName))
             {
+                await Clients.Caller.SendAsync("ShowAddMessage", "Ten zawodnik juz ma team.");
                 return;
             }
 
@@ -138,6 +146,8 @@ namespace DailyScrum.Hubs
             TeamModel.UsersOnline.Add(false);
             TeamModel.UsersNotification.Add(new NotificationViewModel());
             TeamModel.TeamMemberCount = TeamModel.UsersList.Count;
+
+            await Clients.Caller.SendAsync("ShowAddMessage", "Sukces!!!");
 
             // tutaj sprawdzenie czy nie jest zalogowany a jak to to przelaczenie mu wikoku
             var findId = _connectedUsers.FirstOrDefault(x => x.Value.Id.Equals(member.Id)).Key;

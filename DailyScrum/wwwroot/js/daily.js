@@ -270,9 +270,9 @@ connection.on("UserConnected", function (name, email, id, photoPath, role) {
                                 <img src="${photoPath}" class="rounded-circle user_img">
                                 <span id="${id}-icon" class="online_icon offline"></span>
                             </div>
-                            <div class="user_info">
+                            <div class="user_info text-left">
                                 <span>${name}</span>
-                                <p class="text-left">${roleHolder}</p>
+                                <p>${roleHolder}</p>
                             </div>
                          </div>`
 
