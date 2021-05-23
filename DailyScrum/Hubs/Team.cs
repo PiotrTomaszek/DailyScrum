@@ -157,7 +157,7 @@ namespace DailyScrum.Hubs
 
             foreach (var item in TeamModel.UsersList)
             {
-                var photo = item.PhotoPath == null ? "no-avatar.jpg" : item.PhotoPath;
+                var photo = item.PhotoPath == null ? "https://avios.pl/wp-content/uploads/2018/01/no-avatar.png" : item.PhotoPath;
 
                 await Clients.Group(DbUser.TeamMember.Name)
                     .SendAsync("UserConnected", $"{item.FirstName} {item.LastName}", item.Email, item.Id, photo, item.TeamRole?.Name);

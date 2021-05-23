@@ -154,7 +154,7 @@ namespace DailyScrum.Areas.Identity.Pages.Account.Manage
                 HttpWebResponse response = (HttpWebResponse)request.GetResponse();
 
                 if (response.StatusCode == HttpStatusCode.OK &&
-                    (response.ContentType == "image/jpeg" || response.ContentType == "image/png"))
+                    (response.ContentType == "image/jpeg" || response.ContentType == "image/png" || response.ContentType == "image/jpg"))
                 {
                     return true;
                 }
