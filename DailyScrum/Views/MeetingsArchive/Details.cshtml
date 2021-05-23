@@ -42,9 +42,18 @@
                     <td class="col-sm-3">
                         @{
                             var fullName = $"{item.FromUser.LastName} {item.FromUser.FirstName}";
+
+                            var test = "https://avios.pl/wp-content/uploads/2018/01/no-avatar.png";
+
+                            if (item.FromUser?.PhotoPath != null)
+                            {
+                                test = @Url.Content("~/avatars/" + @item.FromUser.PhotoPath);
+                            }
                         }
-                        <img src="@Url.Content("~/avatars/" + @item.FromUser.PhotoPath)" alt="fullName" class="rounded-circle" style="width:50px;height:50px" />
-                        @Html.DisplayFor(modelItem => fullName)
+                        <div class="form-group text-center text-sm-left pl-2">
+                            <img src="@Url.Content("~/avatars/" + @item.FromUser.PhotoPath)" alt="fullName" class="rounded-circle" style="width:50px;height:50px" />
+                            @Html.DisplayFor(modelItem => fullName)
+                        </div>
                     </td>
                     <td class="col-sm-3">
                         @Html.DisplayFor(modelItem => item.FirstQuestion)
