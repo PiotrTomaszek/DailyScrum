@@ -4,11 +4,11 @@
     ViewData["Title"] = "Details";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<div class="row pl-4 pr-4 rounded text-sm-center text-md-left">
-    <div class="col-8 ">
+<div class="row pl-4 pr-4 rounded text-sm-center text-md-left ">
+    <div class="col-9 bg-white">
         <h1>#DailyMeeting/@Model?.DailyMeetingId</h1>
     </div>
-    <div class="col-4 text-left pt-2 text-right">
+    <div class="col-3 text-left pt-2 text-right bg-white">
         <form asp-action="Index" method="get">
             <button type="submit" class="btn btn-info">
                 Powrót
@@ -17,7 +17,7 @@
     </div>
 </div>
 
-<div class=" p-2 mb-5 pb-5">
+<div class="p-2 mb-5 pb-5">
     <table class="table">
         <thead class="text-white daily-background-color pl-4 pr-4">
             <tr class="row text-center ">
@@ -51,9 +51,10 @@
                             }
                         }
                         <div class="form-group text-center text-sm-left pl-2">
-                            <img src="@Url.Content("~/avatars/" + @item.FromUser.PhotoPath)" alt="fullName" class="rounded-circle" style="width:50px;height:50px" />
+                            <img src="@test" alt="fullName" class="rounded-circle" style="width:50px;height:50px" />
                             @Html.DisplayFor(modelItem => fullName)
                         </div>
+
                     </td>
                     <td class="col-sm-3">
                         @Html.DisplayFor(modelItem => item.FirstQuestion)
@@ -68,6 +69,5 @@
             }
         </tbody>
     </table>
-
 </div>
 
