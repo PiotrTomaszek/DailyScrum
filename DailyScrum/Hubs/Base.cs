@@ -113,11 +113,6 @@ namespace DailyScrum.Hubs
                 }
             }
 
-            //test
-            //_usersNotifications.Remove(DbUser.UserName);
-
-            //await RemoveNotificationSystemToUser();
-
             _connectedUsers.Remove(Context.ConnectionId);
 
             return base.OnDisconnectedAsync(exception);

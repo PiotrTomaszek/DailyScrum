@@ -42,28 +42,19 @@
 
                     <div class="row">
                         <div class="@*offset-2 col-6*@ text-center w-100 @*pb-2*@">
-                            <button class=" bg-transparent btn">
+
+                            <button type="button" class="btn bg-transparent" data-toggle="modal" data-target="#photoModal">
                                 <img src="@Url.Content("~/avatars/" + @userPhoto)" class="rounded-circle @*border border-dark*@" style="height:126px;width:126px" />
                             </button>
+
                         </div>
                     </div>
-
-                    @* <i class="far fa-envelope"></i> *@
-
-                    @*<input hidden id="file" name="file" />
-                        <div class="dropzone dropzone-file-area" id="fileUpload">
-                            <div class="dz-default dz-message text-dark">
-                                <h3 class="sbold">Twoje zdjęcie.</h3>
-                                <span>Przeciągnij albo naciśnij i wybierz plik z dysku.</span>
-                            </div>
-                        </div>*@
 
                     <div class="form-group">
                         <label asp-for="Input.FirstName"></label>
                         <input asp-for="Input.FirstName" id="firstNameInput" class="form-control" />
                         <span asp-validation-for="Input.FirstName" class="text-danger"></span>
                     </div>
-
 
                     <div class="form-group">
                         <label asp-for="Input.LastName"></label>
@@ -86,6 +77,38 @@
     </div>
 </div>
 
+
+<div class="modal fade" id="photoModal" tabindex="-1" aria-labelledby="photoModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="photoModalLabel">Modal title</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+
+@*                <i class="far fa-envelope"></i>*@
+
+                <input hidden id="filer" name="filer" />
+                <div class="dropzone dropzone-file-area" id="fileUpload">
+                    <div class="dz-default dz-message text-dark">
+                        <h3 class="sbold">Twoje zdjęcie.</h3>
+                        <span>Przeciągnij albo naciśnij i wybierz plik z dysku.</span>
+                    </div>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Zamknij</button>
+                <button type="button" class="btn btn-primary">Zapisz</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
 
@@ -95,8 +118,8 @@
 
     <script>
         Dropzone.options.fileUpload = {
-            url: 'home/uploadfile',
-            paramName: "file",
+            url: 'photo/UploadPhotoToSession',
+            paramName: "filer",
             autoProcessQueue: true,
             maxFilesize: 4,
             resizedWidth: 512,
@@ -104,7 +127,7 @@
             maxFiles: 1,
             acceptedFiles: "image/jpeg,image/png,image/gif",
             init: function () {
-                var submitButton = document.querySelector("#submit-all");
+                var submitButton = document.querySelector("#submit-photo");
                 var wrapperThis = this;
 
                 submitButton.addEventListener("click", function () {

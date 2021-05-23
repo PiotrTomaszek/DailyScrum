@@ -17,12 +17,30 @@ namespace DailyScrum.Repository
             _context = context;
         }
 
+        public bool CheckIfExists(string userName)
+        {
+            var user = _context.Users
+                .FirstOrDefault(x => x.UserName.Equals(userName));
+
+            if (user == null)
+            {
+                return false;
+            }
+
+            return true;
+        }
+
         public bool CheckIfHasTeam(string userName)
         {
             var user = _context.Users
-                .Include(x=>x.TeamMember)
+                .Include(x => x.TeamMember)
                 .Where(x => x.UserName.Equals(userName))
                 .FirstOrDefault();
+
+            if (user == null)
+            {
+                return false;
+            }
 
             var result = user.TeamMember == null ? false : true;
 
@@ -133,8 +151,11 @@ namespace DailyScrum.Repository
                 return null;
             }
 
-            _context.ScrumRoles.Remove(member.TeamRole);
-            _context.SaveChanges();
+            if (member.TeamRole != null)
+            {
+                _context.ScrumRoles.Remove(member.TeamRole);
+                _context.SaveChanges();
+            }
 
             var newRole = new ScrumRole
             {

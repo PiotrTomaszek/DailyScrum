@@ -17,6 +17,7 @@ namespace DailyScrum.Repository
 
         bool CheckIfScrumMaster(string userName);
         bool CheckIfHasTeam(string userName);
+        bool CheckIfExists(string userName);
 
         ApplicationUser FindScrumMaster(int teamId);
 

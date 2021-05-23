@@ -4,8 +4,6 @@
 
 function displayNotofication(whatKind, place) {
 
-    debugger;
-
     var actualWindowPage = window.location.pathname;
 
     if (whatKind === 'daily') {

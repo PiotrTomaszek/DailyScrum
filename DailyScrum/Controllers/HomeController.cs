@@ -83,12 +83,6 @@ namespace DailyScrum.Controllers
             return Redirect("/konto");
         }
 
-        //[HttpGet]
-        //public async Task DeleteTeam()
-        //{
-        //    //return 
-        //}
-
         // to na razie nie dzioa
         [HttpPost]
         public async Task DeleteTeam()

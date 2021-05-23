@@ -39,10 +39,12 @@ namespace DailyScrum.Hubs
 
             temp.TeamRole = role;
 
-            await Clients.Group(DbUser.TeamMember.Name).SendAsync("UpdateUser");
+            // co to jest?
+            //await Clients.Group(DbUser.TeamMember.Name).SendAsync("UpdateUser");
 
             await Clients.Caller.SendAsync("DisplayChangeRoleSucces");
-            //Update list
+
+            await MemberHandler();
         }
 
         public async Task RemoveTeamMember(string userName)
@@ -108,6 +110,11 @@ namespace DailyScrum.Hubs
         public async Task AddTeamMember(string userName)
         {
             if (userName.Equals(DbUser.UserName))
+            {
+                return;
+            }
+
+            if (!_userRepository.CheckIfExists(userName))
             {
                 return;
             }
