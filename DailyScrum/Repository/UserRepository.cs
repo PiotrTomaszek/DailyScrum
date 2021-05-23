@@ -31,6 +31,18 @@ namespace DailyScrum.Repository
             throw new NotImplementedException();
         }
 
+        public string GetUserPhotoPath(string userName)
+        {
+            var user = _context.Users.FirstOrDefault(x => x.UserName.Equals(userName));
+
+            if(user == null)
+            {
+                return null;
+            }
+
+            return user.PhotoPath;
+        }
+
         public ApplicationUser GetUserByUserName(string userName)
         {
             var user = _context.Users
@@ -116,7 +128,7 @@ namespace DailyScrum.Repository
             return scrumMaster;
         }
 
-        
+
         public void SetFirstName(string userName, string firstName)
         {
             var user = _context.Users
@@ -170,5 +182,22 @@ namespace DailyScrum.Repository
 
             return newRole;
         }
+
+        public void SetPhotoPath(string userName, string photoLink)
+        {
+            var user = _context.Users
+                .FirstOrDefault(x => x.UserName.Equals(userName));
+
+            if (user == null)
+            {
+                return;
+            }
+
+            user.PhotoPath = photoLink;
+
+            _context.SaveChanges();
+        }
+
+       
     }
 }

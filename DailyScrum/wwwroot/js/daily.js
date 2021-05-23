@@ -259,6 +259,12 @@ connection.on("SetUserStatus", function (userId, isOnline) {
 connection.on("UserConnected", function (name, email, id, photoPath, role) {
     var li = document.createElement("li");
 
+    var roleHolder = role;
+
+    if (role == null) {
+        roleHolder = '-'
+    }
+
     var newElement = `<div class="d-flex">
                             <div class="img_cont">
                                 <img src="${photoPath}" class="rounded-circle user_img">
@@ -266,7 +272,7 @@ connection.on("UserConnected", function (name, email, id, photoPath, role) {
                             </div>
                             <div class="user_info">
                                 <span>${name}</span>
-                                <p class="text-left">${role}</p>
+                                <p class="text-left">${roleHolder}</p>
                             </div>
                          </div>`
 

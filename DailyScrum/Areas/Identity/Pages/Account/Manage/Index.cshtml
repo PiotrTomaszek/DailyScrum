@@ -45,6 +45,31 @@
                                 <img src="@userPhoto" class="rounded-circle @*border border-dark*@" style="height:126px;width:126px" />
                             </button>
 
+
+                            <div class="modal fade" id="photoModal" tabindex="-1" aria-labelledby="photoModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header text-dark">
+                                            <h5 class="modal-title" id="photoModalLabel">Zmień swoje zdjęcie</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body text-dark">
+
+                                            <div class="form-group">
+                                                <label asp-for="Input.PhotoLink"></label>
+                                                <input asp-for="Input.PhotoLink" id="photoInput" class="form-control" value="" />
+                                            </div>
+
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">OK!</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
                         </div>
                     </div>
 
@@ -75,36 +100,6 @@
     </div>
 </div>
 
-
-<div class="modal fade" id="photoModal" tabindex="-1" aria-labelledby="photoModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="photoModalLabel">Modal title</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-
-                <input type="text" placeholder="Podaj z neta link do ikonki...(musi kończyć się na .jpg/.png)" value="" />
-
-                @*<input hidden id="filer" name="filer" />
-                    <div class="dropzone dropzone-file-area" id="fileUpload">
-                        <div class="dz-default dz-message text-dark">
-                            <h3 class="sbold">Twoje zdjęcie.</h3>
-                            <span>Przeciągnij albo naciśnij i wybierz plik z dysku.</span>
-                        </div>
-                    </div>*@
-
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Zamknij</button>
-                <button type="button" class="btn btn-primary">Zapisz</button>
-            </div>
-        </div>
-    </div>
-</div>
 
 
 @section Scripts {
@@ -146,6 +141,14 @@
 
             var a = document.getElementById('firstNameInput').value;
             var b = document.getElementById('lastNameInput').value;
+            var c = document.getElementById('phoneInput').value;
+
+            var d = document.getElementById('photoInput').value;
+
+            if (d != null) {
+                connection.invoke("UpdatePhoto");
+            }
+
             var c = document.getElementById('phoneInput').value;
 
             if (a.length > 1 && b.length > 1) {

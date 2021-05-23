@@ -7,7 +7,7 @@ namespace DailyScrum.Repository
     {
         int GetTeamId(string userName);
         int GetTeamRoleId(string userName);
-
+        string GetUserPhotoPath(string userName);
         ApplicationUser GetUserByUserName(string userName);
         List<ApplicationUser> GetAllTeamMebers(string teamName);
 
@@ -20,5 +20,6 @@ namespace DailyScrum.Repository
         void SetFirstName(string userName, string firstName);
         void SetLastName(string userName, string lastName);
         ScrumRole SetTeamRole(string userName, string roleName);
+        void SetPhotoPath(string userName, string photoLink);
     }
 }

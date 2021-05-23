@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.ComponentModel.DataAnnotations;
+using System.Net;
 using System.Threading.Tasks;
 
 namespace DailyScrum.Areas.Identity.Pages.Account.Manage
@@ -48,6 +49,9 @@ namespace DailyScrum.Areas.Identity.Pages.Account.Manage
             [Phone(ErrorMessage = "Nie poprawny numer telefonu.")]
             [Display(Name = "Numer Telefonu")]
             public string PhoneNumber { get; set; }
+
+            [Display(Name = "Podaj link do zdjęcia z neta... (URL musi kończyć się na .jpg/.png)")]
+            public string PhotoLink { get; set; }
         }
 
         private async Task LoadAsync(ApplicationUser user)
@@ -123,12 +127,46 @@ namespace DailyScrum.Areas.Identity.Pages.Account.Manage
                 StatusMessage = "Blad nazwisko";
             }
 
+            if (Input.PhotoLink != null)
+            {
+                if (CheckIfImageLinkIsOK(Input.PhotoLink))
+                {
+                    _userRepository.SetPhotoPath(User.Identity.Name, Input.PhotoLink);
+                }
+            }
+
             await _signInManager.RefreshSignInAsync(user);
             StatusMessage = "Zaaktualizowano profil.";
 
             ViewData["HasUpdatedProfil"] = true;
-
+           
             return RedirectToPage();
+        }
+
+        public bool CheckIfImageLinkIsOK(string link)
+        {
+            try
+            {
+                var request = (HttpWebRequest)WebRequest.Create(link);
+                request.Method = "HEAD";
+
+
+                HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+
+                if (response.StatusCode == HttpStatusCode.OK &&
+                    (response.ContentType == "image/jpeg" || response.ContentType == "image/png"))
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            catch
+            {
+                return false;
+            }
         }
     }
 }
