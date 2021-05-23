@@ -1,8 +1,7 @@
-﻿using DailyScrum.ViewModels;
+﻿using DailyScrum.Extensions;
+using DailyScrum.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
-using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -29,9 +28,9 @@ namespace DailyScrum.Hubs
 
             if (user != null)
             {
-                user.FirstName = firstName;
-                user.LastName = lastName;
-                user.PhoneNumber = phone;
+                user.FirstName = firstName.ReplaceHTMLTags();
+                user.LastName = lastName.ReplaceHTMLTags();
+                user.PhoneNumber = phone.ReplaceHTMLTags();
             }
 
             await MemberHandler();
@@ -46,7 +45,7 @@ namespace DailyScrum.Hubs
                 return;
             }
 
-            var role = _userRepository.SetTeamRole(DbUser.UserName, roleName);
+            var role = _userRepository.SetTeamRole(DbUser.UserName, roleName.ReplaceHTMLTags());
 
             temp.TeamRole = role;
 

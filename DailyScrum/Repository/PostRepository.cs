@@ -1,5 +1,6 @@
 ﻿using DailyScrum.Areas.Identity.Data;
 using DailyScrum.Data;
+using DailyScrum.Extensions;
 using DailyScrum.Models.Database;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -22,9 +23,9 @@ namespace DailyScrum.Repository
         {
             var newPost = new DailyPost
             {
-                FirstQuestion = first,
-                SecondQuestion = second,
-                ThirdQuestion = third,
+                FirstQuestion = first.ReplaceHTMLTags(),
+                SecondQuestion = second.ReplaceHTMLTags(),
+                ThirdQuestion = third.ReplaceHTMLTags(),
                 FromUser = _context.Users.Find(fromUser.Id),
                 Date = date,
                 Meeting = _context.DailyMeetings.Find(daily.DailyMeetingId)

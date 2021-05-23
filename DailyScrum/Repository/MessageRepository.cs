@@ -1,4 +1,5 @@
 ﻿using DailyScrum.Data;
+using DailyScrum.Extensions;
 using DailyScrum.Models.Database;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -26,7 +27,7 @@ namespace DailyScrum.Repository
 
             var newMessage = new Message
             {
-                Content = content,
+                Content = content.ReplaceHTMLTags(),
                 Date = date,
             };
 

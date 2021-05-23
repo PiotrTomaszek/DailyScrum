@@ -1,5 +1,6 @@
 ﻿using DailyScrum.Areas.Identity.Data;
 using DailyScrum.Data;
+using DailyScrum.Extensions;
 using DailyScrum.Models.Database;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -26,7 +27,7 @@ namespace DailyScrum.Repository
 
             var team = new Team
             {
-                DisplayName = teamName,
+                DisplayName = teamName.ReplaceHTMLTags(),
                 Name = Guid.NewGuid().ToString(),
                 DailyTime = dailyTime
             };

@@ -1,4 +1,5 @@
 ﻿using DailyScrum.Data;
+using DailyScrum.Extensions;
 using DailyScrum.Models.Database;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
@@ -20,7 +21,7 @@ namespace DailyScrum.Repository
             var newProblem = new Problem
             {
                 Fixed = false,
-                Description = problemContent,
+                Description = problemContent.ReplaceHTMLTags(),
                 FromUser = _context.Users.Find(userId),
                 Meeting = _context.DailyMeetings.Find(meetingId)
             };
