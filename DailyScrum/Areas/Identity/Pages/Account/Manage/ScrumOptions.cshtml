@@ -122,8 +122,6 @@
 
         btn4?.addEventListener('click', function () {
 
-            debugger;
-
             var user = document.getElementById('teamUserNameToRemove');
             connection.invoke('RemoveTeamMember', user.value);
         });
@@ -145,8 +143,6 @@
 
         btn3?.addEventListener('click', function () {
 
-            debugger;
-
             var user = document.getElementById('roleName');
             connection.invoke('ChangeMemberRole', user.value);
         });
@@ -156,8 +152,6 @@
         var btn2 = document.getElementById('btnAddTeamMember');
 
         btn2?.addEventListener('click', function () {
-
-            debugger;
 
             var user = document.getElementById('teamUserNameToAdd');
             connection.invoke('AddTeamMember', user.value);
