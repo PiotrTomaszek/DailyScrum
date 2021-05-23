@@ -57,11 +57,6 @@ namespace DailyScrum.Hubs
             //jezeli zalogujesz sie jeszcze raz na zalogowane konto
             _connectedUsers.Add(Context.ConnectionId, _userRepository.GetUserByUserName(SignalRIdentityName));
 
-            // test notyfikacji
-
-            //_usersNotifications.Add(DbUser.UserName, new NotificationViewModel());
-
-
             // tutaj zrobie sobie sprawdzenie czy ma zespol bo w przeciwnym wypadku twywali signala
             if (_userRepository.CheckIfHasTeam(SignalRIdentityName))
             {
@@ -76,23 +71,19 @@ namespace DailyScrum.Hubs
 
 
                 await GenerateUserList();
-
                 await GetAllUsersStatus();
+
                 await SetUserStatus(true);
 
                 await GetMessages();
                 await GetAllPosts();
                 await EnableSubmitButton();
 
-
                 await AddDailyOptions();
-
                 await GetDailyOptions();
 
                 await CheckIfDailyHasEnded();
                 await DisplayTimer();
-
-                //await AddNotificationSystemToUser();
 
                 await DisplayNotifications();
             }

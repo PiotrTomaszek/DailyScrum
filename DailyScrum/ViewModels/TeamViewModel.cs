@@ -2,8 +2,6 @@
 using DailyScrum.Models.Database;
 using System;
 using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace DailyScrum.ViewModels
 {
@@ -17,14 +15,8 @@ namespace DailyScrum.ViewModels
 
         public DateTime MeetingStartingTime { get; set; }
 
-        //tutaj uwaga
         public List<bool> UsersOnline { get; set; }
-        // do wyrzucenia raczej nie
         public List<ApplicationUser> UsersList { get; set; }
         public List<NotificationViewModel> UsersNotification { get; set; }
-
-
-        //// do wyrzucenia
-        public List<MessageViewModel> Messages { get; set; }
     }
 }

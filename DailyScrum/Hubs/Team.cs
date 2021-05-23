@@ -25,7 +25,6 @@ namespace DailyScrum.Hubs
             await MemberHandler();
         }
 
-
         public async Task ChangeMemberRole(string roleName)
         {
             var temp = TeamModel.UsersList.FirstOrDefault(x => x.UserName.Equals(DbUser.UserName));
@@ -49,7 +48,6 @@ namespace DailyScrum.Hubs
 
         public async Task RemoveTeamMember(string userName)
         {
-            // do poprawy
             if (userName.Equals(DbUser.UserName))
             {
                 return;
@@ -57,7 +55,6 @@ namespace DailyScrum.Hubs
 
             var member = _teamRepository.RemoveTeamMember(userName);
 
-            //tutaj dodalem warunek
             if (member == null)
             {
                 return;
@@ -87,13 +84,12 @@ namespace DailyScrum.Hubs
             }
 
             await RefreshUsersStatus();
-
             await MemberHandler();
         }
 
         public async Task RefreshUsersStatus()
         {
-            _connectedTeams.TryGetValue(DbUser.TeamMember.Name, out var model);
+            var model = TeamModel;
 
             int index = 0;
             foreach (var item in model.UsersOnline)
@@ -176,6 +172,9 @@ namespace DailyScrum.Hubs
                     await Clients.Client(member.Key).SendAsync("RefreshNoTeam");
                 }
             }
+
+            // test usuwania z pamieci modelu zepsolu i chyba dziala
+            _connectedTeams.Remove(DbUser.TeamMember.Name);
         }
     }
 }

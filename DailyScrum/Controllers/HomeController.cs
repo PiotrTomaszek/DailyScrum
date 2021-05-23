@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -18,8 +17,8 @@ namespace DailyScrum.Controllers
     [Authorize]
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
         private readonly DailyScrumContext _context;
+        private readonly ILogger<HomeController> _logger;
         private IWebHostEnvironment _webHostEnvironment;
 
         public HomeController(ILogger<HomeController> logger,
@@ -31,7 +30,6 @@ namespace DailyScrum.Controllers
             _webHostEnvironment = webHostEnvironment;
         }
 
-        //[Authorize]
         public IActionResult Index()
         {
             var user = _context.Users
@@ -47,7 +45,6 @@ namespace DailyScrum.Controllers
             return View();
         }
 
-        //[Authorize]
         [Route("/chat")]
         public IActionResult Chat()
         {
@@ -122,15 +119,7 @@ namespace DailyScrum.Controllers
 
                 throw;
             }
-
-            //return RedirectToPage("");
         }
-
-        //public IActionResult UserLogout()
-        //{
-        //    return RedirectToPage("/Account/Logout", new { area = "Identity" });
-        //}
-
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
@@ -138,23 +127,23 @@ namespace DailyScrum.Controllers
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
+        // nie dziala 
+        //public async Task UploadFileToFile(IFormFile file)
+        //{
+        //    if (file == null)
+        //    {
+        //        HttpContext.Session.SetString("ImageName", "");
+        //        return;
+        //    }
 
-        public async Task UploadFileToFile(IFormFile file)
-        {
-            if (file == null)
-            {
-                HttpContext.Session.SetString("ImageName", "");
-                return;
-            }
+        //    var uniqueName = $"{Guid.NewGuid()}_{file.FileName}";
+        //    HttpContext.Session.SetString("ImageName", uniqueName);
 
-            var uniqueName = $"{Guid.NewGuid()}_{file.FileName}";
-            HttpContext.Session.SetString("ImageName", uniqueName);
+        //    var toFolder = Path.Combine(_webHostEnvironment.WebRootPath, "images");
+        //    var filePath = Path.Combine(toFolder, uniqueName);
 
-            var toFolder = Path.Combine(_webHostEnvironment.WebRootPath, "images");
-            var filePath = Path.Combine(toFolder, uniqueName);
-
-            using var fileStream = new FileStream(filePath, FileMode.Create);
-            await file.CopyToAsync(fileStream);
-        }
+        //    using var fileStream = new FileStream(filePath, FileMode.Create);
+        //    await file.CopyToAsync(fileStream);
+        //}
     }
 }

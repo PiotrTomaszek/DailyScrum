@@ -3,9 +3,7 @@ using DailyScrum.Data;
 using DailyScrum.Models.Database;
 using Microsoft.EntityFrameworkCore;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace DailyScrum.Repository
 {
@@ -16,24 +14,6 @@ namespace DailyScrum.Repository
         public TeamRepository(DailyScrumContext context)
         {
             _context = context;
-        }
-
-        public ApplicationUser AddNewTeamMember(string userName, string teamName)
-        {
-            var member = _context.Users
-                .Where(x => x.UserName.Equals(userName))
-                .FirstOrDefault();
-
-            var team = _context.Teams
-                .Where(z => z.Name.Equals(teamName))
-                .FirstOrDefault();
-
-            member.TeamMember = team;
-
-            _context.Users.Update(member);
-            _context.SaveChanges();
-
-            return member;
         }
 
         public void CreateNewTeam(string teamName, DateTime dailyTime, string thisUserUserName)
@@ -91,17 +71,25 @@ namespace DailyScrum.Repository
                 }
             }
 
-            //_context.Teams.Remove(team);
-
             _context.SaveChanges();
         }
 
-        public DateTime GetDailyTime(string teamName)
+        public ApplicationUser AddNewTeamMember(string userName, string teamName)
         {
-            var time = _context.Teams
-                .FirstOrDefault(r => r.Name.Equals(teamName));
+            var member = _context.Users
+                .Where(x => x.UserName.Equals(userName))
+                .FirstOrDefault();
 
-            return time.DailyTime;
+            var team = _context.Teams
+                .Where(z => z.Name.Equals(teamName))
+                .FirstOrDefault();
+
+            member.TeamMember = team;
+
+            _context.Users.Update(member);
+            _context.SaveChanges();
+
+            return member;
         }
 
         public ApplicationUser RemoveTeamMember(string userName)
@@ -123,12 +111,18 @@ namespace DailyScrum.Repository
 
             member.TeamMember = null;
 
-            //_context.Entry(member).State = EntityState.Modified;
-
             _context.Users.Update(member);
             _context.SaveChanges();
 
             return member;
+        }
+
+        public DateTime GetDailyTime(string teamName)
+        {
+            var time = _context.Teams
+                .FirstOrDefault(r => r.Name.Equals(teamName));
+
+            return time.DailyTime;
         }
     }
 }

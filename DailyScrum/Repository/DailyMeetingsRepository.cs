@@ -47,18 +47,6 @@ namespace DailyScrum.Repository
             _context.SaveChanges();
         }
 
-        public List<DailyMeeting> GetAllMeetings(string userName)
-        {
-            var teamId = _userRepository.GetTeamId(userName);
-
-            var meetings = _context.DailyMeetings
-                .Include(a => a.Team)
-                .Where(x => x.Team.TeamId == teamId)
-                .ToList();
-
-            return meetings;
-        }
-
         public DailyMeeting GetMeeting(string userName, int key)
         {
             var teamId = _userRepository.GetTeamId(userName);
@@ -72,5 +60,18 @@ namespace DailyScrum.Repository
 
             return meeting;
         }
+
+        public List<DailyMeeting> GetAllMeetings(string userName)
+        {
+            var teamId = _userRepository.GetTeamId(userName);
+
+            var meetings = _context.DailyMeetings
+                .Include(a => a.Team)
+                .Where(x => x.Team.TeamId == teamId)
+                .ToList();
+
+            return meetings;
+        }
+
     }
 }

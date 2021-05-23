@@ -1,8 +1,5 @@
 ﻿using DailyScrum.Areas.Identity.Data;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace DailyScrum.Repository
 {
@@ -10,7 +7,6 @@ namespace DailyScrum.Repository
     {
         int GetTeamId(string userName);
         int GetTeamRoleId(string userName);
-
 
         ApplicationUser GetUserByUserName(string userName);
         List<ApplicationUser> GetAllTeamMebers(string teamName);
@@ -20,7 +16,6 @@ namespace DailyScrum.Repository
         bool CheckIfExists(string userName);
 
         ApplicationUser FindScrumMaster(int teamId);
-
 
         void SetFirstName(string userName, string firstName);
         void SetLastName(string userName, string lastName);

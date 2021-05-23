@@ -1,20 +1,16 @@
 ﻿using DailyScrum.Repository;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace DailyScrum.Controllers
 {
     [Authorize]
     public class MeetingsArchiveController : Controller
     {
+        private string IdentityName => User.Identity.Name;
+
         private readonly IDailyMeetingRepository _dailyrepository;
         private readonly IUserRepository _userRepository;
-
-        private string IdentityName => User.Identity.Name;
 
         public MeetingsArchiveController(
             IDailyMeetingRepository repository,

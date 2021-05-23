@@ -8,7 +8,6 @@ namespace DailyScrum.Hubs
     [Authorize]
     public partial class DailyHub : Hub
     {
-
         public async Task DisplayStartTime()
         {
             await Clients.Group(DbUser.TeamMember.Name).SendAsync("DisplayStartTime", TeamModel.DailyMeeting?.Date.ToShortTimeString());
@@ -17,7 +16,7 @@ namespace DailyScrum.Hubs
         public async Task DisplayTimer()
         {
             //na szutke czas
-            var endTime = TeamModel.DailyMeeting?.Date.AddMinutes(1).Ticks;
+            var endTime = TeamModel.DailyMeeting?.Date.AddMinutes(15).Ticks;
             var nowTime = DateTime.Now.Ticks;
 
             var time = (endTime - nowTime) / 10000000;
@@ -27,7 +26,7 @@ namespace DailyScrum.Hubs
 
         public async Task SetUpTimer()
         {
-            var endTime = TeamModel.DailyMeeting?.Date.AddMinutes(1).Ticks;
+            var endTime = TeamModel.DailyMeeting?.Date.AddMinutes(15).Ticks;
             var nowTime = DateTime.Now.Ticks;
 
             var time = (endTime - nowTime) / 10000000;
@@ -44,7 +43,7 @@ namespace DailyScrum.Hubs
         {
             var test = TeamModel.MeetingStartingTime;
 
-            if (test.AddMinutes(1) < DateTime.Now)
+            if (test.AddMinutes(15) < DateTime.Now)
             {
                 if (TeamModel?.DailyMeeting != null && TeamModel.IsDailyStarted == true)
                 {

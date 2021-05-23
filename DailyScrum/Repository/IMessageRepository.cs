@@ -1,9 +1,6 @@
-﻿using DailyScrum.Areas.Identity.Data;
-using DailyScrum.Models.Database;
+﻿using DailyScrum.Models.Database;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace DailyScrum.Repository
 {

@@ -4,7 +4,6 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace DailyScrum.Repository
 {
@@ -16,6 +15,43 @@ namespace DailyScrum.Repository
         {
             _context = context;
         }
+
+        public int GetTeamId(string userName)
+        {
+            var user = _context.Users
+                .Include(a => a.TeamMember)
+                .Where(x => x.UserName.Equals(userName))
+                .FirstOrDefault();
+
+            return user.TeamMember.TeamId;
+        }
+
+        public int GetTeamRoleId(string userName)
+        {
+            throw new NotImplementedException();
+        }
+
+        public ApplicationUser GetUserByUserName(string userName)
+        {
+            var user = _context.Users
+                .Include(a => a.TeamMember)
+                .Include(ro => ro.TeamRole)
+                .Where(x => x.UserName == userName)
+                .FirstOrDefault();
+
+            return user;
+        }
+
+        public List<ApplicationUser> GetAllTeamMebers(string teamName)
+        {
+            var members = _context.Users
+                .Include(x => x.TeamMember)
+                .Where(a => a.TeamMember.Name.Equals(teamName))
+                .ToList();
+
+            return members;
+        }
+
 
         public bool CheckIfExists(string userName)
         {
@@ -68,6 +104,7 @@ namespace DailyScrum.Repository
             return true;
         }
 
+
         public ApplicationUser FindScrumMaster(int teamId)
         {
             var scrumMaster = _context.Users
@@ -79,42 +116,7 @@ namespace DailyScrum.Repository
             return scrumMaster;
         }
 
-        public List<ApplicationUser> GetAllTeamMebers(string teamName)
-        {
-            var members = _context.Users
-                .Include(x => x.TeamMember)
-                .Where(a => a.TeamMember.Name.Equals(teamName))
-                .ToList();
-
-            return members;
-        }
-
-        public int GetTeamId(string userName)
-        {
-            var user = _context.Users
-                .Include(a => a.TeamMember)
-                .Where(x => x.UserName.Equals(userName))
-                .FirstOrDefault();
-
-            return user.TeamMember.TeamId;
-        }
-
-        public int GetTeamRoleId(string userName)
-        {
-            throw new NotImplementedException();
-        }
-
-        public ApplicationUser GetUserByUserName(string userName)
-        {
-            var user = _context.Users
-                .Include(a => a.TeamMember)
-                .Include(ro => ro.TeamRole)
-                .Where(x => x.UserName == userName)
-                .FirstOrDefault();
-
-            return user;
-        }
-
+        
         public void SetFirstName(string userName, string firstName)
         {
             var user = _context.Users

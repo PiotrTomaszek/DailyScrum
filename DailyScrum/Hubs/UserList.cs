@@ -27,9 +27,6 @@ namespace DailyScrum.Hubs
                     TeamMemberCount = teamMates.Count(),
                     UsersOnline = Enumerable.Repeat(false, teamMates.Count()).ToList(),
                     UsersNotification = Enumerable.Repeat(new NotificationViewModel(), teamMates.Count()).ToList(),
-                    //Messages = new List<MessageViewModel>(),
-                    //DailyPosts = new List<DailyPostViewModel>(),
-                    //MeetingStartingTime = new TimeSpan(11, 40, 00),
                     IsDailyStarted = false
                 };
 
@@ -44,8 +41,6 @@ namespace DailyScrum.Hubs
 
         private async Task HandleTeamMemberNumber(int operation)
         {
-            //porblem bo nie ma zespolu
-
             if (DbUser.TeamMember?.Name != null)
             {
                 var team = _connectedTeams.TryGetValue(DbUser.TeamMember.Name, out var teamModel);
@@ -62,7 +57,7 @@ namespace DailyScrum.Hubs
 
         private async Task GetAllUsersStatus()
         {
-            _connectedTeams.TryGetValue(DbUser.TeamMember.Name, out var model);
+            var model = TeamModel;
 
             int index = 0;
             foreach (var item in model.UsersOnline)
@@ -78,7 +73,7 @@ namespace DailyScrum.Hubs
 
         private async Task SetAllUsersStatusForTeam()
         {
-            _connectedTeams.TryGetValue(DbUser.TeamMember.Name, out var model);
+            var model = TeamModel;
 
             int index = 0;
             foreach (var item in model.UsersOnline)
@@ -128,13 +123,13 @@ namespace DailyScrum.Hubs
         }
         public async Task UpdateUserList(string teamName)
         {
-            _connectedTeams.TryGetValue(teamName, out TeamViewModel model);
+            var model = TeamModel;
             await Clients.Group(teamName).SendAsync("UpdateUserList", model.ConnectedUsersCount, model.TeamMemberCount);
         }
 
         public async Task GenerateConnectedUsers(string teamName)
         {
-            _connectedTeams.TryGetValue(teamName, out TeamViewModel model);
+            var model = TeamModel;
             await Clients.Caller.SendAsync("GenerateUserCounter", model.ConnectedUsersCount, model.TeamMemberCount);
         }
     }

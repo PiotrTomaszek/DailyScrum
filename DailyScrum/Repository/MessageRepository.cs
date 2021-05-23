@@ -1,5 +1,4 @@
-﻿using DailyScrum.Areas.Identity.Data;
-using DailyScrum.Data;
+﻿using DailyScrum.Data;
 using DailyScrum.Models.Database;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -27,10 +26,8 @@ namespace DailyScrum.Repository
 
             var newMessage = new Message
             {
-                //Team = team,
                 Content = content,
                 Date = date,
-                //FromUser = from
             };
 
             _context.Messages.Add(newMessage);

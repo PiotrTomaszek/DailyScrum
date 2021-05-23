@@ -132,8 +132,6 @@ namespace DailyScrum.Areas.Identity.Pages.Account.Manage
                 StatusMessage = "Blad nazwisko";
             }
 
-            //propozycja zeby zdjecie bylo podobnie co tutajt e rzecz a okienko modalne do dropzona
-
             await _signInManager.RefreshSignInAsync(user);
             StatusMessage = "Zaaktualizowano profil.";
 

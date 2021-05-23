@@ -1,10 +1,8 @@
 ﻿using DailyScrum.Data;
 using DailyScrum.Models.Database;
 using Microsoft.EntityFrameworkCore;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace DailyScrum.Repository
 {
@@ -15,22 +13,6 @@ namespace DailyScrum.Repository
         public ProblemRepository(DailyScrumContext context)
         {
             _context = context;
-        }
-
-        public void CompleteProblem(int id)
-        {
-            var problem = _context.Problems
-                .Include(z => z.FromUser)
-                .Where(a => a.ProblemId == id)
-                .FirstOrDefault();
-
-            if (problem != null)
-            {
-                problem.Fixed = true;
-
-                _context.Update(problem);
-                _context.SaveChanges();
-            }
         }
 
         public Problem CreateProblem(int teamId, int meetingId, string userId, string problemContent)
@@ -46,7 +28,6 @@ namespace DailyScrum.Repository
             _context.Problems.Add(newProblem);
             _context.SaveChanges();
 
-            // sprawdzic czy rzecziwicie tutaj bedzie widoczny juz id problemu
             return _context.Problems.Find(newProblem.ProblemId);
         }
 
@@ -66,6 +47,22 @@ namespace DailyScrum.Repository
                 .ToList();
 
             return allProblems;
+        }
+
+        public void CompleteProblem(int id)
+        {
+            var problem = _context.Problems
+                .Include(z => z.FromUser)
+                .Where(a => a.ProblemId == id)
+                .FirstOrDefault();
+
+            if (problem != null)
+            {
+                problem.Fixed = true;
+
+                _context.Update(problem);
+                _context.SaveChanges();
+            }
         }
     }
 }
