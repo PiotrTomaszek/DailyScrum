@@ -34,7 +34,7 @@
 
                         if (item.FromUser?.PhotoPath != null)
                         {
-                            test = @Url.Content("~/avatars/" + @item.FromUser.PhotoPath);
+                            test = item.FromUser.PhotoPath;
                         }
                     }
                     <div class="form-group text-center text-sm-left pl-2">

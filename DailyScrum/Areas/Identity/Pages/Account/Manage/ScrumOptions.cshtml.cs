@@ -80,7 +80,7 @@ namespace DailyScrum.Areas.Identity.Pages.Account.Manage
                 .Where(x => x.UserName == thisUserUserName)
                 .FirstOrDefault();
 
-            if (user.TeamMember == null && user.TeamRole == null)
+            if (user.TeamMember == null)
             {
                 ViewData["HasTeam"] = false;
             }

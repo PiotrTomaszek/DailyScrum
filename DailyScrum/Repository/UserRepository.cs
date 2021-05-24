@@ -1,5 +1,6 @@
 ﻿using DailyScrum.Areas.Identity.Data;
 using DailyScrum.Data;
+using DailyScrum.Extensions;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -35,7 +36,7 @@ namespace DailyScrum.Repository
         {
             var user = _context.Users.FirstOrDefault(x => x.UserName.Equals(userName));
 
-            if(user == null)
+            if (user == null)
             {
                 return null;
             }
@@ -135,7 +136,7 @@ namespace DailyScrum.Repository
                .Where(x => x.UserName.Equals(userName))
                .FirstOrDefault();
 
-            user.FirstName = firstName;
+            user.FirstName = firstName.ReplaceHTMLTags();
 
             _context.Users.Update(user);
             _context.SaveChanges();
@@ -147,7 +148,7 @@ namespace DailyScrum.Repository
                 .Where(x => x.UserName.Equals(userName))
                 .FirstOrDefault();
 
-            user.LastName = lastName;
+            user.LastName = lastName.ReplaceHTMLTags();
 
             _context.Users.Update(user);
             _context.SaveChanges();
@@ -173,7 +174,7 @@ namespace DailyScrum.Repository
 
             var newRole = new ScrumRole
             {
-                Name = roleName
+                Name = roleName.ReplaceHTMLTags()
             };
 
             _context.ScrumRoles.Add(newRole);
@@ -198,6 +199,6 @@ namespace DailyScrum.Repository
             _context.SaveChanges();
         }
 
-       
+
     }
 }

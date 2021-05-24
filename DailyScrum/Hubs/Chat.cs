@@ -48,7 +48,7 @@ namespace DailyScrum.Hubs
                     var person = TeamModel.UsersList.Where(x => x.Id == item.FromUser?.Id).FirstOrDefault();
 
                     var photo = "https://avios.pl/wp-content/uploads/2018/01/no-avatar.png";
-                    if (person.PhotoPath != null)
+                    if (person?.PhotoPath != null)
                     {
                         photo = person.PhotoPath;
                     }
