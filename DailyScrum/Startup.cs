@@ -77,7 +77,7 @@ namespace DailyScrum
 
                 endpoints.MapHub<DailyHub>("/daily");
 
-                endpoints.MapFallbackToController("NoNoNo", "Problems");
+                endpoints.MapFallbackToController("ErrorNotFound", "Home");
             });
         }
     }

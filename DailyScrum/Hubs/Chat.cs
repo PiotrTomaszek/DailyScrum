@@ -69,8 +69,6 @@ namespace DailyScrum.Hubs
 
             var mes = _messageRepository.CreateNewMessage(DbUser.TeamMember.TeamId, message, DbUser.Id, DateTime.Now);
 
-
-
             await Clients.OthersInGroup(DbUser.TeamMember.Name).SendAsync("SendMessageToGroup", UserFullName, mes.Content, mes.Date.ToShortTimeString(), GetUserPhoto);
             await Clients.Caller.SendAsync("ShowSentMessage", UserFullName, mes.Content, mes.Date.ToShortTimeString());
 

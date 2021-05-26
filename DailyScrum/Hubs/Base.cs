@@ -65,7 +65,7 @@ namespace DailyScrum.Hubs
 
                 await Groups.AddToGroupAsync(Context.ConnectionId, DbUser.TeamMember.Name);
 
-                await ShowTeamName(DbUser.TeamMember.Name);
+                //await ShowTeamName(DbUser.TeamMember.Name); // deprecated - juz nie wyswietlam tego
                 await HandleTeamMemberNumber(1);
                 await GenerateConnectedUsers(DbUser.TeamMember.Name);
 

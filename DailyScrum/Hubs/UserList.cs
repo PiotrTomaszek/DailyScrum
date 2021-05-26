@@ -12,27 +12,7 @@ namespace DailyScrum.Hubs
     [Authorize]
     public partial class DailyHub : Hub
     {
-        private async Task HandleNewTeam()
-        {
-            if (!_connectedTeams.ContainsKey(DbUser.TeamMember?.Name))
-            {
-                var teamMates = await _dbContext.Users
-                    .Include(x => x.TeamMember)
-                    .Include(r => r.TeamRole)
-                    .Where(a => a.TeamMember.Name.Equals(DbUser.TeamMember.Name)).OrderBy(order => order.LastName).ToListAsync();
-
-                var teamModel = new TeamViewModel
-                {
-                    UsersList = teamMates,
-                    TeamMemberCount = teamMates.Count(),
-                    UsersOnline = Enumerable.Repeat(false, teamMates.Count()).ToList(),
-                    UsersNotification = Enumerable.Repeat(new NotificationViewModel(), teamMates.Count()).ToList(),
-                    IsDailyStarted = false
-                };
-
-                _connectedTeams.Add(DbUser.TeamMember.Name, teamModel);
-            }
-        }
+      
 
         private async Task ShowTeamName(string teamName)
         {

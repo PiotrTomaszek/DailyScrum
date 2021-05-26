@@ -7,6 +7,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="wwwroot\avatars\**" />
+    <Content Remove="wwwroot\avatars\**" />
+    <EmbeddedResource Remove="wwwroot\avatars\**" />
+    <None Remove="wwwroot\avatars\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Remove="wwwroot\js\daily.min.js" />
   </ItemGroup>
 
@@ -28,7 +35,6 @@
 
   <ItemGroup>
     <Folder Include="Areas\Identity\Data\" />
-    <Folder Include="wwwroot\avatars\" />
   </ItemGroup>
 
   <ItemGroup>
