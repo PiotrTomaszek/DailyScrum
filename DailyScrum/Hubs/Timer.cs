@@ -10,14 +10,14 @@ namespace DailyScrum.Hubs
     {
         public async Task DisplayStartTime()
         {
-            await Clients.Group(DbUser.TeamMember.Name).SendAsync("DisplayStartTime", TeamModel.DailyMeeting?.Date.ToShortTimeString());
+            await Clients.Group(DbUser.TeamMember.Name).SendAsync("DisplayStartTime", TeamModel.DailyMeeting?.Date);
         }
 
         public async Task DisplayTimer()
         {
             //na szutke czas
             var endTime = TeamModel.DailyMeeting?.Date.AddMinutes(15).Ticks;
-            var nowTime = DateTime.Now.Ticks;
+            var nowTime = DateTime.UtcNow.Ticks;
 
             var time = (endTime - nowTime) / 10000000;
 
@@ -27,7 +27,7 @@ namespace DailyScrum.Hubs
         public async Task SetUpTimer()
         {
             var endTime = TeamModel.DailyMeeting?.Date.AddMinutes(15).Ticks;
-            var nowTime = DateTime.Now.Ticks;
+            var nowTime = DateTime.UtcNow.Ticks;
 
             var time = (endTime - nowTime) / 10000000;
 

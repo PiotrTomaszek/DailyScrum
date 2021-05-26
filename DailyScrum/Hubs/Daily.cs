@@ -78,15 +78,16 @@ namespace DailyScrum.Hubs
                 await Clients.Caller.SendAsync("GenDevOptions");
             }
 
-            var time = string.Empty;
+            var time = new DateTime();
 
             if (TeamModel.DailyMeeting?.Date == null)
             {
-                time = _teamRepository.GetDailyTime(DbUser.TeamMember.Name).ToShortTimeString();
+                // usunieto to to universal time bo zakladam ze w bazie bedzie juz ten czas
+                time = _teamRepository.GetDailyTime(DbUser.TeamMember.Name);
             }
             else
             {
-                time = TeamModel.DailyMeeting.Date.ToShortTimeString();
+                time = TeamModel.DailyMeeting.Date.ToUniversalTime();
             }
 
             await Clients.Caller.SendAsync("DisplayStartTime", time);

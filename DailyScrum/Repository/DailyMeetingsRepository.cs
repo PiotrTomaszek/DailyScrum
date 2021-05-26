@@ -23,7 +23,7 @@ namespace DailyScrum.Repository
         {
             var newMeeting = new DailyMeeting
             {
-                Date = DateTime.Now,
+                Date = DateTime.UtcNow,
                 HasFinished = false,
                 Posts = new List<DailyPost>(),
                 Problems = new List<Problem>(),

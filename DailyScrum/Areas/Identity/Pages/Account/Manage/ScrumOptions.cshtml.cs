@@ -56,12 +56,9 @@ namespace DailyScrum.Areas.Identity.Pages.Account.Manage
 
         public async Task<IActionResult> OnPostAsync()
         {
-            var testa = Input.Name;
-            var test = Input.DailyTime;
-
             if (ModelState.IsValid)
             {
-                _teamRepository.CreateNewTeam(Input.Name, Input.DailyTime, HttpContext.User.Identity.Name);
+                _teamRepository.CreateNewTeam(Input.Name, Input.DailyTime.ToUniversalTime(), HttpContext.User.Identity.Name);
 
                 return RedirectToPage("./ScrumOptions");
             }

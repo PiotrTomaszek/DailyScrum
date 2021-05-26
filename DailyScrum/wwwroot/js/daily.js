@@ -1,8 +1,15 @@
 
 connection.on("DisplayStartTime", function (time) {
+
+    debugger;
+
     var element = document.getElementById('starting-time');
 
-    var start = 'Start: ' + time;
+    var datetime = new Date(time);
+
+    var t = datetime.toLocaleTimeString("pl-PL");
+
+    var start = 'Start: ' + t;
     element.innerHTML = start;
 })
 
