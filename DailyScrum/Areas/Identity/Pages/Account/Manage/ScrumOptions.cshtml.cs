@@ -47,14 +47,14 @@ namespace DailyScrum.Areas.Identity.Pages.Account.Manage
             public DateTime DailyTime { get; set; }
         }
 
-        public async Task<IActionResult> OnGetAsync()
+        public IActionResult OnGetAsync()
         {
             SetViewData();
 
             return Page();
         }
 
-        public async Task<IActionResult> OnPostAsync()
+        public IActionResult OnPostAsync()
         {
             if (ModelState.IsValid)
             {

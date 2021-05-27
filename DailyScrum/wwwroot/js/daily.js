@@ -1,8 +1,6 @@
 
 connection.on("DisplayStartTime", function (time) {
 
-    debugger;
-
     var element = document.getElementById('starting-time');
 
     var datetime = new Date(time);
@@ -213,7 +211,11 @@ connection.on("SendDailyPost", function (name, yesterday, today, problem, time, 
 connection.on("ShowSentMessage", function (user, message, date) {
     var li = document.createElement("li");
 
-    li.innerHTML = ` <div class="chat-hour">${date}</div>
+    var datetime = new Date(date);
+
+    var time = datetime.toLocaleTimeString("pl-PL");
+
+    li.innerHTML = ` <div class="chat-hour">${time}</div>
                             <div class="chat-text" style="background-color: lightgrey">
                                 ${message}
                             </div>
@@ -230,6 +232,12 @@ connection.on("ShowSentMessage", function (user, message, date) {
 connection.on("SendMessageToGroup", function (user, message, date, imgPath) {
     var li = document.createElement("li");
 
+    debugger;
+
+    var datetime = new Date(date);
+
+    var time = datetime.toLocaleTimeString("pl-PL");
+
     li.innerHTML = `<div class="chat-avatar">
                                 <img src="${imgPath}" alt="${user}">
                                 <div class="chat-name">${user}</div>
@@ -237,7 +245,7 @@ connection.on("SendMessageToGroup", function (user, message, date, imgPath) {
                             <div class="chat-text" style="background-color: bisque">
                                 ${message}
                             </div>
-                            <div class="chat-hour">${date}</div>`;
+                            <div class="chat-hour">${time}</div>`;
 
     li.classList.add('chat-left');
 

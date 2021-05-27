@@ -34,6 +34,8 @@ namespace DailyScrum.Hubs
                 await Clients.Group(DbUser.TeamMember.Name).SendAsync("ResetDailyBoard");
                 await Clients.Group(DbUser.TeamMember.Name).SendAsync("EnableSubmitPostButton", TeamModel.IsDailyStarted);
 
+                await Clients.OthersInGroup(DbUser.TeamMember.Name).SendAsync("ToastrNotify", "Spotkanie Daily rozpoczęto", "text");
+
                 TeamModel.MeetingStartingTime = TeamModel.DailyMeeting.Date;
 
                 await DisplayStartTime();

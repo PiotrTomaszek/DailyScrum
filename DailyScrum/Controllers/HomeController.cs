@@ -8,7 +8,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Diagnostics;
-using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -19,6 +18,7 @@ namespace DailyScrum.Controllers
     {
         private readonly DailyScrumContext _context;
         private readonly ILogger<HomeController> _logger;
+
         private IWebHostEnvironment _webHostEnvironment;
 
         public HomeController(ILogger<HomeController> logger,
