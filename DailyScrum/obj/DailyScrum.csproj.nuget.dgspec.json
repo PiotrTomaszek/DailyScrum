@@ -80,6 +80,10 @@
               "target": "Package",
               "version": "[5.0.2, )"
             },
+            "SixLabors.ImageSharp": {
+              "target": "Package",
+              "version": "[1.0.3, )"
+            },
             "WindowsAzure.Storage": {
               "target": "Package",
               "version": "[9.3.3, )"
