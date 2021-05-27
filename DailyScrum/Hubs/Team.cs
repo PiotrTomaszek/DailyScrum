@@ -33,17 +33,7 @@ namespace DailyScrum.Hubs
             }
         }
 
-        public async Task UpdatePhoto()
-        {
-            var user = TeamModel.UsersList.FirstOrDefault(x => x.UserName.Equals(DbUser.UserName));
-
-            if (user != null)
-            {
-                user.PhotoPath = _userRepository.GetUserPhotoPath(user.UserName);
-            }
-
-            await MemberHandler();
-        }
+       
 
         public async Task UpdateUserData(string firstName, string lastName, string phone)
         {

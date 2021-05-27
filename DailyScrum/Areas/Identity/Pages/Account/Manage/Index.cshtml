@@ -57,6 +57,15 @@
                                         </div>
                                         <div class="modal-body text-dark">
 
+                                            @* dropzone *@
+                                            <input hidden id="file" name="file" />
+                                            <div class="dropzone dropzone-file-area" id="fileUpload">
+                                                <div class="dz-default dz-message">
+                                                    <h3 class="sbold">Twoje zdjęcie.</h3>
+                                                    <span>Przeciągnij albo naciśnij i wybierz plik z dysku.</span>
+                                                </div>
+                                            </div>
+
                                             <div class="form-group">
                                                 <label asp-for="Input.PhotoLink"></label>
                                                 <input asp-for="Input.PhotoLink" id="photoInput" class="form-control" value="" />
@@ -64,7 +73,8 @@
 
                                         </div>
                                         <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">OK!</button>
+                                            @*<button type="button" class="btn btn-secondary" data-dismiss="modal">OK!</button>*@
+                                            <button type="submit" value="Create" id="submit-all" class="btn btn-primary  btn-lg">Ok</button>
                                         </div>
                                     </div>
                                 </div>
@@ -105,6 +115,37 @@
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
 
+    <link href="~/lib/dropzone/dist/min/dropzone.min.css" rel="stylesheet" />
+    <script src="~/lib/dropzone/dist/min/dropzone.min.js"></script>
+
+    <script>
+
+        var btnClick = document.getElementById('submit-all');
+
+        Dropzone.options.fileUpload = {
+            url: 'photo/uploadfile',
+            paramName: "file",
+            autoProcessQueue: true,
+            maxFilesize: 4,
+            resizedWidth: 512,
+            addRemoveLinks: true,
+            maxFiles: 1,
+            acceptedFiles: "image/jpeg,image/png,image/gif",
+            init: function () {
+                var submitButton = document.querySelector("#submit-all");
+                var wrapperThis = this;
+
+                submitButton.addEventListener("click", function () {
+                    wrapperThis.processQueue();
+                });
+
+                this.on('sendingmultiple', function (data, xhr, formData) {
+                    formData.append("sth", $("#submit-all").val());
+                });
+            }
+        }
+    </script>
+
     <script>
         var btn = document.getElementById('update-profile-button');
 
@@ -114,7 +155,9 @@
             var b = document.getElementById('lastNameInput').value;
             var c = document.getElementById('phoneInput').value;
 
-            var d = document.getElementById('photoInput').value;
+            var d = document.getElementById('file').value;
+
+            debugger;
 
             if (d != null) {
                 connection.invoke("UpdatePhoto");
