@@ -199,6 +199,32 @@ namespace DailyScrum.Repository
             _context.SaveChanges();
         }
 
+        public void SetPhotoPathById(string userId, string photoLink)
+        {
+            var user = _context.Users
+                .FirstOrDefault(x => x.Id.Equals(userId));
 
+            if (user == null)
+            {
+                return;
+            }
+
+            user.PhotoPath = photoLink;
+
+            _context.SaveChanges();
+        }
+
+        public string GetPhotoPathById(string userId)
+        {
+            var user = _context.Users
+                .FirstOrDefault(x => x.Id.Equals(userId));
+
+            if (user == null)
+            {
+                return null;
+            }
+
+            return user.PhotoPath;
+        }
     }
 }

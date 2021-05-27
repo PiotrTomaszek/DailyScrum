@@ -21,5 +21,8 @@ namespace DailyScrum.Repository
         void SetLastName(string userName, string lastName);
         ScrumRole SetTeamRole(string userName, string roleName);
         void SetPhotoPath(string userName, string photoLink);
+        void SetPhotoPathById(string userId, string photoLink);
+        string GetPhotoPathById(string userName);
+
     }
 }

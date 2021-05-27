@@ -12,7 +12,11 @@ namespace DailyScrum.Hubs
     [Authorize]
     public partial class DailyHub : Hub
     {
-      
+        public async Task UpdatePhoto()
+        {
+            var user = TeamModel.UsersList.FirstOrDefault(r => r.Id.Equals(DbUser.Id));
+            user.PhotoPath = _userRepository.GetPhotoPathById(user.Id);
+        }
 
         private async Task ShowTeamName(string teamName)
         {

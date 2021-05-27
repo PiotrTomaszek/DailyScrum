@@ -21,6 +21,8 @@
     {
         userPhoto = "https://avios.pl/wp-content/uploads/2018/01/no-avatar.png";
     }
+
+    var userId = UserManager.GetUserId(User);
 }
 
 <div class="row">
@@ -58,6 +60,8 @@
                                         <div class="modal-body text-dark">
 
                                             @* dropzone *@
+                                            <input hidden id="userId" name="userId" value="@userId" />
+
                                             <input hidden id="file" name="file" />
                                             <div class="dropzone dropzone-file-area" id="fileUpload">
                                                 <div class="dz-default dz-message">
@@ -139,7 +143,10 @@
                     wrapperThis.processQueue();
                 });
 
-                this.on('sendingmultiple', function (data, xhr, formData) {
+                this.on('sending', function (data, xhr, formData) {
+                    formData.append("userId", $('#userId').val());
+                });
+                this.on('sendingmutilple', function (data, xhr, formData) {
                     formData.append("sth", $("#submit-all").val());
                 });
             }
@@ -155,13 +162,9 @@
             var b = document.getElementById('lastNameInput').value;
             var c = document.getElementById('phoneInput').value;
 
-            var d = document.getElementById('file').value;
 
-            debugger;
+            connection.invoke("UpdatePhoto");
 
-            if (d != null) {
-                connection.invoke("UpdatePhoto");
-            }
 
             var c = document.getElementById('phoneInput').value;
 

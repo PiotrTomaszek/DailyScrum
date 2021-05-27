@@ -1,7 +1,10 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using DailyScrum.Repository;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Blob;
+using System;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace DailyScrum.Controllers
@@ -11,9 +14,16 @@ namespace DailyScrum.Controllers
         private static string connString = "DefaultEndpointsProtocol=https;AccountName=dailyscrumproejctstorage;AccountKey=8SQzNgRdOSfoXzlTpgxN+IOuURxcQraInTrNMkfl71PHnDV1izWgjkYJoVwEQ7aY2pU0RaLL+6x55ZO7b1TSwA==;EndpointSuffix=core.windows.net";
         private CloudStorageAccount _cloudStorage = CloudStorageAccount.Parse(connString);
 
-        public async Task UploadFile(IFormFile file)
+        private readonly IUserRepository _userRepository;
+
+        public PhotoController(IUserRepository userRepository)
         {
-            if (file == null)
+            _userRepository = userRepository;
+        }
+
+        public async Task UploadFile(IFormFile file, string userId)
+        {
+            if (file == null || string.IsNullOrEmpty(userId))
             {
                 return;
             }
@@ -21,41 +31,38 @@ namespace DailyScrum.Controllers
             var cloudBlobClient = _cloudStorage.CreateCloudBlobClient();
             var cloudBlobContainer = cloudBlobClient.GetContainerReference("images");
 
-            if (await cloudBlobContainer.CreateIfNotExistsAsync())
+            try
             {
-                await cloudBlobContainer.SetPermissionsAsync(new BlobContainerPermissions
+                if (await cloudBlobContainer.CreateIfNotExistsAsync())
                 {
-                    PublicAccess = BlobContainerPublicAccessType.Off
-                });
+                    await cloudBlobContainer.SetPermissionsAsync(new BlobContainerPermissions
+                    {
+                        PublicAccess = BlobContainerPublicAccessType.Off
+                    });
+                }
+            }
+            catch (System.Exception)
+            {
             }
 
-            var cloudBlockBlob = cloudBlobContainer.GetBlockBlobReference(file.FileName);
+            // to remove
+
+            var url = _userRepository.GetPhotoPathById(userId);
+
+            url = url.Substring(url.LastIndexOf('/') +1 );
+
+            var cloudBlockBlobToDelete = cloudBlobContainer.GetBlockBlobReference(url);
+
+            await cloudBlockBlobToDelete.DeleteIfExistsAsync();
+
+            var cloudBlockBlob = cloudBlobContainer.GetBlockBlobReference(Guid.NewGuid().ToString());
 
             cloudBlockBlob.Properties.ContentType = file.ContentType;
 
             await cloudBlockBlob.UploadFromStreamAsync(file.OpenReadStream());
+
+            _userRepository.SetPhotoPathById(userId, cloudBlockBlob.Uri.AbsoluteUri);
+
         }
-
-        //public async Task UploadPhotoToSession(IFormFile filer)
-        //{
-        //    if (filer == null)
-        //    {
-        //        return;
-        //    }
-
-
-
-        //    HttpContext.Session.Set()
-
-        //}
-
-        //public byte[] ImageToByteArray(Image imageIn)
-        //{
-        //    using (var ms = new MemoryStream())
-        //    {
-        //        imageIn.Save(ms, imageIn.RawFormat);
-        //        return ms.ToArray();
-        //    }
-        //}
     }
 }
