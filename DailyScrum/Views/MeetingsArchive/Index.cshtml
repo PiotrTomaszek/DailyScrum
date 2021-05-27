@@ -25,7 +25,11 @@
         {
             <tr>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Date)
+                    @{
+                        var localTime = item.Date.ToLocalTime();
+                    }
+
+                    @Html.DisplayFor(modelItem => localTime)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.HasFinished)

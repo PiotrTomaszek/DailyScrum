@@ -155,7 +155,7 @@ namespace DailyScrum.Hubs
 
                     await Clients.Caller.SendAsync("SendDailyPost", fullname,
                         post.FirstQuestion, post.SecondQuestion, post.ThirdQuestion,
-                        post.Date.ToShortTimeString(), post.FromUser.Id,
+                        post.Date, post.FromUser.Id,
                         photo);
                 }
             }
@@ -172,7 +172,7 @@ namespace DailyScrum.Hubs
                 problem = problem.ReplaceHTMLTags();
                 yesterday = yesterday.ReplaceHTMLTags();
 
-                dailyPost = _postRepository.CreateDailyPost(yesterday, today, problem, DbUser, TeamModel.DailyMeeting, DateTime.Now);
+                dailyPost = _postRepository.CreateDailyPost(yesterday, today, problem, DbUser, TeamModel.DailyMeeting, DateTime.UtcNow);
                 problemHold = _problemRepository.CreateProblem(DbUser.TeamMember.TeamId, TeamModel.DailyMeeting.DailyMeetingId, DbUser.Id, problem);
 
                 await EnableSubmitButton();
@@ -184,10 +184,10 @@ namespace DailyScrum.Hubs
                 .Where(x => x.Value.Id == master)
                 .FirstOrDefault().Key;
 
-            await Clients.Client(SMconnectionId).SendAsync("SendProblem", UserFullName, DbUser.Id, problemHold.Description, DateTime.Now.ToShortTimeString(), problemHold.ProblemId, DbUser.PhotoPath);
+            await Clients.Client(SMconnectionId).SendAsync("SendProblem", UserFullName, DbUser.Id, problemHold.Description, DateTime.UtcNow, problemHold.ProblemId, DbUser.PhotoPath);
             await AddNotification("problem");
 
-            await Clients.Group(DbUser.TeamMember.Name).SendAsync("SendDailyPost", UserFullName, dailyPost.FirstQuestion, dailyPost.SecondQuestion, dailyPost.ThirdQuestion, dailyPost.Date.ToShortTimeString(), DbUser.Id, GetUserPhoto);
+            await Clients.Group(DbUser.TeamMember.Name).SendAsync("SendDailyPost", UserFullName, dailyPost.FirstQuestion, dailyPost.SecondQuestion, dailyPost.ThirdQuestion, DateTime.UtcNow/*dailyPost.Date*/, DbUser.Id, GetUserPhoto);
             await AddNotification("daily");
         }
     }

@@ -145,7 +145,26 @@ connection.on("EnableSubmitPostButton", function (hasStarted, hasPosted) {
     }
 });
 
-connection.on("SendDailyPost", function (name, yesterday, today, problem, time, id, photopath) {
+
+connection.on("SendDailyPost", function (name, yesterday, today, problem, date, id, photopath) {
+
+    debugger;
+
+    var datetime = new Date(date);
+
+    var d1 = datetime.getHours();
+    var d2 = new Date().getHours();
+
+    if (d1 !== d2) {
+        datetime.setHours(datetime.getHours() + (new Date().getTimezoneOffset() / -60));
+    }
+
+    var time = datetime.toLocaleTimeString("pl-PL");
+
+    //var datetime = new Date(date);
+    //var datetime = convertUTCDateToLocalDate(new Date(date))
+
+    //var time = datetime.toLocaleTimeString("pl-PL");
 
     var place = document.getElementById('dailyPostPlace');
 
@@ -211,7 +230,10 @@ connection.on("SendDailyPost", function (name, yesterday, today, problem, time, 
 connection.on("ShowSentMessage", function (user, message, date) {
     var li = document.createElement("li");
 
+
     var datetime = new Date(date);
+
+    datetime.setHours(datetime.getHours() + (new Date().getTimezoneOffset() / -60));
 
     var time = datetime.toLocaleTimeString("pl-PL");
 
@@ -235,6 +257,8 @@ connection.on("SendMessageToGroup", function (user, message, date, imgPath) {
     debugger;
 
     var datetime = new Date(date);
+
+    datetime.setHours(datetime.getHours() + (new Date().getTimezoneOffset() / -60));
 
     var time = datetime.toLocaleTimeString("pl-PL");
 

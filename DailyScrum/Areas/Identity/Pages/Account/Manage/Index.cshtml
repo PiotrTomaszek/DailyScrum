@@ -70,14 +70,13 @@
                                                 </div>
                                             </div>
 
-                                            <div class="form-group">
-                                                <label asp-for="Input.PhotoLink"></label>
-                                                <input asp-for="Input.PhotoLink" id="photoInput" class="form-control" value="" />
-                                            </div>
+                                            @*<div class="form-group">
+                                                    <label asp-for="Input.PhotoLink"></label>
+                                                    <input asp-for="Input.PhotoLink" id="photoInput" class="form-control" value="" />
+                                                </div>*@
 
                                         </div>
                                         <div class="modal-footer">
-                                            @*<button type="button" class="btn btn-secondary" data-dismiss="modal">OK!</button>*@
                                             <button type="submit" value="Create" id="submit-all" class="btn btn-primary  btn-lg">Ok</button>
                                         </div>
                                     </div>
@@ -162,9 +161,7 @@
             var b = document.getElementById('lastNameInput').value;
             var c = document.getElementById('phoneInput').value;
 
-
             connection.invoke("UpdatePhoto");
-
 
             var c = document.getElementById('phoneInput').value;
 

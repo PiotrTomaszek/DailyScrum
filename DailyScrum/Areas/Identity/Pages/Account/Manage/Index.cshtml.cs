@@ -1,5 +1,6 @@
 ﻿using DailyScrum.Areas.Identity.Data;
 using DailyScrum.Repository;
+using DailyScrum.Validations;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -35,11 +36,15 @@ namespace DailyScrum.Areas.Identity.Pages.Account.Manage
 
         public class InputModel
         {
+            [Required(ErrorMessage = "Polę imię nie może być puste.")]
+            [FirstNameValidation]
             [DataType(DataType.Text)]
             [Display(Name = "Imię")]
             [StringLength(50, ErrorMessage = "Imię musi być dłuższe niż 2 znaki.", MinimumLength = 2)]
             public string FirstName { get; set; }
 
+            [Required(ErrorMessage = "Polę nazwisko nie może być puste.")]
+            [LastNameValidation]
             [DataType(DataType.Text)]
             [Display(Name = "Nazwisko")]
             [StringLength(50, ErrorMessage = "Nazwisko musi być dłuższe niż 2 znaki.", MinimumLength = 2)]
@@ -47,11 +52,12 @@ namespace DailyScrum.Areas.Identity.Pages.Account.Manage
 
 
             [Phone(ErrorMessage = "Nie poprawny numer telefonu.")]
+            [StringLength(15,MinimumLength = 9, ErrorMessage ="Niepoprawny numer telefonu.")]
             [Display(Name = "Numer Telefonu")]
             public string PhoneNumber { get; set; }
 
-            [Display(Name = "Podaj link do zdjęcia z neta... (URL musi kończyć się na .jpg/.png)")]
-            public string PhotoLink { get; set; }
+            //[Display(Name = "Podaj link do zdjęcia z neta... (URL musi kończyć się na .jpg/.png)")]
+            //public string PhotoLink { get; set; }
         }
 
         private async Task LoadAsync(ApplicationUser user)
@@ -127,19 +133,19 @@ namespace DailyScrum.Areas.Identity.Pages.Account.Manage
                 StatusMessage = "Blad nazwisko";
             }
 
-            if (Input.PhotoLink != null)
-            {
-                if (CheckIfImageLinkIsOK(Input.PhotoLink))
-                {
-                    _userRepository.SetPhotoPath(User.Identity.Name, Input.PhotoLink);
-                }
-            }
+            //if (Input.PhotoLink != null)
+            //{
+            //    if (CheckIfImageLinkIsOK(Input.PhotoLink))
+            //    {
+            //        _userRepository.SetPhotoPath(User.Identity.Name, Input.PhotoLink);
+            //    }
+            //}
 
             await _signInManager.RefreshSignInAsync(user);
             StatusMessage = "Zaaktualizowano profil.";
 
             ViewData["HasUpdatedProfil"] = true;
-           
+
             return RedirectToPage();
         }
 

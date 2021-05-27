@@ -68,6 +68,7 @@ namespace DailyScrum.Repository
             var meetings = _context.DailyMeetings
                 .Include(a => a.Team)
                 .Where(x => x.Team.TeamId == teamId)
+                .OrderByDescending(t => t.Date)
                 .ToList();
 
             return meetings;

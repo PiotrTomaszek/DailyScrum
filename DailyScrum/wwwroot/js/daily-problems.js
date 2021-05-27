@@ -1,5 +1,11 @@
-﻿connection.on("SendProblem", function (fullname, userId, problemText, date, problemId, photopath) {
+﻿connection.on("SendProblem", function (fullname, userId, problemText, time, problemId, photopath) {
     var problemPlace = document.getElementById('problemsTable');
+
+    debugger;
+
+    var datetime = new Date(time);
+
+    var date = datetime.toLocaleTimeString("pl-PL");
 
     var newRow = document.createElement('tr');
 

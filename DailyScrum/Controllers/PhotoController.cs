@@ -57,10 +57,7 @@ namespace DailyScrum.Controllers
             await cloudBlockBlobToDelete.DeleteIfExistsAsync();
 
             // to save
-
             var img = Image.Load(file.OpenReadStream());
-
-
 
             var finalSize = img.Width > img.Height ? img.Height : img.Width;
 
@@ -89,7 +86,6 @@ namespace DailyScrum.Controllers
             await cloudBlockBlob.UploadFromByteArrayAsync(result, 0, result.Length);
 
             _userRepository.SetPhotoPathById(userId, cloudBlockBlob.Uri.AbsoluteUri);
-
         }
     }
 }
