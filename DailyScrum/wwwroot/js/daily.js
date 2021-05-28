@@ -230,8 +230,6 @@ connection.on("ShowSentMessage", function (user, message, date) {
 
     var datetime = new Date(date);
 
-    //datetime.setHours(datetime.getHours() + (new Date().getTimezoneOffset() / -60));
-
     var time = datetime.toLocaleTimeString("pl-PL");
 
     li.innerHTML = ` <div class="chat-hour">${time}</div>

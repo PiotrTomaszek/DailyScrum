@@ -34,7 +34,7 @@ namespace DailyScrum.Hubs
                 await Clients.Group(DbUser.TeamMember.Name).SendAsync("ResetDailyBoard");
                 await Clients.Group(DbUser.TeamMember.Name).SendAsync("EnableSubmitPostButton", TeamModel.IsDailyStarted);
 
-                await Clients.OthersInGroup(DbUser.TeamMember.Name).SendAsync("ToastrNotify", "Spotkanie Daily rozpoczęto", "text");
+                await Clients.OthersInGroup(DbUser.TeamMember.Name).SendAsync("ToastrNotify", "Daily", "Rozpoczęto spotkanie!");
 
                 TeamModel.MeetingStartingTime = TeamModel.DailyMeeting.Date;
 
@@ -61,6 +61,8 @@ namespace DailyScrum.Hubs
                     {
                         await Clients.Client(conn).SendAsync("EndDaily");
                         await Clients.Client(conn).SendAsync("EnableSubmitPostButton", TeamModel.IsDailyStarted);
+
+                        await Clients.Client(conn).SendAsync("ToastrNotify", "Daily", "Zakończono spotkanie!");
                     }
                 }
 
@@ -150,7 +152,7 @@ namespace DailyScrum.Hubs
                     var photo = "https://avios.pl/wp-content/uploads/2018/01/no-avatar.png";
                     if (post.FromUser.PhotoPath != null)
                     {
-                        photo = DbUser.PhotoPath;
+                        photo = post.FromUser.PhotoPath;
                     }
 
                     await Clients.Caller.SendAsync("SendDailyPost", fullname,

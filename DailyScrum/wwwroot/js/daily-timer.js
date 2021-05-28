@@ -9,7 +9,7 @@ connection.on("DisplayTimer", function (hasStarted, time) {
     }
     else {
         clearInterval(myVar);
-        timePlace.innerHTML = 'Koniec';
+        timePlace.innerHTML = '--:--';
     }
 });
 
