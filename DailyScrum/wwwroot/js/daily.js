@@ -182,7 +182,7 @@ connection.on("SendDailyPost", function (name, yesterday, today, problem, date, 
                         </div>
                         <div class="col-8 col-md-9 text-left">
                             <p class="mt-2">${time}</p>
-                            <p><strong>${name}</strong> dodal nowy post do spotkania daily!</p>
+                            <p><strong>${name}</strong> doda\u0142(a) nowy post do spotkania daily!</p>
                         </div>
                         <div class="col-2 col-md-2">
                             <button class="btn text-center" type="button" data-toggle="collapse" data-target="#collapseUser-${id}" aria-expanded="false" aria-controls="collapseExample">
@@ -196,7 +196,7 @@ connection.on("SendDailyPost", function (name, yesterday, today, problem, date, 
                                 <div class="daily-yesterday-line"></div>
                             </div>
                             <div class="col-8">
-                                <h6><strong>Co zrobiles wczoraj?</strong></h6>
+                                <h6><strong>Co zrobi\u0142e\u015B wczoraj?</strong></h6>
                                 <p>${yesterday}</p>
                             </div>
                         </div>
@@ -214,7 +214,7 @@ connection.on("SendDailyPost", function (name, yesterday, today, problem, date, 
                                 <div class="daily-problem-line"></div>
                             </div>
                             <div class="col-8">
-                                <h6><strong>Widzisz jakies problemy?</strong></h6>
+                                <h6><strong>Jakie widzisz problemy?</strong></h6>
                                 <p>${problem}</p>
                             </div>
                         </div>
@@ -279,7 +279,7 @@ connection.on("GenerateSendMessageToGroup", function (user, message, date, imgPa
     var time = datetime.toLocaleTimeString("pl-PL");
 
     li.innerHTML = `<div class="chat-avatar">
-                                <img src="${imgPath}" alt="${user}">
+                                <img src="${imgPath}" alt="">
                                 <div class="chat-name">${user}</div>
                             </div>
                             <div class="chat-text" style="background-color: bisque">
@@ -304,7 +304,7 @@ connection.on("SendMessageToGroup", function (user, message, date, imgPath) {
     var time = datetime.toLocaleTimeString("pl-PL");
 
     li.innerHTML = `<div class="chat-avatar">
-                                <img src="${imgPath}" alt="${user}">
+                                <img src="${imgPath}" alt="">
                                 <div class="chat-name">${user}</div>
                             </div>
                             <div class="chat-text" style="background-color: bisque">

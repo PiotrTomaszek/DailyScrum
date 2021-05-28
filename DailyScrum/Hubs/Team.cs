@@ -71,8 +71,6 @@ namespace DailyScrum.Hubs
 
             await Clients.Caller.SendAsync("ToastrNotify",  "Sukces!", "Zmieniłeś swoją rolę.");
 
-            //await Clients.Caller.SendAsync("DisplayChangeRoleSucces");
-
             await MemberHandler();
         }
 

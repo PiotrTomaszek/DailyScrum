@@ -38,7 +38,7 @@ namespace DailyScrum.Hubs
             {
                 if (item.FromUser?.Id == DbUser.Id)
                 {
-                    await Clients.Caller.SendAsync("GenerateShowSentMessage", UserFullName, item.Content, item.Date);
+                    await Clients.Caller.SendAsync("GenerateShowSentMessage", DbUser.FirstName, item.Content, item.Date);
                 }
                 else
                 {
@@ -50,7 +50,7 @@ namespace DailyScrum.Hubs
                         photo = person.PhotoPath;
                     }
 
-                    await Clients.Caller.SendAsync("GenerateSendMessageToGroup", $"{person?.LastName} {person?.FirstName}", item?.Content, item?.Date, photo);
+                    await Clients.Caller.SendAsync("GenerateSendMessageToGroup", $"{person?.FirstName}", item?.Content, item?.Date, photo);
                 }
             }
         }
@@ -66,8 +66,8 @@ namespace DailyScrum.Hubs
 
             var mes = _messageRepository.CreateNewMessage(DbUser.TeamMember.TeamId, message, DbUser.Id, DateTime.UtcNow);
 
-            await Clients.OthersInGroup(DbUser.TeamMember.Name).SendAsync("SendMessageToGroup", UserFullName, mes.Content, mes.Date, GetUserPhoto);
-            await Clients.Caller.SendAsync("ShowSentMessage", UserFullName, mes.Content, mes.Date);
+            await Clients.OthersInGroup(DbUser.TeamMember.Name).SendAsync("SendMessageToGroup", DbUser.FirstName, mes.Content, mes.Date, GetUserPhoto);
+            await Clients.Caller.SendAsync("ShowSentMessage", DbUser.FirstName, mes.Content, mes.Date);
 
             await AddNotification("chat");
         }
