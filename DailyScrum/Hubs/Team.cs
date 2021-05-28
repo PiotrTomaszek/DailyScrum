@@ -110,7 +110,7 @@ namespace DailyScrum.Hubs
 
             TeamModel.ConnectedUsersCount = TeamModel.UsersOnline.Count(x => x == true);
 
-            await Clients.Caller.SendAsync("ToastrNotify", "Usunięto uczestnika tego spotkania!", "Sukces!");
+          
             //await Clients.Caller.SendAsync("ShowRemoveMessage", "Sukces! Usunieto uczestnika tego spotkania.");
 
             var findId = _connectedUsers.FirstOrDefault(x => x.Value.Id.Equals(dummy.Id)).Key;
@@ -119,6 +119,8 @@ namespace DailyScrum.Hubs
             {
                 await Clients.Client(findId).SendAsync("RefreshNoTeam");
             }
+
+            await Clients.Caller.SendAsync("ToastrNotify", "Usunięto uczestnika tego spotkania!", "Sukces!");
 
             await RefreshUsersStatus();
             await MemberHandler();

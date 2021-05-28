@@ -34,19 +34,19 @@ namespace DailyScrum.Controllers
             var cloudBlobClient = _cloudStorage.CreateCloudBlobClient();
             var cloudBlobContainer = cloudBlobClient.GetContainerReference("images");
 
-            try
-            {
-                if (await cloudBlobContainer.CreateIfNotExistsAsync())
-                {
-                    await cloudBlobContainer.SetPermissionsAsync(new BlobContainerPermissions
-                    {
-                        PublicAccess = BlobContainerPublicAccessType.Off
-                    });
-                }
-            }
-            catch (System.Exception)
-            {
-            }
+            //try
+            //{
+            //    if (await cloudBlobContainer.CreateIfNotExistsAsync())
+            //    {
+            //        await cloudBlobContainer.SetPermissionsAsync(new BlobContainerPermissions
+            //        {
+            //            PublicAccess = BlobContainerPublicAccessType.Off
+            //        });
+            //    }
+            //}
+            //catch (System.Exception)
+            //{
+            //}
 
             // to remove
 
@@ -68,13 +68,17 @@ namespace DailyScrum.Controllers
             var x = ((img.Width - 256) / 4);
             var y = (img.Height - 256) / 4;
 
+            x = x < 0 ? 0 : x;
+
+            finalSize -= x;
+
             img.Mutate(mut => mut
             .Crop(new Rectangle(x, 0, finalSize, finalSize))
             .Resize(256, 256));
 
             var encoder = new JpegEncoder()
             {
-                Quality = 30
+                Quality = 80
             };
 
             var memoryStream = new MemoryStream();
