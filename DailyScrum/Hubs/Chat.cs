@@ -38,7 +38,7 @@ namespace DailyScrum.Hubs
             {
                 if (item.FromUser?.Id == DbUser.Id)
                 {
-                    await Clients.Caller.SendAsync("ShowSentMessage", UserFullName, item.Content, item.Date);
+                    await Clients.Caller.SendAsync("GenerateShowSentMessage", UserFullName, item.Content, item.Date);
                 }
                 else
                 {
@@ -50,7 +50,7 @@ namespace DailyScrum.Hubs
                         photo = person.PhotoPath;
                     }
 
-                    await Clients.Caller.SendAsync("SendMessageToGroup", $"{person?.LastName} {person?.FirstName}", item?.Content, item?.Date, photo);
+                    await Clients.Caller.SendAsync("GenerateSendMessageToGroup", $"{person?.LastName} {person?.FirstName}", item?.Content, item?.Date, photo);
                 }
             }
         }

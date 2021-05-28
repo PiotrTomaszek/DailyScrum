@@ -51,7 +51,7 @@ namespace DailyScrum.Controllers
             // to remove
 
             var url = _userRepository.GetPhotoPathById(userId);
-            
+
 
             if (url != null)
             {

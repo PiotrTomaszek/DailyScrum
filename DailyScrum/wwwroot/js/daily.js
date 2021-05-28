@@ -228,8 +228,6 @@ connection.on("SendDailyPost", function (name, yesterday, today, problem, date, 
 connection.on("ShowSentMessage", function (user, message, date) {
     var li = document.createElement("li");
 
-    debugger;
-
     var datetime = new Date(date);
 
     //datetime.setHours(datetime.getHours() + (new Date().getTimezoneOffset() / -60));
@@ -248,6 +246,54 @@ connection.on("ShowSentMessage", function (user, message, date) {
 
     scrollToBottom();
 
+});
+
+connection.on("GenerateShowSentMessage", function (user, message, date) {
+    var li = document.createElement("li");
+
+    var datetime = new Date(date);
+
+    datetime.setHours(datetime.getHours() + (new Date().getTimezoneOffset() / -60));
+
+    var time = datetime.toLocaleTimeString("pl-PL");
+
+    li.innerHTML = ` <div class="chat-hour">${time}</div>
+                            <div class="chat-text" style="background-color: lightgrey">
+                                ${message}
+                            </div>
+                            <div class="chat-avatar">`
+
+    li.classList.add('chat-right');
+
+    document.getElementById("messagesList").appendChild(li);
+
+    scrollToBottom();
+
+});
+
+connection.on("GenerateSendMessageToGroup", function (user, message, date, imgPath) {
+    var li = document.createElement("li");
+
+    var datetime = new Date(date);
+
+    datetime.setHours(datetime.getHours() + (new Date().getTimezoneOffset() / -60));
+
+    var time = datetime.toLocaleTimeString("pl-PL");
+
+    li.innerHTML = `<div class="chat-avatar">
+                                <img src="${imgPath}" alt="${user}">
+                                <div class="chat-name">${user}</div>
+                            </div>
+                            <div class="chat-text" style="background-color: bisque">
+                                ${message}
+                            </div>
+                            <div class="chat-hour">${time}</div>`;
+
+    li.classList.add('chat-left');
+
+    document.getElementById("messagesList").appendChild(li);
+
+    scrollToBottom();
 });
 
 connection.on("SendMessageToGroup", function (user, message, date, imgPath) {
