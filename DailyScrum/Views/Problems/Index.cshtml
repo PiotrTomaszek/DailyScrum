@@ -44,9 +44,15 @@
             </td>
             <td>
                 @{
-                    var local = item.Meeting.Date.ToLocalTime();
+                 //System.TimeZoneInfo localZone = System.TimeZoneInfo.Local;
+
+                //var local = TimeZoneInfo.ConvertTimeFromUtc(item.Meeting.Date, localZone);
+                //var local = item.Meeting.Date.ToLocalTime();
+
+                var localTime = item.Meeting.Date.ToLocalTime().ToString("dd/MM/yyyy HH:mm");
+
                 }
-                @Html.DisplayFor(modelItem => local)
+                @Html.DisplayFor(modelItem => localTime)
             </td>
             <td>
                 <p><strong>@item.Description</strong></p>

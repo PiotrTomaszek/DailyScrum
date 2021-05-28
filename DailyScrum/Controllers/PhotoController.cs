@@ -51,10 +51,14 @@ namespace DailyScrum.Controllers
             // to remove
 
             var url = _userRepository.GetPhotoPathById(userId);
-            url = url.Substring(url.LastIndexOf('/') + 1);
+            
 
-            var cloudBlockBlobToDelete = cloudBlobContainer.GetBlockBlobReference(url);
-            await cloudBlockBlobToDelete.DeleteIfExistsAsync();
+            if (url != null)
+            {
+                url = url.Substring(url.LastIndexOf('/') + 1);
+                var cloudBlockBlobToDelete = cloudBlobContainer.GetBlockBlobReference(url);
+                await cloudBlockBlobToDelete.DeleteIfExistsAsync();
+            }
 
             // to save
             var img = Image.Load(file.OpenReadStream());

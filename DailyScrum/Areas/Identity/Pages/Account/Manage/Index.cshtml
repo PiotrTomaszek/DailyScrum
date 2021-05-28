@@ -155,19 +155,23 @@
     <script>
         var btn = document.getElementById('update-profile-button');
 
+        var btn2 = document.getElementById('submit-all');
+
         btn?.addEventListener('click', function () {
 
             var a = document.getElementById('firstNameInput').value;
             var b = document.getElementById('lastNameInput').value;
             var c = document.getElementById('phoneInput').value;
 
-            connection.invoke("UpdatePhoto");
-
             var c = document.getElementById('phoneInput').value;
 
             if (a.length > 1 && b.length > 1) {
                 connection.invoke("UpdateUserData", a, b, c);
             }
+        });
+
+        btn2?.addEventListener('click', function () {
+            connection.invoke("UpdatePhoto");
         });
     </script>
 }

@@ -10,6 +10,7 @@ namespace DailyScrum.Hubs
     {
         public async Task UpdatePhoto()
         {
+            await Task.Delay(1000);
             var user = TeamModel.UsersList.FirstOrDefault(r => r.Id.Equals(DbUser.Id));
             user.PhotoPath = _userRepository.GetPhotoPathById(user.Id);
         }

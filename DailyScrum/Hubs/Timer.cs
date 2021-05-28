@@ -43,7 +43,7 @@ namespace DailyScrum.Hubs
         {
             var test = TeamModel.MeetingStartingTime;
 
-            if (test.AddMinutes(15) < DateTime.Now)
+            if (test.AddMinutes(15) < DateTime.UtcNow)
             {
                 if (TeamModel?.DailyMeeting != null && TeamModel.IsDailyStarted == true)
                 {

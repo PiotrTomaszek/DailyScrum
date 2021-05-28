@@ -148,8 +148,6 @@ connection.on("EnableSubmitPostButton", function (hasStarted, hasPosted) {
 
 connection.on("SendDailyPost", function (name, yesterday, today, problem, date, id, photopath) {
 
-    debugger;
-
     var datetime = new Date(date);
 
     var d1 = datetime.getHours();
@@ -230,10 +228,11 @@ connection.on("SendDailyPost", function (name, yesterday, today, problem, date, 
 connection.on("ShowSentMessage", function (user, message, date) {
     var li = document.createElement("li");
 
+    debugger;
 
     var datetime = new Date(date);
 
-    datetime.setHours(datetime.getHours() + (new Date().getTimezoneOffset() / -60));
+    //datetime.setHours(datetime.getHours() + (new Date().getTimezoneOffset() / -60));
 
     var time = datetime.toLocaleTimeString("pl-PL");
 
@@ -254,11 +253,9 @@ connection.on("ShowSentMessage", function (user, message, date) {
 connection.on("SendMessageToGroup", function (user, message, date, imgPath) {
     var li = document.createElement("li");
 
-    debugger;
-
     var datetime = new Date(date);
 
-    datetime.setHours(datetime.getHours() + (new Date().getTimezoneOffset() / -60));
+    //datetime.setHours(datetime.getHours() + (new Date().getTimezoneOffset() / -60));
 
     var time = datetime.toLocaleTimeString("pl-PL");
 

@@ -184,7 +184,13 @@ namespace DailyScrum.Hubs
                 .Where(x => x.Value.Id == master)
                 .FirstOrDefault().Key;
 
-            await Clients.Client(SMconnectionId).SendAsync("SendProblem", UserFullName, DbUser.Id, problemHold.Description, DateTime.UtcNow, problemHold.ProblemId, DbUser.PhotoPath);
+            var userPhoto = "https://avios.pl/wp-content/uploads/2018/01/no-avatar.png";
+            if (DbUser.PhotoPath != null)
+            {
+                userPhoto = DbUser.PhotoPath;
+            }
+
+            await Clients.Client(SMconnectionId).SendAsync("SendProblem", UserFullName, DbUser.Id, problemHold.Description, DateTime.UtcNow, problemHold.ProblemId, userPhoto);
             await AddNotification("problem");
 
             await Clients.Group(DbUser.TeamMember.Name).SendAsync("SendDailyPost", UserFullName, dailyPost.FirstQuestion, dailyPost.SecondQuestion, dailyPost.ThirdQuestion, DateTime.UtcNow/*dailyPost.Date*/, DbUser.Id, GetUserPhoto);
