@@ -68,7 +68,7 @@
                                                     <h3 class="sbold">Twoje zdjęcie.</h3>
                                                     <span>Przeciągnij albo naciśnij i wybierz plik z dysku.</span>
                                                 </div>
-                                            </div>                                           
+                                            </div>
 
                                         </div>
                                         <div class="modal-footer">
@@ -150,8 +150,6 @@
     <script>
         var btn = document.getElementById('update-profile-button');
 
-        var btn2 = document.getElementById('submit-all');
-
         btn?.addEventListener('click', function () {
 
             var a = document.getElementById('firstNameInput').value;
@@ -163,8 +161,15 @@
             }
         });
 
+        $('#photoModal').on('hidden.bs.modal', function () {
+            connection.invoke("UpdatePhoto");
+        });
+
+        var btn2 = document.getElementById('submit-all');
+
         btn2?.addEventListener('click', function () {
             connection.invoke("UpdatePhoto");
         });
+
     </script>
 }

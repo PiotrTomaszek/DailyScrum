@@ -34,8 +34,6 @@ namespace DailyScrum.Hubs
             }
         }
 
-       
-
         public async Task UpdateUserData(string firstName, string lastName, string phone)
         {
             var user = TeamModel.UsersList.FirstOrDefault(x => x.UserName.Equals(DbUser.UserName));
