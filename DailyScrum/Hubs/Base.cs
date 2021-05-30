@@ -66,14 +66,21 @@ namespace DailyScrum.Hubs
                 await Groups.AddToGroupAsync(Context.ConnectionId, DbUser.TeamMember.Name);
 
                 //await ShowTeamName(DbUser.TeamMember.Name); // deprecated - juz nie wyswietlam tego
-                await HandleTeamMemberNumber(1);
-                await GenerateConnectedUsers(DbUser.TeamMember.Name);
 
+                if (!await CheckIfMoreConnected())
+                {
+                    await HandleTeamMemberNumber(1);
+                }
+
+                await GenerateConnectedUsers(DbUser.TeamMember.Name);
 
                 await GenerateUserList();
                 await GetAllUsersStatus();
 
-                await SetUserStatus(true);
+                if (!await CheckIfMoreConnected())
+                {
+                    await SetUserStatus(true);
+                }
 
                 await GetMessages();
                 await GetAllPosts();
@@ -98,15 +105,28 @@ namespace DailyScrum.Hubs
                 // wyrzuca nulla jak nie ma zespolu a sie wyloguje
                 if (DbUser.TeamMember?.Name != null)
                 {
-                    await HandleTeamMemberNumber(-1);
-
-                    await SetUserStatus(false);
+                    if (!await CheckIfMoreConnected())
+                    {
+                        await HandleTeamMemberNumber(-1);
+                        await SetUserStatus(false);
+                    }
                 }
             }
 
             _connectedUsers.Remove(Context.ConnectionId);
 
             return base.OnDisconnectedAsync(exception);
+        }
+
+        public async Task<bool> CheckIfMoreConnected()
+        {
+            var sameUser = _connectedUsers.Where(x => x.Value.Equals(DbUser.Id)).ToList();
+
+            if (sameUser.Count > 0)
+            {
+                return true;
+            }
+            return false;
         }
     }
 }

@@ -113,6 +113,7 @@ namespace DailyScrum.Areas.Identity.Pages.Account.Manage
                     StatusMessage = "Unexpected error when trying to set phone number.";
                     return RedirectToPage();
                 }
+                StatusMessage = "Zaaktualizowano profil.";
             }
 
             var firstName = _userManager.GetUserAsync(User).Result.FirstName;
@@ -121,28 +122,17 @@ namespace DailyScrum.Areas.Identity.Pages.Account.Manage
             if (Input.FirstName != firstName)
             {
                 _userRepository.SetFirstName(User.Identity.Name, Input.FirstName);
-
-                StatusMessage = "Blad imie";
-
+                StatusMessage = "Zaaktualizowano profil.";
             }
 
             if (Input.LastName != lastName)
             {
                 _userRepository.SetLastName(User.Identity.Name, Input.LastName);
-
-                StatusMessage = "Blad nazwisko";
+                StatusMessage = "Zaaktualizowano profil.";
             }
 
-            //if (Input.PhotoLink != null)
-            //{
-            //    if (CheckIfImageLinkIsOK(Input.PhotoLink))
-            //    {
-            //        _userRepository.SetPhotoPath(User.Identity.Name, Input.PhotoLink);
-            //    }
-            //}
-
             await _signInManager.RefreshSignInAsync(user);
-            StatusMessage = "Zaaktualizowano profil.";
+            //StatusMessage = "Zaaktualizowano profil.";
 
             ViewData["HasUpdatedProfil"] = true;
 

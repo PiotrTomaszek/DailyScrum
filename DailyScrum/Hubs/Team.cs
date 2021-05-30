@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace DailyScrum.Hubs
@@ -36,14 +37,24 @@ namespace DailyScrum.Hubs
 
         public async Task UpdateUserData(string firstName, string lastName, string phone)
         {
-            var user = TeamModel.UsersList.FirstOrDefault(x => x.UserName.Equals(DbUser.UserName));
+            var userToUpdate = TeamModel.UsersList.FirstOrDefault(x => x.UserName.Equals(DbUser.UserName));
 
-            if (user != null)
+            if (userToUpdate == null)
             {
-                user.FirstName = firstName.ReplaceHTMLTags();
-                user.LastName = lastName.ReplaceHTMLTags();
-                user.PhoneNumber = phone.ReplaceHTMLTags();
+                return;
             }
+
+            if (Regex.Match(firstName, "^[A-Z][a-zA-Z]*$").Success)
+            {
+                userToUpdate.FirstName = firstName;
+            }
+
+            if (Regex.Match(lastName, "^[A-Z][a-zA-Z]*$").Success)
+            {
+                userToUpdate.LastName = lastName;
+            }
+
+            userToUpdate.PhoneNumber = phone;
 
             await MemberHandler();
         }
@@ -57,7 +68,7 @@ namespace DailyScrum.Hubs
                 return;
             }
 
-            if(LevensheimDistance.Compute(roleName, "Scrum Master") < 5 || LevensheimDistance.Compute(roleName, "SM") <= 2)
+            if (LevensheimDistance.Compute(roleName, "Scrum Master") < 5 || LevensheimDistance.Compute(roleName, "SM") <= 2)
             {
                 await Clients.Caller.SendAsync("ToastrInfoNotify", "Nazwa roli za bardzo zbliżona do roli Scrum Mastera!!!", "Błąd!");
                 return;
@@ -67,7 +78,7 @@ namespace DailyScrum.Hubs
 
             temp.TeamRole = role;
 
-            await Clients.Caller.SendAsync("ToastrNotify",  "Sukces!", "Zmieniłeś swoją rolę.");
+            await Clients.Caller.SendAsync("ToastrNotify", "Sukces!", "Zmieniłeś swoją rolę.");
 
             await MemberHandler();
         }
@@ -108,7 +119,7 @@ namespace DailyScrum.Hubs
 
             TeamModel.ConnectedUsersCount = TeamModel.UsersOnline.Count(x => x == true);
 
-          
+
             //await Clients.Caller.SendAsync("ShowRemoveMessage", "Sukces! Usunieto uczestnika tego spotkania.");
 
             var findId = _connectedUsers.FirstOrDefault(x => x.Value.Id.Equals(dummy.Id)).Key;
