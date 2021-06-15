@@ -21,6 +21,7 @@ namespace DailyScrum.Controllers
             _problemRepository = problemRepository;
         }
 
+        [Route("/nonono")]
         public IActionResult NoNoNo()
         {
             return View();
@@ -38,6 +39,11 @@ namespace DailyScrum.Controllers
             if (user?.TeamMember == null)
             {
                 return RedirectToAction("UserWithoutTeam", "Home");
+            }
+
+            if (user.TeamRole?.Name == null)
+            {
+                return RedirectToAction("NoNoNo");
             }
 
             if (!(user.TeamRole.Name.Equals("Scrum Master")))

@@ -25,7 +25,7 @@ namespace DailyScrum.Controllers
         {
             if (!_userRepository.CheckIfScrumMaster(IdentityName))
             {
-                return Redirect("/nonono");
+                return Redirect("NoNoNo");
             }
 
             return View(_dailyrepository.GetAllMeetings(IdentityName));
@@ -35,7 +35,7 @@ namespace DailyScrum.Controllers
         {
             if (!_userRepository.CheckIfScrumMaster(IdentityName))
             {
-                return Redirect("/nonono");
+                return RedirectToAction("NoNoNo");
             }
 
             var model = _dailyrepository.GetMeeting(IdentityName, id);
