@@ -14,7 +14,7 @@ namespace DailyScrum.Controllers
 {
     public class PhotoController : Controller
     {
-        private static string connString = "DefaultEndpointsProtocol=https;AccountName=dailyscrumproejctstorage;AccountKey=8SQzNgRdOSfoXzlTpgxN+IOuURxcQraInTrNMkfl71PHnDV1izWgjkYJoVwEQ7aY2pU0RaLL+6x55ZO7b1TSwA==;EndpointSuffix=core.windows.net";
+        private static string connString = "DefaultEndpointsProtocol=https;AccountName=dailyscrumstorageaccount;AccountKey=0eiev997XCsFesFdLJNACPXRuZClhCB8Y9ScAdN7lmo3XU7L8ebvaFaMa3gAUpF2jt6yoYLkhagifcPp70y5Mw==;EndpointSuffix=core.windows.net";
         private CloudStorageAccount _cloudStorage = CloudStorageAccount.Parse(connString);
 
         private readonly IUserRepository _userRepository;
